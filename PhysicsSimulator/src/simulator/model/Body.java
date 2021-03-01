@@ -4,7 +4,7 @@ import org.json.JSONObject;
 import simulator.misc.Vector2D;
 
 public class Body {
-	
+	//uso gitHub
 	protected String id;
 	protected Vector2D v;
 	protected Vector2D f;
