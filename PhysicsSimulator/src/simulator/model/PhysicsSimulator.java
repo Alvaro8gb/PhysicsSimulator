@@ -11,6 +11,7 @@ public class PhysicsSimulator {
 	private double time;
 	private ForceLaws forces;
 	private List<Body> listCuerpos;
+	
 	public PhysicsSimulator(double dt,ForceLaws forces) throws IllegalArgumentException {
 		
 		if(dt < 0) throw new IllegalArgumentException("TYiempo por paso erroeneo");
