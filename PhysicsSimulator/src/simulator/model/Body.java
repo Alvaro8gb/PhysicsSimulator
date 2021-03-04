@@ -60,6 +60,7 @@ public class Body {
 		
 		return bo;
 	}
+	
 	public String toString(){
 		return getState().toString();
 	}
