@@ -19,13 +19,14 @@ public class Body {
 		f = new Vector2D();
 	}
 	void move(double t){
-		Vector2D a;
+		Vector2D a = new Vector2D();
 		
 		if(m!= 0) a = f.scale(1/m);
-		else a = new Vector2D();
 		
-		p = p.plus(v.scale(t));
-		p = p.plus(a.scale(1/2 * t * t));
+		p = p.plus(v.scale(t)); //p =  p + v*t
+		p = p.plus(a.scale(t * t / 2)); //p = p + v*t + 1/2 *a *t*t ;
+		
+		v.plus(a.scale(t)); // v = v + a*t
 		
 	}
 	public String getId() {

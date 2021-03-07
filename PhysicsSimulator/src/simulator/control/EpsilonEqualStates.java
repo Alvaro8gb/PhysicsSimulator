@@ -14,6 +14,8 @@ public class EpsilonEqualStates implements StateComparator{
 	}
 	public boolean equal(JSONObject s1, JSONObject s2) {
 		
+		if(s1 == null || s2 == null ) return false;
+		
 		if(s1.getDouble("time") != s2.getDouble("time")) return false;
 		
 		JSONArray as1 = s1.getJSONArray("bodies");
@@ -49,6 +51,7 @@ public class EpsilonEqualStates implements StateComparator{
 		
 		return true;
 	}
+
 }
 
 

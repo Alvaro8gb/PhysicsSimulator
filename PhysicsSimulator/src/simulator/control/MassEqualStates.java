@@ -5,8 +5,9 @@ import org.json.JSONObject;
 
 public class MassEqualStates implements StateComparator{
 
-
 	public boolean equal(JSONObject s1, JSONObject s2) {
+		
+		if(s1 == null || s2 == null ) return false;
 		
 		if(s1.getDouble("time") != s2.getDouble("time")) return false;
 		
