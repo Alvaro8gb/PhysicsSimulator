@@ -1,10 +1,21 @@
 package simulator.factories;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-public abstract class Builder<T> {
+public abstract class Builder<T>{
 
+	protected String _type;
+	
+	Builder(String type) {
+		if (type == null)
+			throw new IllegalArgumentException("Invalid type: " + type);
+		else
+			_type = type;
+	}
 	public T createInstance(JSONObject info) {
+		
+		
 		
 		/*
 		si la información suministrada por info es
@@ -14,6 +25,14 @@ public abstract class Builder<T> {
 		de los valores suministrados por la sección data, el método lanza una excepcion
 		IllegalArgumentException.
 		*/
+		
+		if (_type != null && _type.equals(info.getString("type"))) {
+           
+			T b = createTheInstance(info.has("data") ? info.getJSONObject("data") : null);
+           
+}
+
+return b;
 		
 		return null;
 	}
@@ -28,4 +47,6 @@ public abstract class Builder<T> {
 		return null;
 	}
 	
+
+
 }
