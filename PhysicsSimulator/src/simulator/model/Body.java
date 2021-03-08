@@ -26,6 +26,7 @@ public class Body {
 		
 		p = p.plus(v.scale(t));
 		p = p.plus(a.scale(1/2 * t * t));
+		v = v.plus(a.scale(t));
 		
 	}
 	public String getId() {
@@ -44,7 +45,7 @@ public class Body {
 		return m;
 	}
 	void addForce(Vector2D f) {
-		this.f  = f.plus(f);
+		this.f  = this.f.plus(f);
 	}
 	void resetForce() {
 		this.f = new Vector2D();
