@@ -11,7 +11,6 @@ public class Body {
 	protected Vector2D p;
 	protected double m;
 	
-
 	public Body(String id,Vector2D p,Vector2D v, double m) {
 		this.id = id;
 		this.v = v;
@@ -31,18 +30,18 @@ public class Body {
 		
 	}
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		if (this == obj) return true;
+		if (obj == null) return false;
+		
+		if (getClass() != obj.getClass()) return false;
+		
 		Body other = (Body) obj;
+		
 		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
+			if (other.id != null) return false;
+		}
+		else if (!id.equals(other.id)) return false;
+		
 		return true;
 	}
 	public String getId() {

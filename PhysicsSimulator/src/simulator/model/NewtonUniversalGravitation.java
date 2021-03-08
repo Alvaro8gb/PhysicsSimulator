@@ -12,11 +12,8 @@ public class NewtonUniversalGravitation {
 			
 		for(Body i: bs) {
 			
-			i.resetForce();
-			
 			for(Body j : bs) if(i!=j) i.addForce(f(i,j));	
 				
-		    //System.out.println(i.getForce());
 		}
 		
 	}
@@ -31,22 +28,11 @@ public class NewtonUniversalGravitation {
 		d = j.getPosition().distanceTo(i.getPosition()); //|pj-pi|
 		
 		if(d!=0) c = G * i.getMass() * j.getMass() / (d*d); //fij
-		else c = 0;
+		else return f;
 		
 		f = p.direction(); // pj - pi vector di
 		
 		return f.scale(c); // di * fij
 	}
-	/*
-	public static void main(String[] args) {
-	
-		List <Body> list = new ArrayList <Body>();
-		
-		for(int i = 0 ; i <5;i++) list.add(new Body(i+" ",new Vector2D(i,2),new Vector2D(),5));
-		
-		apply(list);
-		
-	}
-	*/
 
 }
