@@ -21,7 +21,8 @@ public class NewtonUniversalGravitation implements ForceLaws{
 		
 		if(d != 0) {
 			fij = G* ((bj.getMass() * bi.getMass()) /(d * d));
-			Fij = dij.scale(fij);
+			Fij = dij.direction();
+			Fij = Fij.scale(fij);
 		}
 		
 		return Fij;
