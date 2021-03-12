@@ -21,7 +21,6 @@ public class MassEqualStates implements StateComparator{
 			if(as1.getJSONObject(i).getString("id") != as2.getJSONObject(i).getString("id")) return false; 
 		}
 		
-		
 		return true;
 	}
 

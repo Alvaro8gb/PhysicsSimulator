@@ -4,9 +4,14 @@ import java.util.List;
 
 import simulator.misc.Vector2D;
 
-public class NewtonUniversalGravitation {
+public class NewtonUniversalGravitation implements ForceLaws {
 	
-	private static final double G = 6.67E-11;
+	
+	protected double _g;
+	
+	public NewtonUniversalGravitation(double _g) {
+		this._g = _g;
+	}
 
 	public void apply(List<Body> bs) {
 			
@@ -27,12 +32,16 @@ public class NewtonUniversalGravitation {
 				
 		d = j.getPosition().distanceTo(i.getPosition()); //|pj-pi|
 		
-		if(d!=0) c = G * i.getMass() * j.getMass() / (d*d); //fij
+		if(d!=0) c = _g * i.getMass() * j.getMass() / (d*d); //fij
 		else return f;
 		
 		f = p.direction(); // pj - pi vector di
 		
 		return f.scale(c); // di * fij
+	}
+	
+	public String toString() {
+		return null;
 	}
 
 }

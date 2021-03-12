@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -14,10 +15,11 @@ public class PhysicsSimulator {
 	
 	public PhysicsSimulator(double dt,ForceLaws forces) throws IllegalArgumentException {
 		
-		if(dt < 0) throw new IllegalArgumentException("TYiempo por paso erroeneo");
+		if(dt < 0 || forces == null) throw new IllegalArgumentException("Tiempo por paso erroeneo");
 		
 		this.dt = dt;
 		this.forces= forces;
+		listCuerpos = new ArrayList<Body>();
 		time = 0;
 		
 	}
@@ -32,6 +34,14 @@ public class PhysicsSimulator {
 		
 		time+=dt;
 		 
+	}
+	public void addBody(Body b) throws IllegalArgumentException {
+		
+		for(Body x: listCuerpos) {
+			if(x.equals(b)) throw new IllegalArgumentException();
+		}
+		
+		listCuerpos.add(b);
 	}
 	public JSONObject getState() {
 		JSONObject jPS = new JSONObject();
