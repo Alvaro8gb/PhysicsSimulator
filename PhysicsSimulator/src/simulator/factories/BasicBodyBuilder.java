@@ -21,6 +21,7 @@ public class BasicBodyBuilder extends Builder<Body>{
 		return new Body(id,p,v,m);
 	}
 	private Vector2D createVector(JSONArray jsonV) {
+		if(jsonV.length() !=2) throw new IllegalArgumentException();
 		return new Vector2D (jsonV.getDouble(0),jsonV.getDouble(1));
 	}
 
