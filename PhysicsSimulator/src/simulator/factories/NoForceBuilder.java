@@ -1,7 +1,18 @@
 package simulator.factories;
 
-import simulator.model.ForceLaws;
+import org.json.JSONObject;
 
-public class NoForceBuilder extends Builder<ForceLaws>{
+import simulator.model.NoForce;
 
+public class NoForceBuilder extends Builder<NoForce>{
+
+	public NoForceBuilder() {
+		super("nf", "sin fuerza");
+	}
+	public NoForce createTheInstance(JSONObject data) throws IllegalArgumentException {
+		return new NoForce();
+	}
+	public JSONObject createData() {
+		return new JSONObject();
+	}
 }

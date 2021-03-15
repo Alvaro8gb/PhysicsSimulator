@@ -9,6 +9,9 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 
 	private static final double g = 9.8;
 	
+	public MovingTowardsFixedPointBuilder() {
+		super("mtvp","dscrip");
+	}
 	public ForceLaws createTheInstance(JSONObject data) {
 		double _g = data.has("g")? data.getDouble("g"): g;
 		

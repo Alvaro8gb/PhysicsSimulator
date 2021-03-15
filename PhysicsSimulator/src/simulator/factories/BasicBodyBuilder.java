@@ -9,8 +9,7 @@ import simulator.model.Body;
 public class BasicBodyBuilder extends Builder<Body>{
 
 	public BasicBodyBuilder() {
-		_type ="basic";
-		_desc = "esto es un objeto basico";
+		super("basic", "esto es un objeto basico");
 	}
 	public Body createTheInstance(JSONObject data) {
 		
@@ -25,7 +24,6 @@ public class BasicBodyBuilder extends Builder<Body>{
 		return new Vector2D (jsonV.getDouble(0),jsonV.getDouble(1));
 	}
 
-	
 	public JSONObject createData() {
 	
 		JSONObject data = new JSONObject();
