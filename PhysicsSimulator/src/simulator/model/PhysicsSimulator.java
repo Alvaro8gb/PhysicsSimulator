@@ -37,9 +37,7 @@ public class PhysicsSimulator {
 	}
 	public void addBody(Body b) throws IllegalArgumentException {
 		
-		for(Body x: listCuerpos) {
-			if(x.equals(b)) throw new IllegalArgumentException();
-		}
+	if(!listCuerpos.contains(b)) throw new IllegalArgumentException();
 		
 		listCuerpos.add(b);
 	}

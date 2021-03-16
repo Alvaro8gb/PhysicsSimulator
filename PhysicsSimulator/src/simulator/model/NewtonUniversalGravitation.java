@@ -30,7 +30,7 @@ public class NewtonUniversalGravitation implements ForceLaws {
 		
 		p = j.getPosition().minus(i.getPosition()); //pj-pi
 				
-		d = j.getPosition().distanceTo(i.getPosition()); //|pj-pi|
+		d = p.magnitude();//|pj-pi|
 		
 		if(d!=0) c = _g * i.getMass() * j.getMass() / (d*d); //fij
 		else return f;
