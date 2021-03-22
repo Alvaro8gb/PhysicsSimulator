@@ -9,8 +9,10 @@ public class MassLossingBody extends Body{
 	private double lossFrequency;
 	private double c ;
 	
-	public MassLossingBody(String id, Vector2D v, Vector2D p, double m) {
+	public MassLossingBody(String id, Vector2D v, Vector2D p, double m,double lossFrequency,double lossFactor) {
 		super(id, v, p, m);
+		this.lossFactor = lossFactor;
+		this.lossFrequency = lossFrequency;
 		c = 0.0;
 	}
 	

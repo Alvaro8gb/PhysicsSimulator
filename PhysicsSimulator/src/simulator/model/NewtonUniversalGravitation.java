@@ -6,10 +6,10 @@ import simulator.misc.Vector2D;
 
 public class NewtonUniversalGravitation implements ForceLaws{
 	
-	private static final double G = 6.67E-11;
-	private static double c;
+	protected double G = 6.67E-11;
+
 	public NewtonUniversalGravitation(double c) {
-		this.c = c;
+		this.G = c;
 	}
 	public Vector2D fuerzaij(Body bi, Body bj) {
 		Vector2D Fij = new Vector2D();
@@ -36,6 +36,7 @@ public class NewtonUniversalGravitation implements ForceLaws{
 			}
 		}
 	}
+
 	
 	
 
