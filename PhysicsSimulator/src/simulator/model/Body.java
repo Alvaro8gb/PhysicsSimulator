@@ -21,10 +21,10 @@ public class Body {
 	void move(double t){
 		Vector2D a = new Vector2D();
 		
-		if(m!= 0) a = f.scale(1/m);
+		if(m!= 0) a = f.scale(1.0/m);
 		
 		p = p.plus(v.scale(t)); //p =  p + v*t
-		p = p.plus(a.scale(t * t / 2)); //p = p + v*t + 1/2 *a *t*t ;
+		p = p.plus(a.scale(0.5 * t * t)); //p = p + v*t + 1/2 *a *t*t ;
 		
 		v.plus(a.scale(t)); // v = v + a*t
 		

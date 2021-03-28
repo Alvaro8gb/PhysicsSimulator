@@ -133,6 +133,9 @@ public class UseExample {
 
 		// Example 1: Parse JSON from a string or from a file
 		//
+		JSONObject b = new JSONObject();
+		System.out.println(b);
+		
 
 		// build a JSONObject from a string
 		JSONObject joFromString = new JSONObject(jsonString);

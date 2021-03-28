@@ -1,5 +1,9 @@
 package simulator.launcher;
 
+
+import java.io.InputStream;
+import java.util.ArrayList;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -9,10 +13,15 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.json.JSONObject;
 
-import simulator.control.StateComparator;
-import simulator.factories.Factory;
+
+
+import simulator.control.*;
+import simulator.factories.BasicBodyBuilder;
+import simulator.factories.*;
+import simulator.factories.MassLosingBodyBuilder;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
+import simulator.model.PhysicsSimulator;
 
 public class Main {
 
@@ -35,11 +44,28 @@ public class Main {
 	private static Factory<StateComparator> _stateComparatorFactory;
 
 	private static void init() {
-		// TODO initialize the bodies factory
-
-		// TODO initialize the force laws factory
-
-		// TODO initialize the state comparator
+		
+		ArrayList<Builder<Body>> bodyBuilders = new ArrayList<>();
+		bodyBuilders.add(new BasicBodyBuilder());
+		bodyBuilders.add(new MassLosingBodyBuilder());
+		
+		_bodyFactory = new BuilderBasedFactory<Body>(bodyBuilders);
+		
+		
+		ArrayList<Builder<ForceLaws>> forceLawsBuilders = new ArrayList<>();
+		forceLawsBuilders.add(new NoForceBuilder());
+		forceLawsBuilders.add(new MovingTowardsFixedPointBuilder());
+		forceLawsBuilders.add(new NewtonUniversalGravitationBuilder());
+		
+		_forceLawsFactory = new BuilderBasedFactory<ForceLaws> (forceLawsBuilders);
+		
+		
+		ArrayList<Builder<StateComparator>> stateComparatorBuilders = new ArrayList<>();
+		stateComparatorBuilders.add(new EpsilonEqualStatesBuilder());
+		stateComparatorBuilders.add(new MassEqualStatesBuilder());
+		
+		_stateComparatorFactory = new BuilderBasedFactory<StateComparator> (stateComparatorBuilders);
+		
 	}
 
 	private static void parseArgs(String[] args) {
@@ -212,7 +238,32 @@ public class Main {
 	}
 
 	private static void startBatchMode() throws Exception {
-		// TODO complete this method
+		
+
+		PhysicsSimulator simulator = new PhysicsSimulator(_dtime,_forceLawsFactory.createInstance(_forceLawsInfo));
+		
+		Controller controller = new Controller(simulator,_bodyFactory);
+		
+		InputStream in = null;
+		
+		controller.loadBodies(in);
+		controller.run(steps, out, expOut, cmp);
+		
+			/*cree el simulador (una instancia de PhyicsSimulator), pasando como argumentos
+			las leyes de la fuerza y el delta time (las opciones -fl y -dt respectivamente).
+			• cree los ficheros de entrada y salida tal y como vengan especificados por las
+			opciones -i, -o, y -eo. Recuerda que si la opción -o no aparece en la línea de
+			comandos, entonces se utiliza la salida por consola, i.e., System.out para mostrar
+			la salida.
+			• cree un comparador de estados de acuerdo con la información que aparece en
+			la opción -cmp.
+			• cree un controlador (instancia de la clase Controller), pasándole el simulador y
+			la factoría de cuerpos.
+			• añada los cuerpos al simulador llamando al método loadBodies del controlador.
+			• inicie la simulación llamando al método run del controlador y pasándole los
+			//argumentos correspondientes.
+			 * */
+ 
 	}
 
 	private static void start(String[] args) throws Exception {
