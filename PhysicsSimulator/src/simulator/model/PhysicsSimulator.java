@@ -37,7 +37,7 @@ public class PhysicsSimulator {
 	}
 	public void addBody(Body b) throws IllegalArgumentException {
 		
-	if(!listCuerpos.contains(b)) throw new IllegalArgumentException();
+	if(listCuerpos.contains(b)) throw new IllegalArgumentException("This body alredy exists"+ b);
 		
 		listCuerpos.add(b);
 	}
@@ -47,9 +47,10 @@ public class PhysicsSimulator {
 		
 		jPS.put("time", time);
 		
-		for(Body b: listCuerpos) arrayBodies.put(b);
+		for(Body b: listCuerpos) arrayBodies.put(b.getState());
 		
 		jPS.put("bodies",arrayBodies);
+		
 		return jPS;
 	}
 	public String toString() {

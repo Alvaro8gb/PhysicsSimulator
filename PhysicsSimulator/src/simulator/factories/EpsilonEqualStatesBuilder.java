@@ -14,7 +14,7 @@ public class EpsilonEqualStatesBuilder extends Builder<StateComparator>{
 	}
 	public EpsilonEqualStates createTheInstance(JSONObject data){
 		
-		double eps = data.getDouble("eps");
+		double eps = data.has("eps")? data.getDouble("eps"): 0.0 ;
 		
 		return new EpsilonEqualStates(eps);
 	}

@@ -1,7 +1,9 @@
 package simulator.launcher;
 
 
-import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import org.apache.commons.cli.CommandLine;
@@ -28,13 +30,20 @@ public class Main {
 	// default values for some parameters
 	//
 	private final static Double _dtimeDefaultValue = 2500.0;
+	private final static Integer _stepsDefaultValue = 150;
+
 	private final static String _forceLawsDefaultValue = "nlug";
 	private final static String _stateComparatorDefaultValue = "epseq";
 
 	// some attributes to stores values corresponding to command-line parameters
 	//
 	private static Double _dtime = null;
+	private static Integer _steps = null;
+
 	private static String _inFile = null;
+	private static String _outFile = null;
+	private static String _expOutFile = null;
+
 	private static JSONObject _forceLawsInfo = null;
 	private static JSONObject _stateComparatorInfo = null;
 
@@ -82,7 +91,9 @@ public class Main {
 
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
-			// TODO add support of -o, -eo, and -s (define corresponding parse methods)
+			parseOutputFileOption(line);
+			parseExpOutputFileOption(line);
+			parseStepsOption(line);
 
 			parseDeltaTimeOption(line);
 			parseForceLawsOption(line);
@@ -115,8 +126,16 @@ public class Main {
 		// input file
 		cmdLineOptions.addOption(Option.builder("i").longOpt("input").hasArg().desc("Bodies JSON input file.").build());
 
-		// TODO add support for -o, -eo, and -s (add corresponding information to
-		// cmdLineOptions)
+		//output file
+		cmdLineOptions.addOption(Option.builder("o").longOpt("output").hasArg().desc("Output file, where output is written.\n"
+				+ "Default value: the standard output.").build());
+		
+		//expected output file 
+		cmdLineOptions.addOption(Option.builder("eo").longOpt("expected-output").hasArg().desc("The expected output file. If not provided\n"
+				+ "no comparison is applied").build());
+		//steps
+		cmdLineOptions.addOption(Option.builder("s").longOpt("output").hasArg().desc("An integer representing the number of\n"
+				+ "		simulation steps. Default value: " + _stepsDefaultValue+".").build());
 
 		// delta-time
 		cmdLineOptions.addOption(Option.builder("dt").longOpt("delta-time").hasArg()
@@ -172,7 +191,24 @@ public class Main {
 			throw new ParseException("In batch mode an input file of bodies is required");
 		}
 	}
-
+	private static void parseOutputFileOption(CommandLine line) {
+		_outFile = line.getOptionValue("o");
+	
+	}
+	private static void parseExpOutputFileOption(CommandLine line) {
+		_outFile = line.getOptionValue("eo");
+	
+	}
+	private static void parseStepsOption(CommandLine line) throws ParseException {
+		String s = line.getOptionValue("s", _stepsDefaultValue.toString());
+		try {
+			_steps = Integer.parseInt(s);
+			assert (_steps > 0);
+		} catch (Exception e) {
+			throw new ParseException("Invalid steps value: " + s);
+		}
+	}
+	
 	private static void parseDeltaTimeOption(CommandLine line) throws ParseException {
 		String dt = line.getOptionValue("dt", _dtimeDefaultValue.toString());
 		try {
@@ -244,25 +280,27 @@ public class Main {
 		
 		Controller controller = new Controller(simulator,_bodyFactory);
 		
-		InputStream in = null;
+		FileInputStream in = new FileInputStream(_inFile);
+		
+		StateComparator cmp = _stateComparatorFactory.createInstance(_stateComparatorInfo);
+		
+		OutputStream out;
+		
+		_outFile = "resources/output/myout.json";
+		
+		 if(_outFile != null) out = new FileOutputStream(_outFile);
+         else out = System.out;
+         
+		
+		FileInputStream expectedOut;
+		
+		if(_expOutFile != null) expectedOut = new FileInputStream(_expOutFile);
+        else expectedOut = null;
+		
 		
 		controller.loadBodies(in);
-		controller.run(steps, out, expOut, cmp);
+		controller.run(_steps, out, expectedOut, cmp);
 		
-			/*cree el simulador (una instancia de PhyicsSimulator), pasando como argumentos
-			las leyes de la fuerza y el delta time (las opciones -fl y -dt respectivamente).
-			• cree los ficheros de entrada y salida tal y como vengan especificados por las
-			opciones -i, -o, y -eo. Recuerda que si la opción -o no aparece en la línea de
-			comandos, entonces se utiliza la salida por consola, i.e., System.out para mostrar
-			la salida.
-			• cree un comparador de estados de acuerdo con la información que aparece en
-			la opción -cmp.
-			• cree un controlador (instancia de la clase Controller), pasándole el simulador y
-			la factoría de cuerpos.
-			• añada los cuerpos al simulador llamando al método loadBodies del controlador.
-			• inicie la simulación llamando al método run del controlador y pasándole los
-			//argumentos correspondientes.
-			 * */
  
 	}
 
