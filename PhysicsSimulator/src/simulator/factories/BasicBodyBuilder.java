@@ -9,7 +9,7 @@ import simulator.model.Body;
 public class BasicBodyBuilder extends Builder<Body>{
 
 	public BasicBodyBuilder() {
-		super("basic", "esto es un objeto basico");
+		super("basic", "a basic Body");
 	}
 	public Body createTheInstance(JSONObject data) {
 		

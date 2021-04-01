@@ -10,7 +10,7 @@ import simulator.model.MassLossingBody;
 public class MassLosingBodyBuilder extends Builder <Body>{
 
 	public MassLosingBodyBuilder() {
-		super("mlb","esto es un cuerpo que pierde masa");
+		super("mlb","a Body who lose mass");
 	}
 	
 	public MassLossingBody createTheInstance(JSONObject data) {

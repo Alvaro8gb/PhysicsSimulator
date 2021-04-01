@@ -23,10 +23,9 @@ public class Body {
 		
 		if(m!= 0) a = f.scale(1.0/m);
 		
-		p = p.plus(v.scale(t)); //p =  p + v*t
-		p = p.plus(a.scale(0.5 * t * t)); //p = p + v*t + 1/2 *a *t*t ;
+		p.plus(v.scale(t).plus(a.scale(0.5 * t * t))); //p = p + v*t + 1/2 *a *t*t ;
 		
-		v.plus(a.scale(t)); // v = v + a*t
+		v = v.plus(a.scale(t)); // v = v + a*t
 		
 	}
 	public boolean equals(Object obj) {
@@ -63,7 +62,7 @@ public class Body {
 		this.f  = f.plus(f);
 	}
 	void resetForce() {
-		this.f = new Vector2D();
+		f = new Vector2D();
 	}
 	public JSONObject getState() {
 		JSONObject bo = new JSONObject();

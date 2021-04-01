@@ -9,7 +9,7 @@ import simulator.control.StateComparator;
 public class MassEqualStatesBuilder extends Builder<StateComparator> {
 
 	public MassEqualStatesBuilder() {
-		super("masseq", "esto es un comparador de masas");
+		super("masseq", "a mass comparator");
 	}
 	public MassEqualStates createTheInstance(JSONObject data) {
 		return new MassEqualStates();

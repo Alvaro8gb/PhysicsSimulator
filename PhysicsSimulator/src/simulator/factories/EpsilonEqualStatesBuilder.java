@@ -9,7 +9,7 @@ import simulator.control.StateComparator;
 public class EpsilonEqualStatesBuilder extends Builder<StateComparator>{
 
 	public EpsilonEqualStatesBuilder() {
-		super("epseq", "esto es el comaparador modulo epsilon");
+		super("epseq", "a epsilon comparator");
 		
 	}
 	public EpsilonEqualStates createTheInstance(JSONObject data){

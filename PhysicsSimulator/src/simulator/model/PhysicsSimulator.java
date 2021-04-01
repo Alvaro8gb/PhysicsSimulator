@@ -15,7 +15,9 @@ public class PhysicsSimulator {
 	
 	public PhysicsSimulator(double dt,ForceLaws forces) throws IllegalArgumentException {
 		
-		if(dt < 0 || forces == null) throw new IllegalArgumentException("Tiempo por paso erroeneo");
+		if(dt < 0) throw new IllegalArgumentException("Wrong time per step");
+		
+		if( forces == null) throw new IllegalArgumentException("Unknown force");
 		
 		this.dt = dt;
 		this.forces= forces;

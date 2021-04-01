@@ -31,9 +31,9 @@ public class EpsilonEqualStates implements StateComparator{
 		
 		for (int i = 0; i < a1.length(); i++) {
 			
-			if(a1.getJSONObject(i).getString("id") != a2.getJSONObject(i).getString("id")) return false; 
-			
-			if(Math.abs(a1.getJSONObject(i).getDouble("masa") - a2.getJSONObject(i).getDouble("masa")) > eps) return false; 
+			if(!a1.getJSONObject(i).getString("id").equals(a2.getJSONObject(i).getString("id"))) return false; 
+		
+			if(Math.abs(a1.getJSONObject(i).getDouble("m") - a2.getJSONObject(i).getDouble("m")) > eps) return false; 
 			
 			if(!equalVector(a1.getJSONObject(i).getJSONArray("p"),a2.getJSONObject(i).getJSONArray("p"))) return false;
 			if(!equalVector(a1.getJSONObject(i).getJSONArray("f"),a2.getJSONObject(i).getJSONArray("f"))) return false;	

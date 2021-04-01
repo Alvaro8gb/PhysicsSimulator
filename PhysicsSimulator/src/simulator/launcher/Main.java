@@ -193,10 +193,10 @@ public class Main {
 	}
 	private static void parseOutputFileOption(CommandLine line) {
 		_outFile = line.getOptionValue("o");
-	
+
 	}
 	private static void parseExpOutputFileOption(CommandLine line) {
-		_outFile = line.getOptionValue("eo");
+		_expOutFile = line.getOptionValue("eo");
 	
 	}
 	private static void parseStepsOption(CommandLine line) throws ParseException {
@@ -286,11 +286,8 @@ public class Main {
 		
 		OutputStream out;
 		
-		_outFile = "resources/output/myout.json";
-		
 		 if(_outFile != null) out = new FileOutputStream(_outFile);
          else out = System.out;
-         
 		
 		FileInputStream expectedOut;
 		
@@ -321,5 +318,8 @@ public class Main {
 			e.printStackTrace();
 		}
 		
+		System.out.println("The simulation has finished");
+		System.out.println(_outFile);
+		System.out.println(_expOutFile);
 	}
 }
