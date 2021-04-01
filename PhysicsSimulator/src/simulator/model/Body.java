@@ -23,11 +23,11 @@ public class Body {
 		
 		if(m!= 0) a = f.scale(1.0/m);
 		
-		p.plus(v.scale(t).plus(a.scale(0.5 * t * t))); //p = p + v*t + 1/2 *a *t*t ;
+		p.plus(v.scale(t).plus(a.scale(0.5 * t * t))); //p = p + v*t + 1/2 * a^2 ;
 		
 		v = v.plus(a.scale(t)); // v = v + a*t
 		
-	}
+	} 
 	public boolean equals(Object obj) {
 		if (this == obj) return true;
 		if (obj == null) return false;
