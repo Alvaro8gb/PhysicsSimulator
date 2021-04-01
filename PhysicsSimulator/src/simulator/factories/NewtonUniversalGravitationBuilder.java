@@ -17,7 +17,6 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 	public NewtonUniversalGravitation createTheInstance(JSONObject data) {	
 		double _g = data.has("G")? data.getDouble("G"): G;
 		return new NewtonUniversalGravitation(_g) ;
-		
 	}
 
 	public JSONObject createData() {

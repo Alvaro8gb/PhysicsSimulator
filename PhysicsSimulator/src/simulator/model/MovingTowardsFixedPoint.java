@@ -19,7 +19,7 @@ public class MovingTowardsFixedPoint implements ForceLaws {
 			  
 	}
 	private Vector2D f(Body b) {
-		return _c.minus((b.getPosition().direction()).scale(_g * b.getMass())); // Fi = m/g * di
+		return _c.minus(b.getPosition()).direction().scale(_g*b.getMass());// Fi = m/g * di
 	}
 	public String toString() {
 		return null;

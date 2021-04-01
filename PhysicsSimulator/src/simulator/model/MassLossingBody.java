@@ -4,25 +4,28 @@ import simulator.misc.Vector2D;
 
 public class MassLossingBody extends Body{
 
-	
-	private double lossFactor;
+	private double lossFactorPercent;
 	private double lossFrequency;
-	private double c ;
+	private double timerCounter ;
 	
 	public MassLossingBody(String id, Vector2D v, Vector2D p, double m,double lossFactor,double lossFrequency) {
 		super(id, v, p, m);
-		this.lossFactor = lossFactor;
+		
+		if(lossFactor > 1 || lossFactor < 0) throw new IllegalArgumentException("The lossFactor must be a number between 0-1");
+		
 		this.lossFrequency = lossFrequency;
-		c = 0.0;
+		lossFactorPercent = 1-lossFactor;
+		timerCounter = 0.0;
 	}
 	
 	public void move(double t) {
 		super.move(t);
-		c+=t;
-		if(c >= lossFrequency) {
-			m = m*(1-lossFactor);
-			c = 0.0;
+		timerCounter+=t;
+		if(timerCounter >= lossFrequency) {
+			m *= lossFactorPercent;
+			timerCounter = 0.0;
 		}
+	
 	}
 	
 }

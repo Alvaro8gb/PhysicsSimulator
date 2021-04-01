@@ -33,7 +33,9 @@ public class EpsilonEqualStates implements StateComparator{
 			
 			if(!a1.getJSONObject(i).getString("id").equals(a2.getJSONObject(i).getString("id"))) return false; 
 		
+			
 			if(Math.abs(a1.getJSONObject(i).getDouble("m") - a2.getJSONObject(i).getDouble("m")) > eps) return false; 
+			
 			
 			if(!equalVector(a1.getJSONObject(i).getJSONArray("p"),a2.getJSONObject(i).getJSONArray("p"))) return false;
 			if(!equalVector(a1.getJSONObject(i).getJSONArray("f"),a2.getJSONObject(i).getJSONArray("f"))) return false;	
@@ -46,9 +48,8 @@ public class EpsilonEqualStates implements StateComparator{
 		
 		Vector2D v1 = new Vector2D(a1.getDouble(0),a1.getDouble(1));
 		Vector2D v2 = new Vector2D(a2.getDouble(0),a2.getDouble(1));
-		
+
 		if(v1.distanceTo(v2) > eps) return false;
-		
 		return true;
 	}
 

@@ -21,9 +21,9 @@ public class Body {
 	void move(double t){
 		Vector2D a = new Vector2D();
 		
-		if(m!= 0) a = f.scale(1.0/m);
+		if(m!= 0) a = f.scale(1/m);
 		
-		p.plus(v.scale(t).plus(a.scale(0.5 * t * t))); //p = p + v*t + 1/2 * a^2 ;
+		p = p.plus(v.scale(t).plus(a.scale(0.5 * t * t))); //p = p + v*t + 1/2 * a^2 ;
 		
 		v = v.plus(a.scale(t)); // v = v + a*t
 		
@@ -59,7 +59,7 @@ public class Body {
 		return m;
 	}
 	void addForce(Vector2D f) {
-		this.f  = f.plus(f);
+		this.f  = this.f.plus(f);
 	}
 	void resetForce() {
 		f = new Vector2D();

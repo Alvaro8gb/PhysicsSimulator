@@ -9,11 +9,11 @@ import simulator.model.MovingTowardsFixedPoint;
 
 public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 
-	private static final double g = 9.8;
-	private Vector2D c = new Vector2D();
+	private static final double g = 9.81;
+	private static final Vector2D c = new Vector2D();
 	
 	public MovingTowardsFixedPointBuilder() {
-		super("mtfp","dscrip");
+		super("mtfp","the moving to fixed point law");
 	}
 	public ForceLaws createTheInstance(JSONObject data) {
 		double _g = data.has("g")? data.getDouble("g"): g;

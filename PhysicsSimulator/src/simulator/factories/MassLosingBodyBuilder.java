@@ -22,7 +22,7 @@ public class MassLosingBodyBuilder extends Builder <Body>{
 		double freq = data.getDouble("freq");
 		double factor = data.getDouble("factor");
 		
-		return new MassLossingBody(id,p,v,m,freq,factor);
+		return new MassLossingBody(id,p,v,m,factor,freq);
 	}
 	private Vector2D createVector(JSONArray jsonV) {
 		return new Vector2D (jsonV.getDouble(0),jsonV.getDouble(1));
