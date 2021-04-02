@@ -15,7 +15,7 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 	public MovingTowardsFixedPointBuilder() {
 		super("mtfp","the moving to fixed point law");
 	}
-	public ForceLaws createTheInstance(JSONObject data) {
+	protected MovingTowardsFixedPoint createTheInstance(JSONObject data) {
 		double _g = data.has("g")? data.getDouble("g"): g;
 		Vector2D _c = data.has("c")? createVector(data.getJSONArray("c")): c;
 		
@@ -26,7 +26,7 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 		return new Vector2D (jsonV.getDouble(0),jsonV.getDouble(1));
 	}
 
-	public JSONObject createData() {
+	protected JSONObject createData() {
 		JSONObject data = new JSONObject();
 		
 		data.put("g", "the the gravitational constant : "+ g);

@@ -11,15 +11,15 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 	private static final double G = 6.67E-11;
 	
 	public NewtonUniversalGravitationBuilder() {
-		super("nlug", "esto es la fuerza gravitacional de newton");
+		super("nlug", "the Newton Universal Gravitational Law");
 	}
 
-	public NewtonUniversalGravitation createTheInstance(JSONObject data) {	
+	protected NewtonUniversalGravitation createTheInstance(JSONObject data) {	
 		double _g = data.has("G")? data.getDouble("G"): G;
 		return new NewtonUniversalGravitation(_g) ;
 	}
 
-	public JSONObject createData() {
+	protected JSONObject createData() {
 	
 		JSONObject data = new JSONObject();
 		

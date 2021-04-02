@@ -10,10 +10,10 @@ import simulator.model.MassLossingBody;
 public class MassLosingBodyBuilder extends Builder <Body>{
 
 	public MassLosingBodyBuilder() {
-		super("mlb","a Body who lose mass");
+		super("mlb","a body who lose mass");
 	}
 	
-	public MassLossingBody createTheInstance(JSONObject data) {
+	protected MassLossingBody createTheInstance(JSONObject data) {
 		
 		Vector2D p = createVector(data.getJSONArray("p"));
 		Vector2D v = createVector(data.getJSONArray("v"));
@@ -28,7 +28,7 @@ public class MassLosingBodyBuilder extends Builder <Body>{
 		return new Vector2D (jsonV.getDouble(0),jsonV.getDouble(1));
 	}
 	
-	public JSONObject createData() {
+	protected JSONObject createData() {
 	
 		JSONObject data = new JSONObject();
 		

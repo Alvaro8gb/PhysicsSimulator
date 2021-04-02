@@ -11,7 +11,7 @@ public class BasicBodyBuilder extends Builder<Body>{
 	public BasicBodyBuilder() {
 		super("basic", "a basic Body");
 	}
-	public Body createTheInstance(JSONObject data) {
+	protected Body createTheInstance(JSONObject data) {
 		
 		Vector2D p = createVector(data.getJSONArray("p"));
 		Vector2D v = createVector(data.getJSONArray("v"));
@@ -25,7 +25,7 @@ public class BasicBodyBuilder extends Builder<Body>{
 		return new Vector2D (jsonV.getDouble(0),jsonV.getDouble(1));
 	}
 
-	public JSONObject createData() {
+	protected JSONObject createData() {
 	
 		JSONObject data = new JSONObject();
 		

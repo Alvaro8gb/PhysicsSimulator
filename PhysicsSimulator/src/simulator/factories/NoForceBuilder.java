@@ -10,10 +10,10 @@ public class NoForceBuilder extends Builder<ForceLaws>{
 	public NoForceBuilder() {
 		super("nf", "without power");
 	}
-	public NoForce createTheInstance(JSONObject data) throws IllegalArgumentException {
+	protected NoForce createTheInstance(JSONObject data) throws IllegalArgumentException {
 		return new NoForce();
 	}
-	public JSONObject createData() {
+	protected JSONObject createData() {
 		return new JSONObject();
 	}
 }

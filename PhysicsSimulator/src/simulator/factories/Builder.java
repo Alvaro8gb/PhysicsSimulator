@@ -28,7 +28,7 @@ public abstract class Builder<T>{
 		return b;
 	}
 	
-	public abstract T createTheInstance(JSONObject data);
+	protected abstract T createTheInstance(JSONObject data);
 	
 	public JSONObject getBuilderInfo() {
 		
@@ -40,7 +40,7 @@ public abstract class Builder<T>{
 		
 		return info;
 	}
-	public abstract JSONObject createData();
+	protected abstract JSONObject createData();
 	
 
 

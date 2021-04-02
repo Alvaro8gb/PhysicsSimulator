@@ -65,6 +65,7 @@ public class Main {
 		forceLawsBuilders.add(new NoForceBuilder());
 		forceLawsBuilders.add(new MovingTowardsFixedPointBuilder());
 		forceLawsBuilders.add(new NewtonUniversalGravitationBuilder());
+		forceLawsBuilders.add(new CircularAleatoryForceBuilder());
 		
 		_forceLawsFactory = new BuilderBasedFactory<ForceLaws> (forceLawsBuilders);
 		
