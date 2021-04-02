@@ -16,7 +16,7 @@ public class MassEqualStates implements StateComparator{
 		if(as1.length()!=as2.length()) return false;
 		
 		for (int i = 0; i < as2.length(); i++) {
-			if(as1.getJSONObject(i).getDouble("masa") != as2.getJSONObject(i).getDouble("masa")) return false; 
+			if(as1.getJSONObject(i).getDouble("m") != as2.getJSONObject(i).getDouble("m")) return false; 
 			if(as1.getJSONObject(i).getString("id") != as2.getJSONObject(i).getString("id")) return false; 
 		}
 		
