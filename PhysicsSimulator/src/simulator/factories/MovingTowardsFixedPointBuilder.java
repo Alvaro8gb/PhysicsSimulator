@@ -13,7 +13,7 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 	private static final Vector2D c = new Vector2D();
 	
 	public MovingTowardsFixedPointBuilder() {
-		super("mtfp","the moving to fixed point law");
+		super("mtfp","Moving towards a fixed point");
 	}
 	protected MovingTowardsFixedPoint createTheInstance(JSONObject data) {
 		double _g = data.has("g")? data.getDouble("g"): g;

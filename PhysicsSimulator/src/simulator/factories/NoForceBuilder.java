@@ -8,7 +8,7 @@ import simulator.model.NoForce;
 public class NoForceBuilder extends Builder<ForceLaws>{
 
 	public NoForceBuilder() {
-		super("nf", "without power");
+		super("nf", "No force");
 	}
 	protected NoForce createTheInstance(JSONObject data) throws IllegalArgumentException {
 		return new NoForce();

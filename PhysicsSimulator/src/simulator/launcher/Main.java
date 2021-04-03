@@ -28,7 +28,6 @@ import simulator.model.PhysicsSimulator;
 public class Main {
 
 	// default values for some parameters
-	//
 	private final static Double _dtimeDefaultValue = 2500.0;
 	private final static Integer _stepsDefaultValue = 150;
 
@@ -36,7 +35,6 @@ public class Main {
 	private final static String _stateComparatorDefaultValue = "epseq";
 
 	// some attributes to stores values corresponding to command-line parameters
-	//
 	private static Double _dtime = null;
 	private static Integer _steps = null;
 
@@ -62,9 +60,9 @@ public class Main {
 		
 		
 		ArrayList<Builder<ForceLaws>> forceLawsBuilders = new ArrayList<>();
-		forceLawsBuilders.add(new NoForceBuilder());
-		forceLawsBuilders.add(new MovingTowardsFixedPointBuilder());
 		forceLawsBuilders.add(new NewtonUniversalGravitationBuilder());
+		forceLawsBuilders.add(new MovingTowardsFixedPointBuilder());
+		forceLawsBuilders.add(new NoForceBuilder());
 		forceLawsBuilders.add(new CircularAleatoryForceBuilder());
 		
 		_forceLawsFactory = new BuilderBasedFactory<ForceLaws> (forceLawsBuilders);
@@ -81,11 +79,9 @@ public class Main {
 	private static void parseArgs(String[] args) {
 
 		// define the valid command line options
-		//
 		Options cmdLineOptions = buildOptions();
 
 		// parse the command line as provided in args
-		//
 		CommandLineParser parser = new DefaultParser();
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
@@ -102,7 +98,6 @@ public class Main {
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
-			//
 			String[] remaining = line.getArgs();
 			if (remaining.length > 0) {
 				String error = "Illegal arguments:";
@@ -226,7 +221,6 @@ public class Main {
 		// JSON structure corresponding to the data of that type. We split this
 		// information
 		// into variables 'type' and 'data'
-		//
 		int i = v.indexOf(":");
 		String type = null;
 		String data = null;
@@ -320,7 +314,9 @@ public class Main {
 		}
 		
 		System.out.println("The simulation has finished");
-		System.out.println(_outFile);
-		System.out.println(_expOutFile);
+		
+		String end = _outFile != null  ? "Saved on : " +_outFile: "Standar view in console";
+		System.out.println(end);
+		
 	}
 }

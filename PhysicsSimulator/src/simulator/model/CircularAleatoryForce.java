@@ -23,7 +23,7 @@ public class CircularAleatoryForce implements ForceLaws{
 		
 		double valorAleat = _rand.nextDouble() * -1; 
 		
-		return b.getPosition().direction().scale(b.getMass()*valorAleat);
+		return b.getPosition().direction().scale(b.getMass() * valorAleat);
 
 	}
 	public String toString() {

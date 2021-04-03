@@ -9,7 +9,7 @@ import simulator.model.ForceLaws;
 public class CircularAleatoryForceBuilder extends Builder<ForceLaws> {
 
 	public CircularAleatoryForceBuilder() {
-		super("cfa","the circular aleatory force");
+		super("cfa","Circular aleatory force");
 	}
 	protected CircularAleatoryForce createTheInstance(JSONObject data) {
 		
