@@ -7,7 +7,7 @@ import simulator.control.StateComparator;
 
 public class MassEqualStatesBuilder extends Builder<StateComparator> {
 
-	public MassEqualStatesBuilder(String typetag, String desc) {
+	public MassEqualStatesBuilder() {
 		super("masseq", "Mass Equal State");
 		// TODO Auto-generated constructor stub
 	}

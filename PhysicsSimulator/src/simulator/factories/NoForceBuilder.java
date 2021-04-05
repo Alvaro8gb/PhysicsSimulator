@@ -7,7 +7,7 @@ import simulator.model.NoForce;
 
 public class NoForceBuilder extends Builder<ForceLaws>{
 
-	public NoForceBuilder(String typetag, String desc) {
+	public NoForceBuilder() {
 		super("nf", "No Force");
 		// TODO Auto-generated constructor stub
 	}
