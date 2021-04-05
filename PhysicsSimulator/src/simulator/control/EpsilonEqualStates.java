@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import simulator.misc.Vector2D;
 
-public class EpsilonEqualStates implements StateComparator{
+public class EpsilonEqualStates extends BasicComparator {
 
 	private double eps;
 
@@ -14,14 +14,9 @@ public class EpsilonEqualStates implements StateComparator{
 	}
 	public boolean equal(JSONObject s1, JSONObject s2) {
 		
-		if(s1 == null || s2 == null ) return false;
-		
-		if(s1.getDouble("time") != s2.getDouble("time")) return false;
-		
-		JSONArray as1 = s1.getJSONArray("bodies");
-		JSONArray as2 = s2.getJSONArray("bodies");
+		if (!super.equal(s1, s2)) return false;
 
-		if(!equalBodies(as1,as2)) return false;
+		if(!equalBodies(bodiesA,bodiesB)) return false;
 		
 		return true;
 	}
