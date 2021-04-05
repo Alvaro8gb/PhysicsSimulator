@@ -279,21 +279,14 @@ public class Main {
 		
 		StateComparator cmp = _stateComparatorFactory.createInstance(_stateComparatorInfo);
 		
-		OutputStream out;
-		
-		 if(_outFile != null) out = new FileOutputStream(_outFile);
-         else out = System.out;
-		
-		FileInputStream expectedOut;
-		
-		if(_expOutFile != null) expectedOut = new FileInputStream(_expOutFile);
-        else expectedOut = null;
+		OutputStream out = _outFile != null?  new FileOutputStream(_outFile) : System.out;
+	
+		FileInputStream expectedOut = _expOutFile != null? new FileInputStream(_expOutFile) : null;
 		
 		
 		controller.loadBodies(in);
 		controller.run(_steps, out, expectedOut, cmp);
 		
- 
 	}
 
 	private static void start(String[] args) throws Exception {
