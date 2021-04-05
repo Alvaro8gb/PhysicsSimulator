@@ -281,7 +281,7 @@ public class Main {
 		
 		OutputStream out = _outFile != null?  new FileOutputStream(_outFile) : System.out;
 	
-		FileInputStream expectedOut = _expOutFile != null? new FileInputStream(_expOutFile) : null;
+		FileInputStream expectedOut = _expOutFile != null ? new FileInputStream(_expOutFile) : null;
 		
 		
 		controller.loadBodies(in);
