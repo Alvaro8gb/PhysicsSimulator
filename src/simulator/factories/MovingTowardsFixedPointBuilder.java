@@ -1,12 +1,3 @@
-<<<<<<< Updated upstream:PhysicsSimulator/src/simulator/factories/MovingTowardsFixedPointBuilder.java
-package simulator.factories;
-
-import simulator.model.ForceLaws;
-
-public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
-
-}
-=======
 package simulator.factories;
 
 import org.json.JSONArray;
@@ -47,4 +38,3 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 	
 
 }
->>>>>>> Stashed changes:src/simulator/factories/MovingTowardsFixedPointBuilder.java

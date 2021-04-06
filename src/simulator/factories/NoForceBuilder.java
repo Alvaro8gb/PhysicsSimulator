@@ -1,12 +1,3 @@
-<<<<<<< Updated upstream:PhysicsSimulator/src/simulator/factories/NoForceBuilder.java
-package simulator.factories;
-
-import simulator.model.ForceLaws;
-
-public class NoForceBuilder extends Builder<ForceLaws>{
-
-}
-=======
 package simulator.factories;
 
 import org.json.JSONObject;
@@ -26,4 +17,3 @@ public class NoForceBuilder extends Builder<ForceLaws>{
 		return new JSONObject();
 	}
 }
->>>>>>> Stashed changes:src/simulator/factories/NoForceBuilder.java

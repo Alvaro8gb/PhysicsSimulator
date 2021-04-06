@@ -1,13 +1,3 @@
-<<<<<<< Updated upstream:PhysicsSimulator/src/simulator/factories/NewtonUniversalGravitationBuilder.java
-package simulator.factories;
-
-import simulator.model.ForceLaws;
-
-
-public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
-
-}
-=======
 package simulator.factories;
 
 import org.json.JSONObject;
@@ -38,4 +28,3 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 		return data;
 	}
 }
->>>>>>> Stashed changes:src/simulator/factories/NewtonUniversalGravitationBuilder.java

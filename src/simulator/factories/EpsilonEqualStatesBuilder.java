@@ -1,12 +1,3 @@
-<<<<<<< Updated upstream:PhysicsSimulator/src/simulator/factories/EpsilonEqualStatesBuilder.java
-package simulator.factories;
-
-import simulator.control.StateComparator;
-
-public class EpsilonEqualStatesBuilder extends Builder<StateComparator>{
-
-}
-=======
 package simulator.factories;
 
 import org.json.JSONObject;
@@ -37,4 +28,3 @@ public class EpsilonEqualStatesBuilder extends Builder<StateComparator>{
 	}
 
 }
->>>>>>> Stashed changes:src/simulator/factories/EpsilonEqualStatesBuilder.java
