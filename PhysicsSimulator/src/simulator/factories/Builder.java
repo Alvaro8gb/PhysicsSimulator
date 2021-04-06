@@ -1,5 +1,6 @@
 package simulator.factories;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public abstract class Builder<T> {
@@ -21,10 +22,13 @@ public abstract class Builder<T> {
 		*/
 		T b = null;
 		if(typetag != null && typetag.equals(info.getString("type"))){
-			b = createTheInstance(info.getJSONObject("data"));
-			return b;
+			try {
+				b = createTheInstance(info.getJSONObject("data"));
+				}catch(JSONException je) {
+					throw new IllegalArgumentException("Fail to parse data"+ je.getMessage());
+				}
 		}
-		return null;
+		return b;
 	}
 	protected abstract T createTheInstance(JSONObject jsonObject);
 	public JSONObject getBuilderInfo() {
@@ -36,11 +40,9 @@ public abstract class Builder<T> {
 		JSONObject info = new JSONObject();
 		info.put("type",typetag);
 		info.put("data",createData());
-		info.put("des",desc);
+		info.put("desc",desc);
 		return info;
 	}
-	protected JSONObject createData() {
-		return new JSONObject();
-	}
+	protected abstract JSONObject createData();
 	
 }

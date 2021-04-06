@@ -38,6 +38,7 @@ public class Main {
 	// default values for some parameters
 	//
 	private final static Double _dtimeDefaultValue = 2500.0;
+	private final static Integer _stepsDefaultValue = 150;
 	private final static String _forceLawsDefaultValue = "nlug";
 	private final static String _stateComparatorDefaultValue = "epseq";
 
@@ -92,7 +93,10 @@ public class Main {
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
 			// TODO add support of -o, -eo, and -s (define corresponding parse methods)
-
+			parseOutputFileOption(line);
+			parseExpectedOutputFileOption(line);
+			parseStepsOption(line);
+			
 			parseDeltaTimeOption(line);
 			parseForceLawsOption(line);
 			parseStateComparatorOption(line);
@@ -126,7 +130,17 @@ public class Main {
 
 		// TODO add support for -o, -eo, and -s (add corresponding information to
 		// cmdLineOptions)
-
+		// expected output file
+		cmdLineOptions.addOption(Option.builder("eo").longOpt("expected-output").hasArg().desc("The expected output file. If not provided\r\n"
+				+ "no comparison is applied").build());
+		//steps
+		cmdLineOptions.addOption(Option.builder("s").longOpt("steps").hasArg().desc("An integer representing the number of\r\n"
+				+ "simulation steps. Default value: 150.\r\n"
+				+ "").build());
+		//output file
+		cmdLineOptions.addOption(Option.builder("o").longOpt("output").hasArg().desc("Output file, where output is written.\r\n"
+				+ "Default value: the standard output.\r\n"
+				+ "").build());
 		// delta-time
 		cmdLineOptions.addOption(Option.builder("dt").longOpt("delta-time").hasArg()
 				.desc("A double representing actual time, in seconds, per simulation step. Default value: "
@@ -181,7 +195,23 @@ public class Main {
 			throw new ParseException("In batch mode an input file of bodies is required");
 		}
 	}
+	private static void parseExpectedOutputFileOption(CommandLine line) throws ParseException {
+		_expOutFile = line.getOptionValue("eo");
 
+	}
+	private static void parseOutputFileOption(CommandLine line) throws ParseException {
+		_outFile = line.getOptionValue("o");
+		
+	}
+	private static void parseStepsOption(CommandLine line) throws ParseException {
+		String steps = line.getOptionValue("s", _stepsDefaultValue.toString());
+		try {
+			_steps = Integer.parseInt(steps);
+			assert (_steps > 0);
+		} catch (Exception e) {
+			throw new ParseException("Invalid steps value: " + steps);
+		}
+	}
 	private static void parseDeltaTimeOption(CommandLine line) throws ParseException {
 		String dt = line.getOptionValue("dt", _dtimeDefaultValue.toString());
 		try {
@@ -251,9 +281,9 @@ public class Main {
 		PhysicsSimulator sim = new PhysicsSimulator(_dtime,_forceLawsFactory.createInstance(_forceLawsInfo));
 		Controller controller = new Controller(sim,_bodyFactory);
 		
-		InputStream is = new FileInputStream(new File(_inFile));
-		OutputStream os =_outFile == null? System.out: new FileOutputStream(new File(_outFile));
-		InputStream expOut = null;
+		FileInputStream is = new FileInputStream(_inFile);
+		OutputStream os =_outFile == null? System.out: new FileOutputStream(_outFile);
+		FileInputStream expOut = null;
 		StateComparator cmp = null;
 		
 		if(_expOutFile != null) {

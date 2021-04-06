@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -17,6 +18,7 @@ public class PhysicsSimulator {
 		
 		this.dt = dt;
 		this.forces= forces;
+		listCuerpos = new ArrayList<Body>();
 		time = 0;
 		
 	}
@@ -35,7 +37,7 @@ public class PhysicsSimulator {
 
 	public void addBody(Body b) throws IllegalArgumentException {
 		if(!listCuerpos.contains(b))listCuerpos.add(b);
-		throw new IllegalArgumentException("This body alredy exists"+ b);
+		else throw new IllegalArgumentException("This body alredy exists"+ b);
 	}
 	public JSONObject getState() {
 		JSONObject jPS = new JSONObject();
@@ -43,7 +45,7 @@ public class PhysicsSimulator {
 		
 		jPS.put("time", time);
 		
-		for(Body b: listCuerpos) arrayBodies.put(b);
+		for(Body b: listCuerpos) arrayBodies.put(b.getState());
 		
 		jPS.put("bodies",arrayBodies);
 		return jPS;

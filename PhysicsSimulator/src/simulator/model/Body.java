@@ -24,8 +24,7 @@ public class Body {
 		if(m!= 0) a = f.scale(1/m);
 		else a = new Vector2D();
 		
-		p = p.plus(v.scale(t));
-		p = p.plus(a.scale(1/2 * t * t));
+		p = p.plus(v.scale(t).plus(a.scale(0.5 * t * t)));
 		v = v.plus(a.scale(t));
 		
 	}

@@ -11,21 +11,20 @@ public class NewtonUniversalGravitation implements ForceLaws{
 	public NewtonUniversalGravitation(double c) {
 		this.G = c;
 	}
-	public Vector2D fuerzaij(Body bi, Body bj) {
-		Vector2D Fij = new Vector2D();
+	private Vector2D fuerzaij(Body bi, Body bj) {
+
 		Vector2D dij = new Vector2D();
 		double fij,d;
 		
 		dij = bj.getPosition().minus(bi.getPosition()); //pj - pi
-		d = bj.getPosition().distanceTo(bi.getPosition()); // |pj - pi|
+		d = dij.magnitude(); // |pj - pi|
 		
-		if(d != 0) {
-			fij = G* ((bj.getMass() * bi.getMass()) /(d * d));
-			Fij = dij.direction();
-			Fij = Fij.scale(fij);
+		if(d > 0) {
+			fij = G* bj.getMass() * bi.getMass() /(d * d);
 		}
+		else fij = 0.0;
 		
-		return Fij;
+		return dij.direction().scale(fij);
 	}
 	public void apply(List<Body> bs) {
 		

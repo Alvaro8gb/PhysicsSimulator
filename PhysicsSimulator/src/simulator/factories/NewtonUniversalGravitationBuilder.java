@@ -19,7 +19,7 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 	@Override
 	protected ForceLaws createTheInstance(JSONObject jsonObject) {
 		// TODO Auto-generated method stub
-		double G = jsonObject.has("G")? jsonObject.getDouble("G"):6.67e10-11;
+		double G = jsonObject.has("G")? jsonObject.getDouble("G"):6.67E-11;
 		return new NewtonUniversalGravitation(G);
 	}
 
