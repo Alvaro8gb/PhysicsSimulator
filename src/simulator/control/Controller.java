@@ -52,7 +52,7 @@ public class Controller {
 			
 			if(expOutJo != null) {
 				expState = expOutJo.getJSONArray("states").getJSONObject(i);
-				if(!cmp.equal(currState,expState )) throw new NotEqualStatesException(i,currState,expState);
+				if(!cmp.equal(currState,expState)) throw new NotEqualStatesException(i,currState,expState);
 			}
 			_sim.advance();
 			

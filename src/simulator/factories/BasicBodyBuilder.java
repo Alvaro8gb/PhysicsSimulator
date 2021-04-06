@@ -1,6 +1,4 @@
 package simulator.factories;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import simulator.misc.Vector2D;
@@ -13,19 +11,15 @@ public class BasicBodyBuilder extends Builder<Body>{
 	}
 	protected Body createTheInstance(JSONObject data) {
 		
-		Vector2D p = createVector(data.getJSONArray("p"));
-		Vector2D v = createVector(data.getJSONArray("v"));
+		Vector2DBuilder b = new Vector2DBuilder();
+		
+		Vector2D p = b.createTheVector(data.getJSONArray("p"));
+		Vector2D v = b.createTheVector(data.getJSONArray("v"));
 		double m = data.getDouble("m");
 		String id = data.getString("id");
 		
 		return new Body(id,p,v,m);
 	}
-	
-	private Vector2D createVector(JSONArray jsonV) {
-		if(jsonV.length() !=2) throw new IllegalArgumentException();
-		return new Vector2D (jsonV.getDouble(0),jsonV.getDouble(1));
-	}
-	
 	protected JSONObject createData() {
 	
 		JSONObject data = new JSONObject();
