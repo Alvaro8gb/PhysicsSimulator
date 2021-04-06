@@ -5,7 +5,8 @@ import java.util.List;
 import simulator.misc.Vector2D;
 
 public class NewtonUniversalGravitation implements ForceLaws {
-	protected double _G;
+	
+	private double _G;
 	
 	public NewtonUniversalGravitation(double _G) {
 		this._G = _G;

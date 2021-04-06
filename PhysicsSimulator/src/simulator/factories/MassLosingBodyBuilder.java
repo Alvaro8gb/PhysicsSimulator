@@ -25,6 +25,7 @@ public class MassLosingBodyBuilder extends Builder <Body>{
 		return new MassLossingBody(id,p,v,m,factor,freq);
 	}
 	private Vector2D createVector(JSONArray jsonV) {
+		if(jsonV.length() !=2) throw new IllegalArgumentException();
 		return new Vector2D (jsonV.getDouble(0),jsonV.getDouble(1));
 	}
 	

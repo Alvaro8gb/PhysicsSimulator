@@ -21,7 +21,7 @@ public abstract class Builder<T>{
 			try {
 			b = createTheInstance(info.getJSONObject("data"));
 			}catch(JSONException je) {
-				throw new IllegalArgumentException("Fail to parse data"+ je.getMessage());
+				throw new IllegalArgumentException("Fail to parse data"+ je.getMessage(),je);
 			}
 		}
 		

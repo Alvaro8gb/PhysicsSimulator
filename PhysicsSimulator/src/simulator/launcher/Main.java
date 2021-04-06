@@ -270,19 +270,21 @@ public class Main {
 
 	private static void startBatchMode() throws Exception {
 		
-
 		PhysicsSimulator simulator = new PhysicsSimulator(_dtime,_forceLawsFactory.createInstance(_forceLawsInfo));
 		
 		Controller controller = new Controller(simulator,_bodyFactory);
 		
 		FileInputStream in = new FileInputStream(_inFile);
 		
-		StateComparator cmp = _stateComparatorFactory.createInstance(_stateComparatorInfo);
-		
 		OutputStream out = _outFile != null?  new FileOutputStream(_outFile) : System.out;
 	
-		FileInputStream expectedOut = _expOutFile != null ? new FileInputStream(_expOutFile) : null;
+		FileInputStream expectedOut = null;
+		StateComparator cmp = null;
 		
+		if(_expOutFile != null) {
+			expectedOut = new FileInputStream(_expOutFile);
+            cmp = _stateComparatorFactory.createInstance(_stateComparatorInfo);
+       }
 		
 		controller.loadBodies(in);
 		controller.run(_steps, out, expectedOut, cmp);
