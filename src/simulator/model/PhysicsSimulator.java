@@ -40,8 +40,9 @@ public class PhysicsSimulator {
 	public void addBody(Body b) throws IllegalArgumentException {
 		
 	if(listCuerpos.contains(b)) throw new IllegalArgumentException("This body alredy exists"+ b);
-		
-		listCuerpos.add(b);
+	
+	listCuerpos.add(b);
+	
 	}
 	public JSONObject getState() {
 		JSONObject jPS = new JSONObject();
