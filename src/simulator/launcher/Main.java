@@ -284,7 +284,7 @@ public class Main {
 		if(_expOutFile != null) {
 			expectedOut = new FileInputStream(_expOutFile);
             cmp = _stateComparatorFactory.createInstance(_stateComparatorInfo);
-       }
+        }
 		
 		controller.loadBodies(in);
 		controller.run(_steps, out, expectedOut, cmp);

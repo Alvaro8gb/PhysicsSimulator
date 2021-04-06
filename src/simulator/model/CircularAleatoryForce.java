@@ -27,7 +27,7 @@ public class CircularAleatoryForce implements ForceLaws{
 
 	}
 	public String toString() {
-		return " Circular Aleatory Force with seed : " + seed;
+		return "Circular Aleatory Force with seed : " + seed;
 	}
 
 }
