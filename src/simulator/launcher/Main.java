@@ -1,5 +1,11 @@
 package simulator.launcher;
 
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -9,23 +15,33 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.json.JSONObject;
 
-import simulator.control.StateComparator;
-import simulator.factories.Factory;
+
+
+import simulator.control.*;
+import simulator.factories.BasicBodyBuilder;
+import simulator.factories.*;
+import simulator.factories.MassLosingBodyBuilder;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
+import simulator.model.PhysicsSimulator;
 
 public class Main {
 
 	// default values for some parameters
-	//
 	private final static Double _dtimeDefaultValue = 2500.0;
+	private final static Integer _stepsDefaultValue = 150;
+
 	private final static String _forceLawsDefaultValue = "nlug";
 	private final static String _stateComparatorDefaultValue = "epseq";
 
 	// some attributes to stores values corresponding to command-line parameters
-	//
 	private static Double _dtime = null;
+	private static Integer _steps = null;
+
 	private static String _inFile = null;
+	private static String _outFile = null;
+	private static String _expOutFile = null;
+
 	private static JSONObject _forceLawsInfo = null;
 	private static JSONObject _stateComparatorInfo = null;
 
@@ -35,28 +51,46 @@ public class Main {
 	private static Factory<StateComparator> _stateComparatorFactory;
 
 	private static void init() {
-		// TODO initialize the bodies factory
-
-		// TODO initialize the force laws factory
-
-		// TODO initialize the state comparator
+		
+		ArrayList<Builder<Body>> bodyBuilders = new ArrayList<>();
+		bodyBuilders.add(new BasicBodyBuilder());
+		bodyBuilders.add(new MassLosingBodyBuilder());
+		
+		_bodyFactory = new BuilderBasedFactory<Body>(bodyBuilders);
+		
+		
+		ArrayList<Builder<ForceLaws>> forceLawsBuilders = new ArrayList<>();
+		forceLawsBuilders.add(new NewtonUniversalGravitationBuilder());
+		forceLawsBuilders.add(new MovingTowardsFixedPointBuilder());
+		forceLawsBuilders.add(new NoForceBuilder());
+		forceLawsBuilders.add(new CircularAleatoryForceBuilder());
+		
+		_forceLawsFactory = new BuilderBasedFactory<ForceLaws> (forceLawsBuilders);
+		
+		
+		ArrayList<Builder<StateComparator>> stateComparatorBuilders = new ArrayList<>();
+		stateComparatorBuilders.add(new EpsilonEqualStatesBuilder());
+		stateComparatorBuilders.add(new MassEqualStatesBuilder());
+		
+		_stateComparatorFactory = new BuilderBasedFactory<StateComparator> (stateComparatorBuilders);
+		
 	}
 
 	private static void parseArgs(String[] args) {
 
 		// define the valid command line options
-		//
 		Options cmdLineOptions = buildOptions();
 
 		// parse the command line as provided in args
-		//
 		CommandLineParser parser = new DefaultParser();
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
 
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
-			// TODO add support of -o, -eo, and -s (define corresponding parse methods)
+			parseOutputFileOption(line);
+			parseExpOutputFileOption(line);
+			parseStepsOption(line);
 
 			parseDeltaTimeOption(line);
 			parseForceLawsOption(line);
@@ -64,7 +98,6 @@ public class Main {
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
-			//
 			String[] remaining = line.getArgs();
 			if (remaining.length > 0) {
 				String error = "Illegal arguments:";
@@ -89,8 +122,16 @@ public class Main {
 		// input file
 		cmdLineOptions.addOption(Option.builder("i").longOpt("input").hasArg().desc("Bodies JSON input file.").build());
 
-		// TODO add support for -o, -eo, and -s (add corresponding information to
-		// cmdLineOptions)
+		//output file
+		cmdLineOptions.addOption(Option.builder("o").longOpt("output").hasArg().desc("Output file, where output is written.\n"
+				+ "Default value: the standard output.").build());
+		
+		//expected output file 
+		cmdLineOptions.addOption(Option.builder("eo").longOpt("expected-output").hasArg().desc("The expected output file. If not provided\n"
+				+ "no comparison is applied").build());
+		//steps
+		cmdLineOptions.addOption(Option.builder("s").longOpt("output").hasArg().desc("An integer representing the number of\n"
+				+ "		simulation steps. Default value: " + _stepsDefaultValue+".").build());
 
 		// delta-time
 		cmdLineOptions.addOption(Option.builder("dt").longOpt("delta-time").hasArg()
@@ -146,7 +187,24 @@ public class Main {
 			throw new ParseException("In batch mode an input file of bodies is required");
 		}
 	}
+	private static void parseOutputFileOption(CommandLine line) {
+		_outFile = line.getOptionValue("o");
 
+	}
+	private static void parseExpOutputFileOption(CommandLine line) {
+		_expOutFile = line.getOptionValue("eo");
+	
+	}
+	private static void parseStepsOption(CommandLine line) throws ParseException {
+		String s = line.getOptionValue("s", _stepsDefaultValue.toString());
+		try {
+			_steps = Integer.parseInt(s);
+			assert (_steps > 0);
+		} catch (Exception e) {
+			throw new ParseException("Invalid steps value: " + s);
+		}
+	}
+	
 	private static void parseDeltaTimeOption(CommandLine line) throws ParseException {
 		String dt = line.getOptionValue("dt", _dtimeDefaultValue.toString());
 		try {
@@ -163,7 +221,6 @@ public class Main {
 		// JSON structure corresponding to the data of that type. We split this
 		// information
 		// into variables 'type' and 'data'
-		//
 		int i = v.indexOf(":");
 		String type = null;
 		String data = null;
@@ -212,7 +269,26 @@ public class Main {
 	}
 
 	private static void startBatchMode() throws Exception {
-		// TODO complete this method
+		
+		PhysicsSimulator simulator = new PhysicsSimulator(_dtime,_forceLawsFactory.createInstance(_forceLawsInfo));
+		
+		Controller controller = new Controller(simulator,_bodyFactory);
+		
+		FileInputStream in = new FileInputStream(_inFile);
+		
+		OutputStream out = _outFile != null?  new FileOutputStream(_outFile) : System.out;
+	
+		FileInputStream expectedOut = null;
+		StateComparator cmp = null;
+		
+		if(_expOutFile != null) {
+			expectedOut = new FileInputStream(_expOutFile);
+            cmp = _stateComparatorFactory.createInstance(_stateComparatorInfo);
+       }
+		
+		controller.loadBodies(in);
+		controller.run(_steps, out, expectedOut, cmp);
+		
 	}
 
 	private static void start(String[] args) throws Exception {
@@ -221,6 +297,8 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
+
+		
 		try {
 			init();
 			start(args);
@@ -229,5 +307,11 @@ public class Main {
 			System.err.println();
 			e.printStackTrace();
 		}
+		
+		System.out.println("The simulation has finished");
+		
+		String end = _outFile != null  ? "Saved on : " +_outFile: "Standar view in console";
+		System.out.println(end);
+		
 	}
 }
