@@ -9,7 +9,7 @@ public class Vector2DBuilder {
 
 	public Vector2D createTheVector(JSONArray data) {
 		
-		if(data.length() !=2) throw new IllegalArgumentException("Not 2D Vector");
+		if(data.length() != 2) throw new IllegalArgumentException("Not 2D Vector");
 		return new Vector2D (data.getDouble(0),data.getDouble(1));
 
 	}
