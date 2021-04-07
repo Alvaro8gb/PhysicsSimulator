@@ -130,6 +130,7 @@ public class UseExample {
 	
 	public static void main(String[] args) throws JSONException, FileNotFoundException {
 
+		/*
 		// Example 1: Parse JSON from a string or from a file
 		//
 
@@ -167,6 +168,22 @@ public class UseExample {
 		// Example 3: create JSON structure
 		//
 		createExample();
+		*/
+		JSONArray j = new JSONArray();
+		
+		j.put(3);
+		j.put("a");
+		
+		
+		try {
+			j.getDouble(1);
+	
+		}catch(JSONException je) {
+			System.out.println(je.getMessage());
+		}
+		
+		
+		
 	}
 
 }

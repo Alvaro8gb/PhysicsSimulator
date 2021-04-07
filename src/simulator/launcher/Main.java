@@ -309,8 +309,7 @@ public class Main {
 		}
 		
 		System.out.println("The simulation has finished");
-		
-		String end = _outFile != null  ? "Saved on : " +_outFile: "Standar view in console";
+		String end = _outFile != null  ? "Saved on : " + _outFile: "Standar view in console";
 		System.out.println(end);
 		
 	}

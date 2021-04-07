@@ -27,7 +27,7 @@ public class Controller {
 		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
 		JSONArray bodies = jsonInput.getJSONArray("bodies");
 		
-		for(int i = 0;i< bodies.length();i++) _sim.addBody(_bodiesFactory.createInstance(bodies.getJSONObject(i)));
+		for(int i = 0; i< bodies.length(); i++) _sim.addBody(_bodiesFactory.createInstance(bodies.getJSONObject(i)));
 		
 	}
 	public void run(int steps, OutputStream out, InputStream expOut, StateComparator cmp) throws NotEqualStatesException {
@@ -36,7 +36,9 @@ public class Controller {
 		JSONObject currState = null;
 		JSONObject expState = null;
 		
-		if(expOut !=null) expOutJo = new JSONObject (new JSONTokener(expOut));
+		if(steps < 1) throw new IllegalArgumentException("Wrong number of steps");
+		
+		if(expOut != null) expOutJo = new JSONObject (new JSONTokener(expOut));
 			
 		if(out == null) out = new OutputStream() { public void write(int b) throws IOException {}}; //asigna uno que no escribe nada
 		
@@ -45,10 +47,10 @@ public class Controller {
 		 p.println("{");
 		 p.println("\"states\": [");
 	      
-		for(int i = 0 ; i < steps-1;i++) {
+		for(int i = 0 ; i < steps; i++) {
 			currState = _sim.getState();
 			p.println(currState);
-			p.print(',');
+			if(i != steps -1) p.print(',');
 			
 			if(expOutJo != null) {
 				expState = expOutJo.getJSONArray("states").getJSONObject(i);
@@ -57,8 +59,6 @@ public class Controller {
 			_sim.advance();
 			
 		}
-		
-		p.println(currState);
 		
 		 p.println("]");
 		 p.println("}");
