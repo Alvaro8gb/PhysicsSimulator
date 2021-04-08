@@ -16,6 +16,8 @@ public class EpsilonEqualStatesBuilder extends Builder<StateComparator>{
 		
 		double eps = data.has("eps")? data.getDouble("eps"): 0.0 ;
 		
+		if(eps < 0) throw new IllegalArgumentException("Epsilon must be positive ");
+		
 		return new EpsilonEqualStates(eps);
 	}
 

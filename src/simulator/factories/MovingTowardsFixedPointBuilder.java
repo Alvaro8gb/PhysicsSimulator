@@ -1,6 +1,4 @@
 package simulator.factories;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import simulator.misc.Vector2D;
@@ -16,16 +14,13 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 		super("mtfp","Moving towards a fixed point");
 	}
 	protected MovingTowardsFixedPoint createTheInstance(JSONObject data) {
+		Vector2DBuilder b = new Vector2DBuilder();
+		
 		double _g = data.has("g")? data.getDouble("g"): g;
-		Vector2D _c = data.has("c")? createVector(data.getJSONArray("c")): c;
+		Vector2D _c = data.has("c")? b.createTheVector(data.getJSONArray("c")): c;
 		
 		return new MovingTowardsFixedPoint(_g,_c);
 	}
-	private Vector2D createVector(JSONArray jsonV) {
-		if(jsonV.length() !=2) throw new IllegalArgumentException();
-		return new Vector2D (jsonV.getDouble(0),jsonV.getDouble(1));
-	}
-
 	protected JSONObject createData() {
 		JSONObject data = new JSONObject();
 		
