@@ -6,42 +6,47 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import simulator.view.SimulatorObserver;
+
 public class PhysicsSimulator {
 
 	private double dt;
 	private double time;
-	private ForceLaws forces;
-	private List<Body> listCuerpos;
+	private ForceLaws forceLaws;
+	private List<Body> listBodies;
+	private List<SimulatorObserver> listObservers;
 	
-	public PhysicsSimulator(double dt,ForceLaws forces) throws IllegalArgumentException {
+	public PhysicsSimulator(double dt,ForceLaws forceLaws) throws IllegalArgumentException {
 		
-		if(dt < 0) throw new IllegalArgumentException("Wrong time per step");
+	
+		listObservers = new ArrayList<SimulatorObserver>();
+		listBodies = new ArrayList<Body>();
 		
-		if( forces == null) throw new IllegalArgumentException("Unknown force");
-		
-		this.dt = dt;
-		this.forces= forces;
-		listCuerpos = new ArrayList<Body>();
-		time = 0;
-		
+		reset();
+		setDeltaTime(dt);
+		setForceLawsLaws(forceLaws);
 	}
 	
 	public void advance() {
 
-		for(Body b: listCuerpos) b.resetForce();
+		for(Body b: listBodies) b.resetForce();
 		
-		forces.apply(listCuerpos);
+		forceLaws.apply(listBodies);
 		
-		for(Body b: listCuerpos) b.move(dt);
+		for(Body b: listBodies) b.move(dt);
 		
 		time+=dt;
+		
+		for(SimulatorObserver o : listObservers) o.onAdvance(listBodies, time);
 		 
 	}
 	public void addBody(Body b) throws IllegalArgumentException {
 		
-	if(listCuerpos.contains(b)) throw new IllegalArgumentException("This body alredy exists"+ b);
+	if(listBodies.contains(b)) throw new IllegalArgumentException("This body alredy exists"+ b);
 	
-	listCuerpos.add(b);
+	listBodies.add(b);
+	
+	for(SimulatorObserver o : listObservers) o.onBodyAdded(listBodies, b);
 	
 	}
 	public JSONObject getState() {
@@ -50,11 +55,37 @@ public class PhysicsSimulator {
 		
 		jPS.put("time", time);
 		
-		for(Body b: listCuerpos) arrayBodies.put(b.getState());
+		for(Body b: listBodies) arrayBodies.put(b.getState());
 		
 		jPS.put("bodies",arrayBodies);
 		
 		return jPS;
+	}
+	public void setForceLawsLaws(ForceLaws forceLaws) {
+		
+		if( forceLaws == null) throw new IllegalArgumentException("Unknown force");
+		this.forceLaws = forceLaws;
+		
+		for(SimulatorObserver o : listObservers) o.onForceLawsChanged( forceLaws.toString());
+
+	}
+	public void setDeltaTime(double dt) {
+		if(dt < 0) throw new IllegalArgumentException("Wrong time per step");
+		this.dt = dt;
+		
+	}
+	public void reset() {
+		
+		listBodies.clear();
+		time = 0;
+		
+		for(SimulatorObserver o : listObservers) o.onReset(listBodies, time, dt, forceLaws.toString());
+	}
+	public void addObserver(SimulatorObserver o) {
+		
+		if(!listObservers.contains(o)) listObservers.add(o);
+		
+		o.onRegister(listBodies, time, dt, forceLaws.toString());
 	}
 	public String toString() {
 		return getState().toString();
