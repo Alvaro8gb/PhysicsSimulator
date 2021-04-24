@@ -1,7 +1,9 @@
 package simulator.view;
 
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -39,8 +41,10 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 	private JToolBar toolBar;
 	private JButton fileSelect,lawsSelect,run,stop,exit;
 	private JFileChooser fileChososer;
+	private JTextField deltaTimeBox;
+	private JSpinner stepsSpinner;
 	private JPanel stepsPanel,deltaTimePanel;
-	private final double defaultSteps= 10.0;
+	private final int defaultSteps = 10;
 	
 	
 	ControlPanel(Controller ctrl) {
@@ -79,26 +83,22 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 		//Boton de stop
 		stop = createControlButton("stop.png","Stop simulation");	
 		toolBar.add(stop);
-		
-		//Boton de exit
-		exit = createControlButton("exit.png","Abort simulation");
-		toolBar.add(exit);
-		toolBar.addSeparator();
+
 		
 		//Selector numero de pasos
 	    stepsPanel = new JPanel(); 
 	    stepsPanel.setToolTipText("Change number of steps");
 		JLabel stepsLabel = new JLabel("Steps: ");
-		SpinnerNumberModel stepsModel = new SpinnerNumberModel(defaultSteps,0.0,100000000000.0,1.0);
-		JSpinner steps = new JSpinner(stepsModel);
-		steps.setPreferredSize(new Dimension(80,30));
+		SpinnerNumberModel stepsModel = new SpinnerNumberModel(defaultSteps,0,1000000000,1);
+		stepsSpinner = new JSpinner(stepsModel);
+		stepsSpinner.setPreferredSize(new Dimension(80,30));
 		 
-	    JSpinner.NumberEditor editor = (JSpinner.NumberEditor) steps.getEditor();
+	    JSpinner.NumberEditor editor = (JSpinner.NumberEditor) stepsSpinner.getEditor();
 	    DecimalFormat format = editor.getFormat();
 	    format.setMinimumFractionDigits(3);
 	     
 	    stepsPanel.add(stepsLabel);
-		stepsPanel.add(steps);
+		stepsPanel.add(stepsSpinner);
 		
 		toolBar.add(stepsPanel);
 		toolBar.addSeparator();
@@ -107,39 +107,47 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 		deltaTimePanel = new JPanel();
 		stepsPanel.setToolTipText("Change delta-time");
 		JLabel deltaTimeText = new JLabel("Delta-Time: ");
-		JTextField deltaTimeBox = new JTextField("2500.0    ");
+		deltaTimeBox = new JTextField("2500.0    ");
 		deltaTimeBox.setAlignmentY(CENTER_ALIGNMENT);
 		deltaTimeBox.setBounds(150,40,100,30); 
 		deltaTimePanel.add(deltaTimeText);
 		deltaTimePanel.add(deltaTimeBox);
 		
 		toolBar.add(deltaTimePanel);
+		toolBar.addSeparator();
 		
+		//Boton de exit
+		exit = createControlButton("exit.png","Abort simulation");
+		toolBar.add(exit);
 
-		enableToolBar(true);
 		setVisible(true);
 	}
 	private void run_sim(int n) {
 		
 		if ( n>0 && !_stopped ) {
 			
-		try {
-		//_ctrl.run(1);
-			
-		} catch (Exception e) {
-		// TODO show the error in a dialog box
-		// TODO enable all buttons
-		_stopped = true;
-		}
+			try {
+			//_ctrl.run(1);
+				
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog",JOptionPane.ERROR_MESSAGE);
+				_stopped = true;
+				enableToolBar(true);
+			}
+		
 			SwingUtilities.invokeLater( new Runnable() { 
-				public void run() {
-			   run_sim(n-1); } });
+				public void run() { 
+					run_sim(n-1); 
+				} 
+		    });
+			
+			
 		}else {
 			_stopped = true;
-			// TODO enable all buttons
+			enableToolBar(true);
 		}
-		// SimulatorObserver methods
-		// ...
+
+
 	}
 	private JButton createControlButton(String iconName,String toolTipMessage) {
 		JButton controlButton = new JButton();
@@ -206,6 +214,18 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 			 int n = JOptionPane.showConfirmDialog(null, "You really want to exit PhysicsSimulator?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if(n == 0) System.exit(0);
 		 }
+		 else if( event.getSource() == stop ) _stopped = true;
+		 else if(event.getSource() == run) {
+			 _stopped = false;
+			 enableToolBar(false);
+			 stop.setEnabled(true); //Todos desactivados menos Stop
+			 
+			 _ctrl.setDeltaTime( Double.parseDouble(deltaTimeBox.getText()));
+			 
+			 run_sim((int)stepsSpinner.getValue());
+			 
+			 
+		 }
 		 
 	}
 	 private void enableToolBar(boolean enable) {
@@ -213,6 +233,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 		 	lawsSelect.setEnabled(enable);
 	        run.setEnabled(enable);
 	        exit.setEnabled(enable);
+	        stop.setEnabled(enable);
 	    }
 	
 	  public static void main(String args[]) {

@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import simulator.control.Controller;
+import simulator.model.Body;
 import simulator.model.NoForce;
 import simulator.model.PhysicsSimulator;
 
@@ -34,7 +35,7 @@ public class BodiesTable extends JPanel {
 	
 	}
 	private void init() {
-		//tabla
+
 		tabla = new JTable(btm);
 		add(new JScrollPane(tabla));
 		
@@ -42,7 +43,9 @@ public class BodiesTable extends JPanel {
 	 public static void main(String args[]) {
 
 		  JFrame j = new JFrame();
-		  j.add( new BodiesTable(new Controller(new PhysicsSimulator(20,new NoForce()),null,null)));
+		  PhysicsSimulator p = new PhysicsSimulator(20,new NoForce());
+		  p.addBody(new Body("bodie1", null, null, 23));
+		  j.add( new BodiesTable(new Controller(p,null,null)));
 		  j.setVisible(true);
 		  j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	   }
