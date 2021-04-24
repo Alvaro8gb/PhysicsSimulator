@@ -6,7 +6,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import simulator.view.SimulatorObserver;
 
 public class PhysicsSimulator {
 
@@ -91,5 +90,4 @@ public class PhysicsSimulator {
 		return getState().toString();
 	}
 	
-
 }

@@ -1,35 +1,54 @@
 package simulator.view;
 
-import java.awt.FlowLayout;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
 import simulator.model.Body;
 import simulator.model.SimulatorObserver;
 
-public class StatusBar extends JPanel implements SimulatorObserver {
-	// ...
-	private JLabel _currTime; // for current time
-	private JLabel _currLaws; // for gravity laws
-	private JLabel _numOfBodies; // for number of bodies
+public class BodiesTableModel extends AbstractTableModel implements SimulatorObserver {
+// ...
+	private List<Body> _bodies;
+	private final int numberOfCols = 5;
 	
-	StatusBar(Controller ctrl) {
-		initGUI();
-		ctrl.addObserver(this);
+	BodiesTableModel(Controller ctrl) {
+	_bodies = new ArrayList<>();
+	ctrl.addObserver(this);
 	}
-	private void initGUI() {
-	this.setLayout( new FlowLayout( FlowLayout.LEFT ));
-	this.setBorder( BorderFactory.createBevelBorder( 1 ));
+	@Override
+	public int getRowCount() {
+	 return _bodies.size();
 	}
-// TODO complete the code to build the tool bar
-// other private/protected methods
-// ...
-// SimulatorObserver methods
-// ...
+	@Override
+	public int getColumnCount() {
+	 return numberOfCols;
+	}
+	@Override
+	public String getColumnName(int column) {
+	 
+		switch(column) {
+		
+		case 0 : return "id";
+		case 1 : return "Mass";
+		case 2 : return "Position";
+		case 3 : return "Velocity";
+		case 4 : return "Force";
+		
+		}
+		
+		return null;
+	}
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+	 return null;
+	}
+	
+	
+	// SimulatorObserver methods
+	// ...
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
 		// TODO Auto-generated method stub

@@ -1,7 +1,6 @@
-package simulator.view;
+package simulator.model;
 
 import java.util.List;
-import simulator.model.Body;
 
 public interface SimulatorObserver {
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc);
