@@ -1,6 +1,7 @@
 package simulator.view;
 
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -17,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
@@ -70,19 +72,24 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 
 		fileChososer = new JFileChooser();
 		
+		
 		toolBar.add(fileSelect);
-		toolBar.addSeparator();
+		toolBar.addSeparator(new Dimension(10,10));
+		toolBar.add(new JSeparator(SwingConstants.VERTICAL));
+		toolBar.addSeparator(new Dimension(10,10));
 		
 		//Boton de selector de leyes
 		lawsSelect = createControlButton("physics.png","Select a law");	
+		
 		toolBar.add(lawsSelect);
-		toolBar.addSeparator();
+		toolBar.addSeparator(new Dimension(10,10));
+		toolBar.add(new JSeparator(SwingConstants.VERTICAL));
+		toolBar.addSeparator(new Dimension(10,10));
 		
 		//Boton de run/play
 		run = createControlButton("run.png","Run simulation");	
 		toolBar.add(run);
-		toolBar.addSeparator();
-		
+
 		//Boton de stop
 		stop = createControlButton("stop.png","Stop simulation");	
 		toolBar.add(stop);
@@ -108,11 +115,11 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 		 
 		//Selector del tiempo entre pasos
 		deltaTimePanel = new JPanel();
-		stepsPanel.setToolTipText("Change delta-time");
+		deltaTimePanel.setToolTipText("Change delta-time");
 		JLabel deltaTimeText = new JLabel("Delta-Time: ");
-		deltaTimeBox = new JTextField("2500.0    ");
-		deltaTimeBox.setAlignmentY(LEFT_ALIGNMENT);
-		deltaTimeBox.setBounds(150,40,100,30); 
+		deltaTimeBox = new JTextField("2500.0   ");
+		deltaTimeBox.setAlignmentY(CENTER_ALIGNMENT);
+		deltaTimeBox.setPreferredSize(new Dimension(80,30));
 		deltaTimePanel.add(deltaTimeText);
 		deltaTimePanel.add(deltaTimeBox);
 		
