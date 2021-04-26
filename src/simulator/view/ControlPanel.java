@@ -1,9 +1,6 @@
 package simulator.view;
 
-import java.awt.Color;
-import java.awt.ComponentOrientation;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -11,6 +8,8 @@ import java.io.FileInputStream;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -56,9 +55,13 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 	private void initGUI() {
 	
 		
+		setLayout(new BoxLayout(this,BoxLayout.LINE_AXIS));
+		setAlignmentY(TOP_ALIGNMENT);
+
 		//Barra de botones
 		toolBar = new JToolBar();
 		toolBar.setOpaque(false);
+		toolBar.setAlignmentX(LEFT_ALIGNMENT);
 		add(toolBar);
 		
 		//Boton de selector de archivos
@@ -108,7 +111,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 		stepsPanel.setToolTipText("Change delta-time");
 		JLabel deltaTimeText = new JLabel("Delta-Time: ");
 		deltaTimeBox = new JTextField("2500.0    ");
-		deltaTimeBox.setAlignmentY(CENTER_ALIGNMENT);
+		deltaTimeBox.setAlignmentY(LEFT_ALIGNMENT);
 		deltaTimeBox.setBounds(150,40,100,30); 
 		deltaTimePanel.add(deltaTimeText);
 		deltaTimePanel.add(deltaTimeBox);
@@ -116,18 +119,22 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 		toolBar.add(deltaTimePanel);
 		toolBar.addSeparator();
 		
+		toolBar.add(Box.createHorizontalGlue());
+		
 		//Boton de exit
 		exit = createControlButton("exit.png","Abort simulation");
 		toolBar.add(exit);
+	
 
 		setVisible(true);
+
 	}
 	private void run_sim(int n) {
 		
 		if ( n>0 && !_stopped ) {
 			
 			try {
-			//_ctrl.run(1);
+			_ctrl.run(1);
 				
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog",JOptionPane.ERROR_MESSAGE);
@@ -242,6 +249,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 		  j.add( new ControlPanel(new Controller(new PhysicsSimulator(20,new NoForce()),null,null)));
 		  j.setVisible(true);
 		  j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		  j.pack();
 	   }
 	  
 

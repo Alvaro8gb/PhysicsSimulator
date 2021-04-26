@@ -35,6 +35,10 @@ public class Controller {
 		for(int i = 0; i< bodies.length(); i++) _sim.addBody(_bodiesFactory.createInstance(bodies.getJSONObject(i)));
 		
 	}
+	public void run(int steps) {
+		
+		for(int i = 0 ; i < steps; i++) _sim.advance();
+	}
 	public void run(int steps, OutputStream out, InputStream expOut, StateComparator cmp) throws NotEqualStatesException {
 		
 		JSONObject expOutJo = null;
