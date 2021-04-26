@@ -97,6 +97,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 		
 		//Selector numero de pasos
 	    stepsPanel = new JPanel(); 
+	    stepsPanel.setAlignmentX(CENTER_ALIGNMENT);
 	    stepsPanel.setToolTipText("Change number of steps");
 		JLabel stepsLabel = new JLabel("Steps: ");
 		SpinnerNumberModel stepsModel = new SpinnerNumberModel(defaultSteps,0,1000000000,1);
@@ -115,6 +116,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 		 
 		//Selector del tiempo entre pasos
 		deltaTimePanel = new JPanel();
+		deltaTimePanel.setAlignmentX(CENTER_ALIGNMENT);
 		deltaTimePanel.setToolTipText("Change delta-time");
 		JLabel deltaTimeText = new JLabel("Delta-Time: ");
 		deltaTimeBox = new JTextField("2500.0   ");
