@@ -36,7 +36,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	Viewer(Controller ctrl) {
 		initGUI();
 		ctrl.addObserver(this);
-		_bodies.add(new Body("1",new Vector2D(200,200),new Vector2D(0,0),60));
+		_bodies.add(new Body("1",new Vector2D(200,200),new Vector2D(1,20),60));
 	}
 	private void initGUI() {
 		// TODO add border with title
@@ -142,11 +142,18 @@ public class Viewer extends JComponent implements SimulatorObserver {
 			gr.setColor(Color.BLUE);
 			int x = _centerX +(int)(b.getPosition().getX() /_scale);
 			int y = _centerY -(int)(b.getPosition().getY() /_scale);
-			gr.fillOval(x, y, 5, 5);
+			int w = (int)(5 /_scale);
+			int h = (int)(5 / _scale);
+			gr.fillOval(x, y,w,h);
 			gr.setColor(Color.BLACK);
 			gr.drawString(b.getId(),x,y - 8);
 			if(_showVectors) {
-				drawArrows();
+				int x1 = _centerX +(int)(b.getVelocity().getX() /_scale);
+				int y1 = _centerY - (int)(b.getVelocity().getY() /_scale);
+				drawLineWithArrow(gr,x,y,x1,y1,5,5,Color.GREEN,Color.GREEN);
+				x1 = _centerX +(int)(b.getForce().getX() /_scale);
+				y1 = _centerY - (int)(b.getForce().getY() /_scale);
+				drawLineWithArrow(gr,x,y,x1,y1,5,5,Color.RED,Color.RED);
 			}
 		}
 		// TODO draw help if _showHelp is true
@@ -163,6 +170,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		
 	}
 	
+
 	private void autoScale() {
 		double max = 1.0;
 		for (Body b : _bodies) {
