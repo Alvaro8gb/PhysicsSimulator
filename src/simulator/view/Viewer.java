@@ -162,7 +162,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	private void drawArrows() {
 		
 	}
-	}
+	
 	private void autoScale() {
 		double max = 1.0;
 		for (Body b : _bodies) {
@@ -234,12 +234,15 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		// TODO Auto-generated method stub
 		
 	}
-	public static void main(String args[]) {
+	
+	public static void main(String args[]){
 
-		  JFrame j = new JFrame();
-		  j.add( new Viewer(new Controller(new PhysicsSimulator(20,new NoForce()),null,null)));
+		 JFrame j = new JFrame();
+		  PhysicsSimulator p = new PhysicsSimulator(20,new NoForce());
+		  p.addBody(new Body("bodie1", null, null, 23));
+		  j.add( new BodiesTable(new Controller(p,null,null)));
 		  j.setVisible(true);
 		  j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	   }
+	  }
 	
 }
