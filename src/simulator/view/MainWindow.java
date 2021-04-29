@@ -1,7 +1,9 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -30,6 +32,16 @@ public class MainWindow extends JFrame {
 		
 		mainPanel.add(statusBar, BorderLayout.PAGE_END);
 		setVisible(true);
+		
+		JPanel mid = new JPanel();
+		mid.setLayout(new BoxLayout(mid,BoxLayout.Y_AXIS));
+		Viewer viewer = new Viewer(_ctrl);
+		viewer.setMaximumSize(new Dimension(3000, 500));
+		mid.add(viewer);
+		BodiesTable bodiestable = new BodiesTable(_ctrl);
+		bodiestable.setMaximumSize(new Dimension(3000, 100));
+		mid.add(bodiestable);
+		mainPanel.add(mid,BorderLayout.CENTER);
 		
 		}
 		

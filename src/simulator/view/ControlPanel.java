@@ -1,10 +1,12 @@
 package simulator.view;
 
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +15,8 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,14 +24,24 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import org.json.JSONObject;
+
 import simulator.control.Controller;
+import simulator.factories.Builder;
+import simulator.factories.BuilderBasedFactory;
+import simulator.factories.CircularAleatoryForceBuilder;
+import simulator.factories.MovingTowardsFixedPointBuilder;
+import simulator.factories.NewtonUniversalGravitationBuilder;
+import simulator.factories.NoForceBuilder;
 import simulator.model.Body;
+import simulator.model.ForceLaws;
 import simulator.model.NoForce;
 import simulator.model.PhysicsSimulator;
 import simulator.model.SimulatorObserver;
@@ -46,7 +60,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JSpinner stepsSpinner;
 	private JPanel stepsPanel,deltaTimePanel;
 	private final int defaultSteps = 10;
-	
 	
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
@@ -235,9 +248,20 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
          }
 	}
 	private void selectLawAction() {
-		
-		
-		
+		//cuadro dialogo
+		JFrame j = new JFrame();
+		j.setLayout(new BorderLayout());
+		j.setVisible(true);
+		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		j.pack();
+		//mensaje arriba
+		 JLabel help = new JLabel(
+	      "<html><p>Select a force law and provide values for the parametes in the <b>Value column</b> "
+	      + "(default values are used for parametes with no value).</p></html>");
+		 j.add(help,BorderLayout.NORTH);
+		//eleccion force law
+		JComboBox list = new JComboBox<String>(new String[]{"Hola","hey"});
+		j.add(list,BorderLayout.SOUTH);
 	}
 	private void runAction() {
 		 _stopped = false;
