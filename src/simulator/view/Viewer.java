@@ -36,7 +36,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	Viewer(Controller ctrl) {
 		initGUI();
 		ctrl.addObserver(this);
-		_bodies.add(new Body("1",new Vector2D(200,200),new Vector2D(1,20),60));
+	
 	}
 	private void initGUI() {
 		// TODO add border with title
@@ -243,14 +243,6 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		
 	}
 	
-	public static void main(String args[]){
-
-		 JFrame j = new JFrame();
-		  PhysicsSimulator p = new PhysicsSimulator(20,new NoForce());
-		  p.addBody(new Body("bodie1", null, null, 23));
-		  j.add( new Viewer(new Controller(p,null,null)));
-		  j.setVisible(true);
-		  j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	  }
+	
 	
 }

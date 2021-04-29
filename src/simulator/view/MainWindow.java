@@ -12,7 +12,11 @@ import simulator.model.NoForce;
 import simulator.model.PhysicsSimulator;
 
 public class MainWindow extends JFrame {
-		// ...
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+		
 		Controller _ctrl;
 		public MainWindow(Controller ctrl) {
 		super("Physics Simulator");
@@ -43,6 +47,9 @@ public class MainWindow extends JFrame {
 		bodiestable.setMaximumSize(new Dimension(3000, 100));
 		mid.add(bodiestable);
 		mainPanel.add(mid,BorderLayout.CENTER);
+		
+		setVisible(true);
+		pack();
 		
 		}
 		

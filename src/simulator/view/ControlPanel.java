@@ -255,9 +255,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		j.pack();
 		//mensaje arriba
-		 JLabel help = new JLabel(
-	      "<html><p>Select a force law and provide values for the parametes in the <b>Value column</b> "
-	      + "(default values are used for parametes with no value).</p></html>");
+		 JLabel help = new JLabel("<html><p>Select a force law and provide values for the parametes in the <b>Value column</b> (default values are used for parametes with no value).</p></html>");
 		 j.add(help,BorderLayout.NORTH);
 		//eleccion force law
 		JComboBox list = new JComboBox<String>(new String[]{"Hola","hey"});
@@ -285,14 +283,4 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	        stop.setEnabled(enable);
 	    }
 	
-	  public static void main(String args[]) {
-
-		  JFrame j = new JFrame();
-		  j.add( new ControlPanel(new Controller(new PhysicsSimulator(20,new NoForce()),null,null)));
-		  j.setVisible(true);
-		  j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		  j.pack();
-	   }
-	  
-
 }

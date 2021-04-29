@@ -199,7 +199,7 @@ public class Main {
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
 		if (_inFile == null ) {
-			throw new ParseException("In batch mode an input file of bodies is required");
+			//throw new ParseException("In batch mode an input file of bodies is required");
 		}
 	}
 	private static void parseOutputFileOption(CommandLine line) {
@@ -345,8 +345,8 @@ public class Main {
 		}
 		
 		System.out.println("The simulation has finished");
-		String end = _outFile != null  ? "Saved on : " + _outFile: "Standar view in console";
-		System.out.println(end);
+		//String end = _outFile != null  ? "Saved on : " + _outFile: "Standar view in console";
+		//System.out.println(end);
 		
 	}
 }
