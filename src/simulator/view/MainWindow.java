@@ -29,6 +29,7 @@ public class MainWindow extends JFrame {
 		StatusBar statusBar = new StatusBar(_ctrl);
 		
 		mainPanel.add(statusBar, BorderLayout.PAGE_END);
+		setVisible(true);
 		
 		}
 		

@@ -248,7 +248,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		 JFrame j = new JFrame();
 		  PhysicsSimulator p = new PhysicsSimulator(20,new NoForce());
 		  p.addBody(new Body("bodie1", null, null, 23));
-		  j.add( new BodiesTable(new Controller(p,null,null)));
+		  j.add( new Viewer(new Controller(p,null,null)));
 		  j.setVisible(true);
 		  j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	  }

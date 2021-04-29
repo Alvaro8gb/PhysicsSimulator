@@ -10,7 +10,11 @@ import simulator.model.Body;
 import simulator.model.SimulatorObserver;
 
 public class BodiesTableModel extends AbstractTableModel implements SimulatorObserver {
-// ...
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// ...
 	private List<Body> _bodies;
 	private final int numberOfCols = 5;
 	private final String[] columnNames;

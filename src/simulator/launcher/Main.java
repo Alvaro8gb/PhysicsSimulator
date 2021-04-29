@@ -4,7 +4,10 @@ package simulator.launcher;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+
+import javax.swing.SwingUtilities;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -24,6 +27,7 @@ import simulator.factories.MassLosingBodyBuilder;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
 import simulator.model.PhysicsSimulator;
+import simulator.view.MainWindow;
 
 public class Main {
 
@@ -41,6 +45,8 @@ public class Main {
 	private static String _inFile = null;
 	private static String _outFile = null;
 	private static String _expOutFile = null;
+	
+	private static String _mode = null;
 
 	private static JSONObject _forceLawsInfo = null;
 	private static JSONObject _stateComparatorInfo = null;
@@ -95,6 +101,8 @@ public class Main {
 			parseDeltaTimeOption(line);
 			parseForceLawsOption(line);
 			parseStateComparatorOption(line);
+			
+			parseMode(line);
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
@@ -152,6 +160,13 @@ public class Main {
 						+ factoryPossibleValues(_stateComparatorFactory) + ". Default value: '"
 						+ _stateComparatorDefaultValue + "'.")
 				.build());
+		
+		// mode 
+		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg()
+				.desc("Execution Mode. Possible values: ’batch’\n"
+						+ "(Batch mode), ’gui’ (Graphical User\n"
+						+ "Interface mode). Default value: ’batch’.").build());
+		
 
 		return cmdLineOptions;
 	}
@@ -183,7 +198,7 @@ public class Main {
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
-		if (_inFile == null) {
+		if (_inFile == null ) {
 			throw new ParseException("In batch mode an input file of bodies is required");
 		}
 	}
@@ -213,6 +228,10 @@ public class Main {
 		} catch (Exception e) {
 			throw new ParseException("Invalid delta-time value: " + dt);
 		}
+	}
+	private static void parseMode(CommandLine line) {
+		 _mode = line.getOptionValue("m");
+		
 	}
 
 	private static JSONObject parseWRTFactory(String v, Factory<?> factory) {
@@ -290,10 +309,27 @@ public class Main {
 		controller.run(_steps, out, expectedOut, cmp);
 		
 	}
+	private static void startGUI() throws Exception {
+		
+		PhysicsSimulator simulator = new PhysicsSimulator(_dtime,_forceLawsFactory.createInstance(_forceLawsInfo));
+		
+		Controller controller = new Controller(simulator,_bodyFactory,_forceLawsFactory);
+		
+		SwingUtilities.invokeAndWait(new Runnable() {
+			@Override
+			public void run() {
+			new MainWindow(controller);
+			}
+			});
+	}
 
 	private static void start(String[] args) throws Exception {
 		parseArgs(args);
-		startBatchMode();
+		
+		if(_mode == "gui") startGUI();
+		else if( _mode == "batch") startBatchMode();
+		
+		
 	}
 
 	public static void main(String[] args) {
