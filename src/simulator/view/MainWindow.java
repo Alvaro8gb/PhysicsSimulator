@@ -31,14 +31,15 @@ public class MainWindow extends JFrame {
 		StatusBar statusBar = new StatusBar(_ctrl);
 		
 		mainPanel.add(statusBar, BorderLayout.PAGE_END);
-		setVisible(true);
 		
 		JPanel mid = new JPanel();
 		mid.setLayout(new BoxLayout(mid,BoxLayout.Y_AXIS));
 		Viewer viewer = new Viewer(_ctrl);
+		viewer.setPreferredSize(new Dimension(500, 500));
 		viewer.setMaximumSize(new Dimension(3000, 500));
 		mid.add(viewer);
 		BodiesTable bodiestable = new BodiesTable(_ctrl);
+		bodiestable.setPreferredSize(new Dimension(500, 200));
 		bodiestable.setMaximumSize(new Dimension(3000, 100));
 		mid.add(bodiestable);
 		mainPanel.add(mid,BorderLayout.CENTER);
