@@ -59,7 +59,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JTextField deltaTimeBox;
 	private JSpinner stepsSpinner;
 	private JPanel stepsPanel,deltaTimePanel;
-	private final int defaultSteps = 10;
+	private final int defaultSteps = 10000;
+	private final double defaultDeltaTime = 2500;
 	
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
@@ -123,10 +124,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		SpinnerNumberModel stepsModel = new SpinnerNumberModel(defaultSteps,0,1000000000,1);
 		stepsSpinner = new JSpinner(stepsModel);
 		stepsSpinner.setPreferredSize(new Dimension(80,30));
-		 
-	    JSpinner.NumberEditor editor = (JSpinner.NumberEditor) stepsSpinner.getEditor();
-	    DecimalFormat format = editor.getFormat();
-	    format.setMinimumFractionDigits(3);
+
 	     
 	    stepsPanel.add(stepsLabel);
 		stepsPanel.add(stepsSpinner);
@@ -139,7 +137,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		deltaTimePanel.setAlignmentX(CENTER_ALIGNMENT);
 		deltaTimePanel.setToolTipText("Change delta-time");
 		JLabel deltaTimeText = new JLabel("Delta-Time: ");
-		deltaTimeBox = new JTextField("2500.0   ");
+		deltaTimeBox = new JTextField(Double.toString(defaultDeltaTime));
 		deltaTimeBox.setAlignmentY(CENTER_ALIGNMENT);
 		deltaTimeBox.setPreferredSize(new Dimension(80,30));
 		deltaTimePanel.add(deltaTimeText);
@@ -253,6 +251,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		j.setLayout(new BorderLayout());
 		j.setVisible(true);
 		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		j.setTitle("Force Laws Selection");
 		j.pack();
 		//mensaje arriba
 		 JLabel help = new JLabel("<html><p>Select a force law and provide values for the parametes in the <b>Value column</b> (default values are used for parametes with no value).</p></html>");

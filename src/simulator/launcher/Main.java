@@ -325,9 +325,10 @@ public class Main {
 
 	private static void start(String[] args) throws Exception {
 		parseArgs(args);
-		
-		if(_mode == "gui") startGUI();
+		 startGUI();
+		/*if(_mode == "gui") startGUI();
 		else if( _mode == "batch") startBatchMode();
+		*/
 		
 		
 	}

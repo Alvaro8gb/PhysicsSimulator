@@ -53,11 +53,5 @@ public class MainWindow extends JFrame {
 		
 		}
 		
-		public static void main(String args[]) {
 
-			MainWindow j = new MainWindow(new Controller(new PhysicsSimulator(20,new NoForce()),null,null));
-			  j.setVisible(true);
-			  j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			  j.pack();
-		   }
 }

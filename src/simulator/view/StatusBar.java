@@ -21,10 +21,16 @@ import simulator.model.PhysicsSimulator;
 import simulator.model.SimulatorObserver;
 
 public class StatusBar extends JPanel implements SimulatorObserver {
-	// ...
+	
+	private static final long serialVersionUID = 1L;
+	
 	private JLabel _currTime; // for current time
 	private JLabel _currLaws; // for gravity laws
 	private JLabel _numOfBodies; // for number of bodies
+	private final  String _currTimeTex = "Time : ";
+	private final  String _currLawsTex = "Laws : " ;
+	private final  String _numOfBodiesTex = "Bodies : ";
+
 	
 	StatusBar(Controller ctrl) {
 		initGUI();
@@ -39,11 +45,11 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	
 	JToolBar toolBar = new JToolBar();
 	
-	_currTime = new JLabel();
+	_currTime = new JLabel(_currTimeTex);
 	addLabel(_currTime,toolBar);
-	_numOfBodies = new JLabel();
+	_numOfBodies = new JLabel(_numOfBodiesTex);
 	addLabel(_numOfBodies,toolBar);
-	_currLaws = new JLabel();
+	_currLaws = new JLabel(_currLawsTex);
 	addLabel(_currLaws,toolBar);
 
 	toolBar.setFloatable(false);
@@ -66,26 +72,26 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 // ...
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
-		_currTime.setText("Time : " + Double.toString(time));
-		_numOfBodies.setText("Bodies : "+ bodies.size());
-		_currLaws.setText("Laws : " + fLawsDesc);
+		_currTime.setText(_currTimeTex + Double.toString(time));
+		_numOfBodies.setText(_numOfBodiesTex + bodies.size());
+		_currLaws.setText(_currLawsTex + fLawsDesc);
 		
 	}
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String fLawsDesc) {
-		_currLaws.setText("Laws : " + fLawsDesc);
-		_currTime.setText("Time : " + Double.toString(time));
+		_currLaws.setText(_currLawsTex + fLawsDesc);
+		_currTime.setText(_currTimeTex + Double.toString(time));
 		
 	}
 	@Override
 	public void onBodyAdded(List<Body> bodies, Body b) {
-		// TODO Auto-generated method stub
+		_numOfBodies.setText(_numOfBodiesTex + bodies.size());
 		
 	}
 	@Override
 	public void onAdvance(List<Body> bodies, double time) {
 		// TODO Auto-generated method stub
-		_currTime.setText("Time : " + Double.toString(time));
+		_currTime.setText(_currTimeTex + Double.toString(time));
 	}
 	@Override
 	public void onDeltaTimeChanged(double dt) {
@@ -94,16 +100,8 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	}
 	@Override
 	public void onForceLawsChanged(String fLawsDesc) {
-		_currLaws.setText("Laws : " + fLawsDesc);
+		_currLaws.setText(_currLawsTex + fLawsDesc);
 		
 	}
 
-	  public static void main(String args[]) {
-
-		  JFrame j = new JFrame();
-		  j.add( new StatusBar(new Controller(new PhysicsSimulator(20,new NoForce()),null,null)));
-		  j.setVisible(true);
-		  j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		  j.pack();
-	   }
 }

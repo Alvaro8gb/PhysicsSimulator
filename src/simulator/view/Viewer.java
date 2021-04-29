@@ -24,7 +24,9 @@ import simulator.model.PhysicsSimulator;
 import simulator.model.SimulatorObserver;
 
 public class Viewer extends JComponent implements SimulatorObserver {
-	// ...
+	
+	private static final long serialVersionUID = 1L;
+	
 	private int _centerX;
 	private int _centerY;
 	private double _scale;
@@ -151,9 +153,9 @@ public class Viewer extends JComponent implements SimulatorObserver {
 				int x1 = _centerX +(int)(b.getVelocity().getX() /_scale);
 				int y1 = _centerY - (int)(b.getVelocity().getY() /_scale);
 				drawLineWithArrow(gr,x,y,x1,y1,5,5,Color.GREEN,Color.GREEN);
-				x1 = _centerX +(int)(b.getForce().getX() /_scale);
-				y1 = _centerY - (int)(b.getForce().getY() /_scale);
-				drawLineWithArrow(gr,x,y,x1,y1,5,5,Color.RED,Color.RED);
+				int x2 = _centerX +(int)(b.getForce().getX() /_scale);
+				int y2 = _centerY - (int)(b.getForce().getY() /_scale);
+				drawLineWithArrow(gr,x,y,x2,y2,5,5,Color.RED,Color.RED);
 			}
 		}
 		// TODO draw help if _showHelp is true
@@ -201,7 +203,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 
 	}
 	@Override
-	public void onRegister(java.util.List<Body> bodies, double time, double dt, String fLawsDesc) {
+	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
 		// TODO Auto-generated method stub
 		this._bodies = bodies;
 		autoScale();
@@ -209,7 +211,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	}
 
 	@Override
-	public void onReset(java.util.List<Body> bodies, double time, double dt, String fLawsDesc) {
+	public void onReset(List<Body> bodies, double time, double dt, String fLawsDesc) {
 		// TODO Auto-generated method stub
 		this._bodies = bodies;
 		autoScale();
@@ -217,7 +219,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	}
 
 	@Override
-	public void onBodyAdded(java.util.List<Body> bodies, Body b) {
+	public void onBodyAdded(List<Body> bodies, Body b) {
 		// TODO Auto-generated method stub
 		this._bodies = bodies;
 		autoScale();
@@ -225,7 +227,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	}
 
 	@Override
-	public void onAdvance(java.util.List<Body> bodies, double time) {
+	public void onAdvance(List<Body> bodies, double time) {
 		// TODO Auto-generated method stub
 		this._bodies = bodies;
 		repaint();
