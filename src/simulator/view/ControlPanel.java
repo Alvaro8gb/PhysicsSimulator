@@ -32,7 +32,7 @@ import simulator.model.NoForce;
 import simulator.model.PhysicsSimulator;
 import simulator.model.SimulatorObserver;
 
-public class ControlPanel extends JPanel implements SimulatorObserver,ActionListener {
+public class ControlPanel extends JPanel implements SimulatorObserver {
 
 
 	private static final long serialVersionUID = 1L;
@@ -67,11 +67,12 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 		add(toolBar);
 		
 		//Boton de selector de archivos
-		fileSelect = createControlButton("open.png","Load a file");	
+		fileSelect = createControlButton("open.png","Load a file","load");	
 		fileSelect.setActionCommand("Select your file"); 
-
 		fileChososer = new JFileChooser();
 		
+		fileSelect.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent arg0) { selectFileAction(); }});
+
 		
 		toolBar.add(fileSelect);
 		toolBar.addSeparator(new Dimension(10,10));
@@ -79,22 +80,28 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 		toolBar.addSeparator(new Dimension(10,10));
 		
 		//Boton de selector de leyes
-		lawsSelect = createControlButton("physics.png","Select a law");	
-		
+		lawsSelect = createControlButton("physics.png","Select a law","lawSelect");	
+		lawsSelect.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent arg0) { selectLawAction(); }});
 		toolBar.add(lawsSelect);
+		
+		
+		
 		toolBar.addSeparator(new Dimension(10,10));
 		toolBar.add(new JSeparator(SwingConstants.VERTICAL));
 		toolBar.addSeparator(new Dimension(10,10));
 		
 		//Boton de run/play
-		run = createControlButton("run.png","Run simulation");	
+		run = createControlButton("run.png","Run simulation","run");	
+		run.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent arg0) { runAction(); }});
 		toolBar.add(run);
-
+		
 		//Boton de stop
-		stop = createControlButton("stop.png","Stop simulation");	
+		stop = createControlButton("stop.png","Stop simulation","stop");	
+		stop.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent arg0) { _stopped = true; }});
 		toolBar.add(stop);
 
 		
+	
 		//Selector numero de pasos
 	    stepsPanel = new JPanel(); 
 	    stepsPanel.setAlignmentX(CENTER_ALIGNMENT);
@@ -130,8 +137,11 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 		
 		toolBar.add(Box.createHorizontalGlue());
 		
+		
 		//Boton de exit
-		exit = createControlButton("exit.png","Abort simulation");
+		exit = createControlButton("exit.png","Abort simulation","exit");
+		exit.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent arg0) { exitAction(); }});
+
 		toolBar.add(exit);
 	
 
@@ -165,12 +175,13 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 
 
 	}
-	private JButton createControlButton(String iconName,String toolTipMessage) {
+	private JButton createControlButton(String iconName,String toolTipMessage,String actionCommand) {
 		JButton controlButton = new JButton();
 		
 		controlButton.setIcon(new ImageIcon("resources/icons/"+iconName)); 
 		controlButton.setToolTipText(toolTipMessage);
-		controlButton.addActionListener(this); 
+		//controlButton.addActionListener(this); 
+		controlButton.setActionCommand(actionCommand);
 		
 		return controlButton;
 		
@@ -210,40 +221,38 @@ public class ControlPanel extends JPanel implements SimulatorObserver,ActionList
 		// TODO Auto-generated method stub
 		
 	}
-	
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		 if(event.getSource() == fileSelect){
-		     int returnVal = fileChososer.showOpenDialog(this);
-	         if (returnVal == JFileChooser.APPROVE_OPTION) {
-	                 File file = fileChososer.getSelectedFile();
-	                 _ctrl.reset();
-	             try {
-	            	 _ctrl.loadBodies(new FileInputStream(file));
-	             } catch (Exception ex) {
-	                 System.err.println("Error");
-	                 JOptionPane.showMessageDialog(new JFrame(), "An error occurred while loading  bodies file.","Error", JOptionPane.ERROR_MESSAGE);
-	             }
-	         }
+	private void selectFileAction() {
+		 int returnVal = fileChososer.showOpenDialog(this);
+         if (returnVal == JFileChooser.APPROVE_OPTION) {
+                 File file = fileChososer.getSelectedFile();
+                 _ctrl.reset();
+             try {
+            	 _ctrl.loadBodies(new FileInputStream(file));
+             } catch (Exception ex) {
+                 System.err.println("Error");
+                 JOptionPane.showMessageDialog(new JFrame(), "An error occurred while loading  bodies file.","Error", JOptionPane.ERROR_MESSAGE);
+             }
          }
-		 else if( event.getSource() == exit) {
-			 int n = JOptionPane.showConfirmDialog(null, "You really want to exit PhysicsSimulator?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			if(n == 0) System.exit(0);
-		 }
-		 else if( event.getSource() == stop ) _stopped = true;
-		 else if(event.getSource() == run) {
-			 _stopped = false;
-			 enableToolBar(false);
-			 stop.setEnabled(true); //Todos desactivados menos Stop
-			 
-			 _ctrl.setDeltaTime( Double.parseDouble(deltaTimeBox.getText()));
-			 
-			 run_sim((int)stepsSpinner.getValue());
-			 
-			 
-		 }
-		 
 	}
+	private void selectLawAction() {
+		
+		
+		
+	}
+	private void runAction() {
+		 _stopped = false;
+		 enableToolBar(false);
+		 stop.setEnabled(true); //Todos desactivados menos Stop
+		 
+		 _ctrl.setDeltaTime( Double.parseDouble(deltaTimeBox.getText()));
+		 
+		 run_sim((int)stepsSpinner.getValue());
+	}
+	private void exitAction() {
+		 int n = JOptionPane.showConfirmDialog(null, "You really want to exit PhysicsSimulator?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if(n == 0) System.exit(0);
+	}
+	
 	 private void enableToolBar(boolean enable) {
 		 	fileSelect.setEnabled(enable);
 		 	lawsSelect.setEnabled(enable);

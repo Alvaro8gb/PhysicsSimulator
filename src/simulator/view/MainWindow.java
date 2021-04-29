@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import simulator.control.Controller;
+import simulator.model.NoForce;
+import simulator.model.PhysicsSimulator;
 
 public class MainWindow extends JFrame {
 		// ...
@@ -19,6 +21,22 @@ public class MainWindow extends JFrame {
 		private void initGUI() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		setContentPane(mainPanel);
-		// TODO complete this method to build the GUI
+		
+		ControlPanel controlPanel = new ControlPanel(_ctrl);
+		
+		mainPanel.add(controlPanel, BorderLayout.PAGE_START);
+		
+		StatusBar statusBar = new StatusBar(_ctrl);
+		
+		mainPanel.add(statusBar, BorderLayout.PAGE_END);
+		
 		}
+		
+		public static void main(String args[]) {
+
+			MainWindow j = new MainWindow(new Controller(new PhysicsSimulator(20,new NoForce()),null,null));
+			  j.setVisible(true);
+			  j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			  j.pack();
+		   }
 }
