@@ -53,7 +53,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 					repaint();
 					break;
 					case '+':
-					_scale = Math.max(1000.0, _scale / 1.1);
+					_scale =  _scale / 1.1;
 					repaint();
 					break;
 					case '=':
