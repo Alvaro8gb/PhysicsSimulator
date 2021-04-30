@@ -199,7 +199,7 @@ public class Main {
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
 		if (_inFile == null ) {
-			//throw new ParseException("In batch mode an input file of bodies is required");
+			throw new ParseException("In batch mode an input file of bodies is required");
 		}
 	}
 	private static void parseOutputFileOption(CommandLine line) {
@@ -315,6 +315,9 @@ public class Main {
 		
 		Controller controller = new Controller(simulator,_bodyFactory,_forceLawsFactory);
 		
+		FileInputStream in = new FileInputStream(_inFile);
+		
+		controller.loadBodies(in);
 		SwingUtilities.invokeAndWait(new Runnable() {
 			@Override
 			public void run() {
