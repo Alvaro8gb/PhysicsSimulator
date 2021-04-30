@@ -42,6 +42,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	}
 	private void initGUI() {
 		// TODO add border with title
+		setBorder(BorderFactory.createTitledBorder( BorderFactory.createLineBorder(Color.black, 2),"Viewer",TitledBorder.LEFT, TitledBorder.TOP));
 		_bodies = new ArrayList<>();
 		_scale = 1.0;
 		_showHelp = true;
@@ -123,7 +124,6 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		setBorder(BorderFactory.createTitledBorder( BorderFactory.createLineBorder(Color.black, 2),"Viewer",TitledBorder.LEFT, TitledBorder.TOP));
 		// use ’gr’ to draw not ’g’ --- it gives nicer results
 		Graphics2D gr = (Graphics2D) g;
 		gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING,

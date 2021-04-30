@@ -38,12 +38,14 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	}
 	private void initGUI() {
 		
-	this.setLayout( new FlowLayout( FlowLayout.LEFT ));
-	this.setBorder( BorderFactory.createBevelBorder( 1 ));
-	this.setBackground(new Color(215, 216, 216));
+	setLayout( new FlowLayout( FlowLayout.LEFT ));
+	setBorder( BorderFactory.createBevelBorder( 1 ));
+	setBackground(new Color(215, 216, 216));
 	
 	
 	JToolBar toolBar = new JToolBar();
+	
+	toolBar.setBackground(new Color(215, 216, 216));
 	
 	_currTime = new JLabel(_currTimeTex);
 	addLabel(_currTime,toolBar);
