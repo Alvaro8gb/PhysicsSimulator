@@ -39,12 +39,12 @@ public class ForceLawWindow extends JFrame{
 		 mid.setVisible(true);
 		 //parte alta del medio
 		 //parte baja del medio
-		//aparezcan las force law en la ComboBox
 		 JPanel middown = new JPanel();
 		 middown.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
 		 	JLabel info = new JLabel("Force Laws: ");
 			JComboBox list = new JComboBox<String>();
 			options = _ctrl.getForceLawsInfo();
+			//aparezcan las force law en la ComboBox
 			for(JSONObject x : options) {
 				list.addItem(x.getString("desc"));
 			}
