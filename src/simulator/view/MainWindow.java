@@ -20,6 +20,7 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 		
 		Controller _ctrl;
+		private final int width = 500;
 		public MainWindow(Controller ctrl) {
 		super("Physics Simulator");
 		_ctrl = ctrl;
@@ -28,12 +29,15 @@ public class MainWindow extends JFrame {
 		
 		private void initGUI() {
 			
+			/*
 	    Dimension t = Toolkit.getDefaultToolkit().getScreenSize();
         int altura = t.height;
         int anchura = t.width;
 
        //  setSize(anchura/2, altura/2);
        // setBounds(0,anchura/4,0,anchura/4);
+        
+        */
         
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		setContentPane(mainPanel);
@@ -45,20 +49,20 @@ public class MainWindow extends JFrame {
 		JPanel mid = new JPanel();
 		mid.setLayout(new BoxLayout(mid,BoxLayout.Y_AXIS));
 		BodiesTable bodiestable = new BodiesTable(_ctrl);
-		bodiestable.setPreferredSize(new Dimension(500, 150));
+		bodiestable.setPreferredSize(new Dimension(width, 150));
 		bodiestable.setMaximumSize(new Dimension(2000, 100));
 		mid.add(bodiestable);
 		
 		mainPanel.add(mid,BorderLayout.CENTER);
 		Viewer viewer = new Viewer(_ctrl);
-		viewer.setPreferredSize(new Dimension(500, 450));
+		viewer.setPreferredSize(new Dimension(width, 400));
 		viewer.setMaximumSize(new Dimension(3000, 500));
 		mid.add(viewer);
 		
 		
 		StatusBar statusBar = new StatusBar(_ctrl);
 		mainPanel.add(statusBar, BorderLayout.PAGE_END);
-		statusBar.setPreferredSize(new Dimension(500,50));
+		statusBar.setPreferredSize(new Dimension(width,40));
 		
 		setVisible(true);
 		//setLocationRelativeTo(null);

@@ -90,9 +90,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 
 		
 		toolBar.add(fileSelect);
-		toolBar.addSeparator(new Dimension(10,10));
-		toolBar.add(new JSeparator(SwingConstants.VERTICAL));
-		toolBar.addSeparator(new Dimension(10,10));
+		toolBar.addSeparator();
 		
 		//Boton de selector de leyes
 		lawsSelect = createControlButton("physics.png","Select a law","lawSelect");	
@@ -101,9 +99,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		
 		
 		
-		toolBar.addSeparator(new Dimension(10,10));
-		toolBar.add(new JSeparator(SwingConstants.VERTICAL));
-		toolBar.addSeparator(new Dimension(10,10));
+		toolBar.addSeparator();
 		
 		//Boton de run/play
 		run = createControlButton("run.png","Run simulation","run");	
@@ -125,6 +121,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		SpinnerNumberModel stepsModel = new SpinnerNumberModel(defaultSteps,0,1000000000,1);
 		stepsSpinner = new JSpinner(stepsModel);
 		stepsSpinner.setPreferredSize(new Dimension(80,30));
+		stepsSpinner.setMaximumSize(new Dimension(80,30));
 
 	     
 	    stepsPanel.add(stepsLabel);
@@ -141,6 +138,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		deltaTimeBox = new JTextField(Double.toString(defaultDeltaTime));
 		deltaTimeBox.setAlignmentY(CENTER_ALIGNMENT);
 		deltaTimeBox.setPreferredSize(new Dimension(80,30));
+		deltaTimeBox.setMaximumSize(new Dimension(80,30));
 		deltaTimePanel.add(deltaTimeText);
 		deltaTimePanel.add(deltaTimeBox);
 		
@@ -259,7 +257,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		 run_sim((int)stepsSpinner.getValue());
 	}
 	private void exitAction() {
-		 int n = JOptionPane.showConfirmDialog(null, "You really want to exit PhysicsSimulator?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		 int n = JOptionPane.showConfirmDialog(null, "You really want to exit PhysicsSimulator?", "Confirm exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if(n == 0) System.exit(0);
 	}
 	

@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 
 import simulator.control.Controller;
 import simulator.model.Body;
@@ -41,37 +42,42 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	setLayout( new FlowLayout( FlowLayout.LEFT ));
 	setBorder( BorderFactory.createBevelBorder( 1 ));
 	setBackground(new Color(215, 216, 216));
+	//setAlignmentX(CENTER_ALIGNMENT);
+    
 	
+	JSeparator s = new JSeparator(SwingConstants.VERTICAL);
+	s.setBackground(Color.black);
 	
 	JToolBar toolBar = new JToolBar();
+	
+	toolBar.setFloatable(false);
 	
 	toolBar.setBackground(new Color(215, 216, 216));
 	
 	_currTime = new JLabel(_currTimeTex);
 	addLabel(_currTime,toolBar);
+	add(s);
+	
 	_numOfBodies = new JLabel(_numOfBodiesTex);
 	addLabel(_numOfBodies,toolBar);
+	add(s);
+	
 	_currLaws = new JLabel(_currLawsTex);
 	addLabel(_currLaws,toolBar);
 
-	toolBar.setFloatable(false);
+	
 	
 	add(toolBar);
-	
-	
+
 	}
 	
 	private void addLabel(JLabel label,JToolBar toolBar) {
 	
-		toolBar.add(label);
-		toolBar.addSeparator(new Dimension(30,30));
+	toolBar.add(label);
+	toolBar.addSeparator(new Dimension(40,label.getWidth()));
 		
 	}
-// TODO complete the code to build the tool bar
-// other private/protected methods
-// ...
-// SimulatorObserver methods
-// ...
+
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
 		_currTime.setText(_currTimeTex + Double.toString(time));

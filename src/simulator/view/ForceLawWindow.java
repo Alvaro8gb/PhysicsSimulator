@@ -2,6 +2,8 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -16,23 +18,24 @@ import org.json.JSONObject;
 import simulator.control.Controller;
 
 public class ForceLawWindow extends JFrame{
+	
+	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
 	private List<JSONObject> options;
 	ForceLawWindow(Controller ctrl){
-		this._ctrl = ctrl;
-		//cuadro dialogo
-		JFrame j = new JFrame();
-		j.setLayout(new BorderLayout());
-		j.setVisible(true);
-		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		j.setTitle("Force Laws Selection");
-		initGIU(j);
-		j.pack();
+		this._ctrl = ctrl;	
+		initGIU();
 	}
-	private void initGIU(JFrame j) {
+	private void initGIU() {
+		setLayout(new BorderLayout());
+		setVisible(true);
+		
+		setTitle("Force Laws Selection");
+
 		//mensaje arriba
-		 JLabel help = new JLabel("<html><p>Select a force law and provide values for the parametes in the <b>Value column</b> (default values are used for parametes with no value).</p></html>");
-		 j.add(help,BorderLayout.NORTH);
+		 JLabel help = new JLabel("<html><p>Select a force law and provide values for the parametes in the <em>Value column</em> (default values are used for parametes with no value).</p></html>");
+		 add(help,BorderLayout.NORTH);
+		 
 		 //MEDIO
 		 JPanel mid = new JPanel();
 		 mid.setLayout(new BorderLayout());
@@ -42,12 +45,11 @@ public class ForceLawWindow extends JFrame{
 		 JPanel middown = new JPanel();
 		 middown.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
 		 	JLabel info = new JLabel("Force Laws: ");
-			JComboBox list = new JComboBox<String>();
+			JComboBox<String> list = new JComboBox<String>();
 			options = _ctrl.getForceLawsInfo();
 			//aparezcan las force law en la ComboBox
-			for(JSONObject x : options) {
-				list.addItem(x.getString("desc"));
-			}
+			for(JSONObject x : options)  list.addItem(x.getString("desc"));
+			
 			//eleccion fuerza
 			
 			/*list.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) { 
@@ -60,14 +62,21 @@ public class ForceLawWindow extends JFrame{
 			middown.add(info);
 			middown.add(list);
 		mid.add(middown,BorderLayout.SOUTH);
-		j.add(mid,BorderLayout.CENTER);
+		add(mid,BorderLayout.CENTER);
 		//FINAL
 		JPanel end = new JPanel();
 		end.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
 		JButton buttonCancel = new JButton("Cancel");
+		buttonCancel.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent arg0) { dispose(); }});
 		JButton buttonOK = new JButton("OK");
+		buttonOK.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent arg0) { /*ejecutar la ley*/ }});
+
 		end.add(buttonCancel);
 		end.add(buttonOK);
-		j.add(end,BorderLayout.SOUTH);
+		add(end,BorderLayout.SOUTH);
+		
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pack();
 	}
 }
