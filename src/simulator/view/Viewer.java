@@ -34,6 +34,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	private boolean _showHelp;
 	private boolean _showVectors;
 	private String helpText;
+	private final static int circleRadio = 5;
 	
 	Viewer(Controller ctrl) {
 		initGUI();
@@ -126,10 +127,8 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		super.paintComponent(g);
 		// use ’gr’ to draw not ’g’ --- it gives nicer results
 		Graphics2D gr = (Graphics2D) g;
-		gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-		RenderingHints.VALUE_ANTIALIAS_ON);
-		gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-		RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		// calculate the center
 		_centerX = getWidth() / 2;
 		_centerY = getHeight() / 2;
@@ -142,20 +141,22 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		// TODO draw bodies (with vectors if _showVectors is true)
 		for(Body b: _bodies) {
 			gr.setColor(Color.BLUE);
-			int x = _centerX +(int)(b.getPosition().getX() /_scale);
-			int y = _centerY -(int)(b.getPosition().getY() /_scale);
-			int w = (int)(5 /_scale);
-			int h = (int)(5 / _scale);
-			gr.fillOval(x, y,w,h);
+			int x = _centerX +(int)(b.getPosition().getX()/_scale);
+			int y = _centerY -(int)(b.getPosition().getY()/_scale);
+			gr.fillOval(x, y ,circleRadio,circleRadio); 
 			gr.setColor(Color.BLACK);
-			gr.drawString(b.getId(),x,y - 8);
+			gr.drawString(b.getId(),x,y - circleRadio );
 			if(_showVectors) {
-				int x1 = _centerX +(int)(b.getVelocity().getX() /_scale);
-				int y1 = _centerY - (int)(b.getVelocity().getY() /_scale);
-				drawLineWithArrow(gr,x,y,x1,y1,5,5,Color.GREEN,Color.GREEN);
-				int x2 = _centerX +(int)(b.getForce().getX() /_scale);
-				int y2 = _centerY - (int)(b.getForce().getY() /_scale);
-				drawLineWithArrow(gr,x,y,x2,y2,5,5,Color.RED,Color.RED);
+				double x1 =_centerX + (b.getVelocity().getX()/(_scale))  ;
+				double y1 = _centerY -(b.getVelocity().getY()/(_scale));
+				double module1 = Math.sqrt(x*x + x1*x1);
+				double module2 = Math.sqrt(y*y + y1*y1);
+				int xU = (int)(x1/module1) ;
+				int yU = (int)(y1/module2) ;
+				drawLineWithArrow(gr,x,y,(int)x1,(int)y1,5,5,Color.GREEN,Color.GREEN);
+				int x2 = (int)(b.getForce().getX()/_scale );
+				int y2 = - (int)(b.getForce().getY()/_scale );
+				//drawLineWithArrow(gr,x,y,x2,y2,5,5,Color.RED,Color.RED);
 			}
 		}
 		// TODO draw help if _showHelp is true

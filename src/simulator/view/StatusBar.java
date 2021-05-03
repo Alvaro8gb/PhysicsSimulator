@@ -39,7 +39,7 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	}
 	private void initGUI() {
 		
-	setLayout( new FlowLayout( FlowLayout.LEFT ));
+	setLayout( new FlowLayout( FlowLayout.CENTER ));
 	setBorder( BorderFactory.createBevelBorder( 1 ));
 	setBackground(new Color(215, 216, 216));
 	//setAlignmentX(CENTER_ALIGNMENT);
