@@ -257,7 +257,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		 run_sim((int)stepsSpinner.getValue());
 	}
 	private void exitAction() {
-		 int n = JOptionPane.showConfirmDialog(null, "You really want to exit PhysicsSimulator?", "Confirm exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		 int n = JOptionPane.showConfirmDialog(new JFrame(), "You really want to exit PhysicsSimulator?", "Confirm exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if(n == 0) System.exit(0);
 	}
 	
