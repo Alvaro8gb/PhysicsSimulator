@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -30,7 +31,7 @@ public class BodiesTable extends JPanel {
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder( BorderFactory.createLineBorder(Color.black, 2),"Bodies",TitledBorder.LEFT, TitledBorder.TOP));
 		btm = new BodiesTableModel(ctrl);
-
+		
 		init();
 		
 	
@@ -44,7 +45,8 @@ public class BodiesTable extends JPanel {
 		JTableHeader header = table.getTableHeader();
 		header.setDefaultRenderer(tcr);
 		
-		add(new JScrollPane(table));
+		add( new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
+		
 		
 	}
 }

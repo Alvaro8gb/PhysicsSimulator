@@ -71,7 +71,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	}
 	private void initGUI() {
 	
-		
 		setLayout(new BoxLayout(this,BoxLayout.LINE_AXIS));
 		setAlignmentY(TOP_ALIGNMENT);
 
@@ -118,7 +117,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	    stepsPanel.setAlignmentX(CENTER_ALIGNMENT);
 	    stepsPanel.setToolTipText("Change number of steps");
 		JLabel stepsLabel = new JLabel("Steps: ");
-		SpinnerNumberModel stepsModel = new SpinnerNumberModel(defaultSteps,0,1000000000,1);
+		SpinnerNumberModel stepsModel = new SpinnerNumberModel(defaultSteps,100,1000000000,1);
 		stepsSpinner = new JSpinner(stepsModel);
 		stepsSpinner.setPreferredSize(new Dimension(80,30));
 		stepsSpinner.setMaximumSize(new Dimension(80,30));
@@ -146,7 +145,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		toolBar.addSeparator();
 		
 		toolBar.add(Box.createHorizontalGlue());
-		
 		
 		//Boton de exit
 		exit = createControlButton("exit.png","Abort simulation","exit");
@@ -189,8 +187,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		JButton controlButton = new JButton();
 		
 		controlButton.setIcon(new ImageIcon("resources/icons/"+iconName)); 
-		controlButton.setToolTipText(toolTipMessage);
-		//controlButton.addActionListener(this); 
+		controlButton.setToolTipText(toolTipMessage); 
 		controlButton.setActionCommand(actionCommand);
 		
 		return controlButton;

@@ -48,7 +48,7 @@ public class ParametersTableModel extends AbstractTableModel {
 			value = s;
 			break;
 		case 1:
-			value = "hola";
+			value = "";
 			break;
 		case 2:
 			value = _lawInfo.getJSONObject("data").getString(s);
