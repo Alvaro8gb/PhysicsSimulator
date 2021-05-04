@@ -56,8 +56,9 @@ public class ForceLawWindow extends JFrame{
 				 else if (list.getSelectedItem().equals("Moving towards a fixed point")) {
 					 table.setObj(options.get(1));
 				 }
-				 else if (list.getSelectedItem().equals("No Force"))
+				 else if (list.getSelectedItem().equals("No Force")) {
 					 table.setObj(options.get(2));
+				 }
 				 else if (list.getSelectedItem().equals("Circular aleatory force")) {
 					 table.setObj(options.get(3));
 				 }

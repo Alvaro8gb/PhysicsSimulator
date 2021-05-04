@@ -147,13 +147,9 @@ public class Viewer extends JComponent implements SimulatorObserver {
 			gr.setColor(Color.BLACK);
 			gr.drawString(b.getId(),x,y - circleRadio );
 			if(_showVectors) {
-				double x1 =_centerX + (b.getVelocity().getX()/(_scale))  ;
-				double y1 = _centerY -(b.getVelocity().getY()/(_scale));
-				double module1 = Math.sqrt(x*x + x1*x1);
-				double module2 = Math.sqrt(y*y + y1*y1);
-				int xU = (int)(x1/module1) ;
-				int yU = (int)(y1/module2) ;
-				drawLineWithArrow(gr,x,y,(int)x1,(int)y1,5,5,Color.GREEN,Color.GREEN);
+				int x1 =_centerX + (int)(b.getVelocity().getX()/(_scale));
+				int y1 = _centerY -(int)(b.getVelocity().getY()/(_scale));
+				drawLineWithArrow(gr,x,y,x1,y1,5,1,Color.GREEN,Color.GREEN);
 				int x2 = (int)(b.getForce().getX()/_scale );
 				int y2 = - (int)(b.getForce().getY()/_scale );
 				//drawLineWithArrow(gr,x,y,x2,y2,5,5,Color.RED,Color.RED);
@@ -169,10 +165,6 @@ public class Viewer extends JComponent implements SimulatorObserver {
 			gr.drawString(helpText,6,45);
 		}
 	}
-	private void drawArrows() {
-		
-	}
-	
 
 	private void autoScale() {
 		double max = 1.0;

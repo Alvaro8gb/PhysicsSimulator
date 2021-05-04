@@ -20,7 +20,7 @@ public class ParametersTableModel extends AbstractTableModel {
 	private JSONObject _lawInfo;
 	private final int numberOfCols = 3;
 	private final String[] columnNames;
-	private final List<String> keys;
+	private  List<String> keys;
 	
 	ParametersTableModel(JSONObject lawInfo) {
 		_lawInfo = lawInfo;
@@ -59,6 +59,7 @@ public class ParametersTableModel extends AbstractTableModel {
 	}
 	public void setObj(JSONObject ob) {
 		_lawInfo = ob;
+		keys = getKeys();
 		fireTableStructureChanged();
 	}
 	private List<String> getKeys() {
