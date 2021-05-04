@@ -23,7 +23,7 @@ public class ForceLawWindow extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
 	private List<JSONObject> options;
-	
+	private ParametersTable table;
 	ForceLawWindow(Controller ctrl){
 		this._ctrl = ctrl;	
 		initGIU();
@@ -47,14 +47,26 @@ public class ForceLawWindow extends JFrame{
 			
 			JComboBox<String> list = new JComboBox<String>();
 			options = _ctrl.getForceLawsInfo();
+			table = new ParametersTable(options.get(0));
 			for(JSONObject x : options)  list.addItem(x.getString("desc"));
+			list.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent e) { 
+				 if (list.getSelectedItem().equals("Newton’s law of universal gravitation")) {
+					 table.setObj(options.get(0));
+				 }
+				 else if (list.getSelectedItem().equals("Moving towards a fixed point")) {
+					 table.setObj(options.get(1));
+				 }
+				 else if (list.getSelectedItem().equals("No Force"))
+					 table.setObj(options.get(2));
+				 else if (list.getSelectedItem().equals("Circular aleatory force")) {
+					 table.setObj(options.get(3));
+				 }
+			}});
+			
 			middown.add(list);
-		
-		mid.add(middown,BorderLayout.SOUTH);
-		
-		ParametersTable table = new ParametersTable( _ctrl.getForceLawsInfo().get(0));
-		
+			
 		mid.add(table,BorderLayout.NORTH);
+		mid.add(middown,BorderLayout.SOUTH);
 		
 		add(mid,BorderLayout.CENTER);
 		

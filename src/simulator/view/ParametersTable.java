@@ -19,7 +19,7 @@ public class ParametersTable extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ParametersTableModel tableModel;
 	private JTable table;
-	
+
 	ParametersTable(JSONObject lawInfo) {
 		
 		setLayout(new BorderLayout());
@@ -39,6 +39,9 @@ public class ParametersTable extends JPanel {
 		header.setDefaultRenderer(tcr);
 		add(new JScrollPane(table));
 		
+	}
+	public void setObj(JSONObject ob) {
+		tableModel.setObj(ob);
 	}
 
 }
