@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.json.JSONObject;
@@ -33,6 +34,8 @@ public class ForceLawWindow extends JFrame{
 	private void initGIU() {
 		setLayout(new BorderLayout());
 		setTitle("Force Laws Selection");
+		setSize(650,350);
+		setLocation(630,0);
 		
 		options = _ctrl.getForceLawsInfo();
 
@@ -75,7 +78,7 @@ public class ForceLawWindow extends JFrame{
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
-		pack();
+		//pack();
 	}
 	private JButton createButton(String name) {
 		JButton button = new JButton(name);
@@ -89,17 +92,28 @@ public class ForceLawWindow extends JFrame{
 	}
 	private void setLaw(String info) {
 		
-		for(JSONObject x : options) {
-			if( info.equals(x.getString("desc"))) {
-			JSONObject data = new JSONObject();
-			data.put("type", x.getString("type"));
-			data.put("data", createData());
-			data.put("desc", x.getString("desc"));
-			_ctrl.setForceLaws(data);
-		}
-		}
 
-		dispose();
+		for(JSONObject x : options) {
+			
+			if( info.equals(x.getString("desc"))) {
+				JSONObject data = new JSONObject();
+				data.put("type", x.getString("type"));
+				data.put("data", createData());
+				data.put("desc", x.getString("desc"));
+			
+				try {
+					_ctrl.setForceLaws(data);
+					dispose();
+				}catch(Exception e ) {
+					JOptionPane.showMessageDialog(this,e.getMessage(), "Excepcion capturada", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+
+		}
+		
+		
+	
+		
 	}
 	private JSONObject createData() {
 		return table.createData();

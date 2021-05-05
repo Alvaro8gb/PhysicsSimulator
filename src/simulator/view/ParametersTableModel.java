@@ -20,12 +20,15 @@ public class ParametersTableModel extends AbstractTableModel {
 	private JSONObject _lawInfo;
 	private final int numberOfCols = 3;
 	private final String[] columnNames;
+	private ArrayList<Object> values;
 	private  List<String> keys;
 	
 	ParametersTableModel(JSONObject lawInfo) {
 		_lawInfo = lawInfo;
 	   columnNames = new String[]{"Key","Value","Description"};
 	   keys = getKeys();
+	   values = new ArrayList<Object>();
+	   for(int i = 0 ; i< keys.size(); i++) values.add(null);
 	}
 	@Override
 	public int getRowCount() {
@@ -48,7 +51,9 @@ public class ParametersTableModel extends AbstractTableModel {
 			value = s;
 			break;
 		case 1:
-			value = "";
+			
+			value = values.get(rowIndex);
+			
 			break;
 		case 2:
 			value = _lawInfo.getJSONObject("data").getString(s);
@@ -60,14 +65,26 @@ public class ParametersTableModel extends AbstractTableModel {
 	public void setObj(JSONObject ob) {
 		_lawInfo = ob;
 		keys = getKeys();
+		values.clear();
+		for(int i = 0 ; i< keys.size(); i++) values.add(null);
 		fireTableDataChanged();
 	}
 	public JSONObject createData() {
+
 		JSONObject obj = new JSONObject();
 		for(int i = 0; i < getRowCount();i++) {
 			if(getValueAt(i,1) != "") obj.put((String)getValueAt(i,0),getValueAt(i,1));
 		}
+		
 		return obj;
+	}
+	public void setValueAt(Object value, int row, int col) {
+		
+		System.out.println(value);
+		
+		values.set(row, value);
+		
+		fireTableDataChanged();
 	}
 	private List<String> getKeys() {
 		List<String> x = new ArrayList<>();

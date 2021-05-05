@@ -237,7 +237,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
             	 _ctrl.loadBodies(new FileInputStream(file));
              } catch (Exception ex) {
                  System.err.println("Error");
-                 JOptionPane.showMessageDialog(new JFrame(), "An error occurred while loading  bodies file.","Error", JOptionPane.ERROR_MESSAGE);
+                 JOptionPane.showMessageDialog(null, "An error occurred while loading  bodies file.","Error", JOptionPane.ERROR_MESSAGE);
              }
          }
 	}
@@ -254,8 +254,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		 run_sim((int)stepsSpinner.getValue());
 	}
 	private void exitAction() {
-		 int n = JOptionPane.showConfirmDialog(new JFrame(), "You really want to exit PhysicsSimulator?", "Confirm exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			if(n == 0) System.exit(0);
+		 int n = JOptionPane.showConfirmDialog(null, "You really want to exit PhysicsSimulator?", "Confirm exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if(n == JOptionPane.YES_OPTION) System.exit(0);
 	}
 	
 	 private void enableToolBar(boolean enable) {

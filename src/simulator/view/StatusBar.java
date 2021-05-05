@@ -42,7 +42,7 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	setLayout( new FlowLayout( FlowLayout.CENTER ));
 	setBorder( BorderFactory.createBevelBorder( 1 ));
 	setBackground(new Color(215, 216, 216));
-	//setAlignmentX(CENTER_ALIGNMENT);
+	
     
 	
 	JSeparator s = new JSeparator(SwingConstants.VERTICAL);

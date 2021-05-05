@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -63,7 +65,7 @@ public class MainWindow extends JFrame {
 		StatusBar statusBar = new StatusBar(_ctrl);
 		mainPanel.add(statusBar, BorderLayout.PAGE_END);
 		statusBar.setPreferredSize(new Dimension(width,40));
-		
+
 		setVisible(true);
 		//setLocationRelativeTo(null);
 		pack();
