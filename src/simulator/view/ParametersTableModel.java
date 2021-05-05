@@ -62,6 +62,13 @@ public class ParametersTableModel extends AbstractTableModel {
 		keys = getKeys();
 		fireTableDataChanged();
 	}
+	public JSONObject createData() {
+		JSONObject obj = new JSONObject();
+		for(int i = 0; i < getRowCount();i++) {
+			if(getValueAt(i,1) != "") obj.put((String)getValueAt(i,0),getValueAt(i,1));
+		}
+		return obj;
+	}
 	private List<String> getKeys() {
 		List<String> x = new ArrayList<>();
 		for( Iterator it = _lawInfo.getJSONObject("data").keySet().iterator(); it.hasNext();) { 

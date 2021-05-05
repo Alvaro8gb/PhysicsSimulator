@@ -89,8 +89,19 @@ public class ForceLawWindow extends JFrame{
 	}
 	private void setLaw(String info) {
 		
-		//for(JSONObject x : options) if( info.equals(x.getString("desc"))) _ctrl.setForceLaws(x);
+		for(JSONObject x : options) {
+			if( info.equals(x.getString("desc"))) {
+			JSONObject data = new JSONObject();
+			data.put("type", x.getString("type"));
+			data.put("data", createData());
+			data.put("desc", x.getString("desc"));
+			_ctrl.setForceLaws(data);
+		}
+		}
 
 		dispose();
+	}
+	private JSONObject createData() {
+		return table.createData();
 	}
 }
