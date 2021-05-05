@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
-
 import simulator.control.Controller;
 import simulator.model.Body;
 import simulator.model.NoForce;
