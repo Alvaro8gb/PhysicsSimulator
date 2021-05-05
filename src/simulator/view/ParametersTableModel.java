@@ -60,7 +60,7 @@ public class ParametersTableModel extends AbstractTableModel {
 	public void setObj(JSONObject ob) {
 		_lawInfo = ob;
 		keys = getKeys();
-		fireTableStructureChanged();
+		fireTableDataChanged();
 	}
 	private List<String> getKeys() {
 		List<String> x = new ArrayList<>();

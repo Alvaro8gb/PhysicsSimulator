@@ -24,7 +24,12 @@ public class ParametersTable extends JPanel {
 		
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder( BorderFactory.createLineBorder(Color.BLUE, 2)));
-		tableModel = new ParametersTableModel(lawInfo);
+		tableModel = new ParametersTableModel(lawInfo) {
+			@Override
+			public boolean isCellEditable(int rowIndex,int colIndex) {
+				return colIndex == 1;
+			}
+		};
 		//setSize(500,200);
 		init();
 		
