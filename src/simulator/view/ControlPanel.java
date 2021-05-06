@@ -62,6 +62,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JPanel stepsPanel,deltaTimePanel;
 	private final int defaultSteps = 10000;
 	private final double defaultDeltaTime = 2500;
+	private String fLawsDesc;
+
 	
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
@@ -195,13 +197,13 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	}
 		
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
-		// TODO Auto-generated method stub
+		this.fLawsDesc = fLawsDesc;
 		
 	}
 
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String fLawsDesc) {
-		// TODO Auto-generated method stub
+		this.fLawsDesc = fLawsDesc;
 		
 	}
 
@@ -225,7 +227,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 
 	@Override
 	public void onForceLawsChanged(String fLawsDesc) {
-		// TODO Auto-generated method stub
+		this.fLawsDesc = fLawsDesc;
 		
 	}
 	private void selectFileAction() {
@@ -242,7 +244,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
          }
 	}
 	private void selectLawAction() {
-		new ForceLawWindow(_ctrl);
+		new ForceLawWindow(_ctrl,fLawsDesc);
 	}
 	private void runAction() {
 		 _stopped = false;

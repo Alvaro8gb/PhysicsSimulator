@@ -2,6 +2,7 @@ package simulator.view;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -10,7 +11,6 @@ import javax.swing.table.AbstractTableModel;
 
 import org.json.JSONObject;
 
-import simulator.model.Body;
 
 
 public class ParametersTableModel extends AbstractTableModel {
@@ -20,7 +20,7 @@ public class ParametersTableModel extends AbstractTableModel {
 	private JSONObject _lawInfo;
 	private final int numberOfCols = 3;
 	private final String[] columnNames;
-	private ArrayList<Object> values;
+	private List<Object> values;
 	private  List<String> keys;
 	
 	ParametersTableModel(JSONObject lawInfo) {
@@ -28,7 +28,8 @@ public class ParametersTableModel extends AbstractTableModel {
 	   columnNames = new String[]{"Key","Value","Description"};
 	   keys = getKeys();
 	   values = new ArrayList<Object>();
-	   for(int i = 0 ; i< keys.size(); i++) values.add(null);
+	   setValuesList();
+	  
 	}
 	@Override
 	public int getRowCount() {
@@ -65,15 +66,20 @@ public class ParametersTableModel extends AbstractTableModel {
 	public void setObj(JSONObject ob) {
 		_lawInfo = ob;
 		keys = getKeys();
+		
+		setValuesList();
+	}
+	private void setValuesList() {
+		
 		values.clear();
-		for(int i = 0 ; i< keys.size(); i++) values.add(null);
-		fireTableDataChanged();
+		 for(int i = 0 ; i< keys.size(); i++) values.add(null);
+		 fireTableDataChanged();
 	}
 	public JSONObject createData() {
 
 		JSONObject obj = new JSONObject();
 		for(int i = 0; i < keys.size();i++) {
-			if(keys.get(i) != null) obj.put(keys.get(i),(Double)values.get(i));
+			if(keys.get(i) != null) obj.put(keys.get(i),values.get(i));
 		}
 		
 		return obj;
@@ -88,7 +94,8 @@ public class ParametersTableModel extends AbstractTableModel {
 	}
 	private List<String> getKeys() {
 		List<String> x = new ArrayList<>();
-		for( Iterator it = _lawInfo.getJSONObject("data").keySet().iterator(); it.hasNext();) { 
+		Iterator<String> it = _lawInfo.getJSONObject("data").keySet().iterator();
+		while( it.hasNext()) { 
 		    String s = (String)it.next();
 		    x.add(s);
 		  }

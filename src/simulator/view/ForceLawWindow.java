@@ -19,16 +19,21 @@ import javax.swing.JPanel;
 import org.json.JSONObject;
 
 import simulator.control.Controller;
+import simulator.model.Body;
+import simulator.model.SimulatorObserver;
 
-public class ForceLawWindow extends JFrame{
+public class ForceLawWindow extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
 	private List<JSONObject> options;
 	private JComboBox<String> list;
 	private ParametersTable table;
-	ForceLawWindow(Controller ctrl){
-		this._ctrl = ctrl;	
+	private String fLawsDesc;
+	
+	public ForceLawWindow(Controller ctrl,String fLawsDesc){
+		this._ctrl = ctrl;
+		this.fLawsDesc = fLawsDesc;
 		initGIU();
 	}
 	private void initGIU() {
@@ -42,8 +47,6 @@ public class ForceLawWindow extends JFrame{
 		JLabel help = new JLabel("<html><p>Select a force law and provide values for the parametes in the <em>Value column</em> (default values are used for parametes with no value).</p></html>");
 		add(help,BorderLayout.NORTH);
 		 
-	
-			
 		table = new ParametersTable(options.get(0));
 		add(table,BorderLayout.CENTER);
 		
@@ -57,6 +60,8 @@ public class ForceLawWindow extends JFrame{
 			
 			list = new JComboBox<String>();
 			for(JSONObject x : options)  list.addItem(x.getString("desc"));
+			setComboBox(fLawsDesc);
+			
 			list.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent e) { modifyTable(); }});
 			optionsPanel.add(list);
 			
@@ -90,32 +95,43 @@ public class ForceLawWindow extends JFrame{
 		
 		 for(JSONObject x : options) if(list.getSelectedItem().equals(x.getString("desc"))) table.setObj(x);
 	}
-	private void setLaw(String info) {
-		
-
+	private JSONObject parseFLawsDesc(String info ) {
+		JSONObject data = new JSONObject();
 		for(JSONObject x : options) {
-			
-			if( info.equals(x.getString("desc"))) {
-				JSONObject data = new JSONObject();
-				data.put("type", x.getString("type"));
-				data.put("data", createData());
-				data.put("desc", x.getString("desc"));
-			
-				try {
-					_ctrl.setForceLaws(data);
-					dispose();
-				}catch(Exception e ) {
-					JOptionPane.showMessageDialog(this,e.getMessage(), "Excepcion capturada", JOptionPane.WARNING_MESSAGE);
-				}
-			}
-
+					
+					if( info.equals(x.getString("desc"))) {
+						data.put("type", x.getString("type"));
+						data.put("data", createData());
+						data.put("desc", x.getString("desc"));
+						return data;
+						
+					}
+		}
+		return data;
+	}
+	private void setComboBox(String fLawsDesc) {
+		int i = 0;
+		System.out.println(fLawsDesc);
+		for(JSONObject x : options)  {
+			if( fLawsDesc.equals(x.getString("desc"))) list.setSelectedIndex(i);
+			else i++;
 		}
 		
+	}
+	private void setLaw(String info) {
 		
-	
+		//JOptionPane.showMessageDialog(this,info,"Ley", JOptionPane.WARNING_MESSAGE);
+		
+		try {
+			_ctrl.setForceLaws(parseFLawsDesc(info));
+			dispose();
+		}catch(Exception e ) {
+			JOptionPane.showMessageDialog(this,e.getMessage(), "ERROR", JOptionPane.WARNING_MESSAGE);
+		}
 		
 	}
 	private JSONObject createData() {
 		return table.createData();
 	}
+
 }

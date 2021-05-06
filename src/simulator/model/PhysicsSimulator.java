@@ -48,18 +48,6 @@ public class PhysicsSimulator {
 	for(SimulatorObserver o : listObservers) o.onBodyAdded(listBodies, b);
 	
 	}
-	public JSONObject getState() {
-		JSONObject jPS = new JSONObject();
-		JSONArray arrayBodies = new JSONArray();
-		
-		jPS.put("time", time);
-		
-		for(Body b: listBodies) arrayBodies.put(b.getState());
-		
-		jPS.put("bodies",arrayBodies);
-		
-		return jPS;
-	}
 	public void setForceLawsLaws(ForceLaws forceLaws) {
 		
 		if( forceLaws == null) throw new IllegalArgumentException("Unknown force");
@@ -85,6 +73,18 @@ public class PhysicsSimulator {
 		if(!listObservers.contains(o)) listObservers.add(o);
 		
 		o.onRegister(listBodies, time, dt, forceLaws.toString());
+	}
+	public JSONObject getState() {
+		JSONObject jPS = new JSONObject();
+		JSONArray arrayBodies = new JSONArray();
+		
+		jPS.put("time", time);
+		
+		for(Body b: listBodies) arrayBodies.put(b.getState());
+		
+		jPS.put("bodies",arrayBodies);
+		
+		return jPS;
 	}
 	public String toString() {
 		return getState().toString();
