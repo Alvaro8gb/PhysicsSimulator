@@ -73,7 +73,7 @@ public class ParametersTableModel extends AbstractTableModel {
 
 		JSONObject obj = new JSONObject();
 		for(int i = 0; i < keys.size();i++) {
-			if(keys.get(i) != "") obj.put(keys.get(i),(Double)values.get(i));
+			if(keys.get(i) != null) obj.put(keys.get(i),(Double)values.get(i));
 		}
 		
 		return obj;
