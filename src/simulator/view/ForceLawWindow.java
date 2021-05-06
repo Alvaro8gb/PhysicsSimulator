@@ -29,19 +29,15 @@ public class ForceLawWindow extends JFrame {
 	private List<JSONObject> options;
 	private JComboBox<String> list;
 	private ParametersTable table;
-	private String fLawsDesc;
 	
-	public ForceLawWindow(Controller ctrl,String fLawsDesc){
+	public ForceLawWindow(Controller ctrl){
 		this._ctrl = ctrl;
-		this.fLawsDesc = fLawsDesc;
 		initGIU();
 	}
 	private void initGIU() {
 		setLayout(new BorderLayout());
 		setTitle("Force Laws Selection");
-		setSize(650,350);
-		setLocation(630,0);
-		
+		setBounds(630,0,650,350);
 		options = _ctrl.getForceLawsInfo();
 
 		JLabel help = new JLabel("<html><p>Select a force law and provide values for the parametes in the <em>Value column</em> (default values are used for parametes with no value).</p></html>");
@@ -60,8 +56,7 @@ public class ForceLawWindow extends JFrame {
 			
 			list = new JComboBox<String>();
 			for(JSONObject x : options)  list.addItem(x.getString("desc"));
-			setComboBox(fLawsDesc);
-			
+
 			list.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent e) { modifyTable(); }});
 			optionsPanel.add(list);
 			
@@ -70,7 +65,7 @@ public class ForceLawWindow extends JFrame {
 			JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,5,5));
 			
 			JButton buttonCancel =  createButton("Cancel");
-			buttonCancel.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent arg0) { dispose(); }});
+			buttonCancel.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent arg0) { setVisible(false); }});
 			buttonsPanel.add(buttonCancel);
 			
 			JButton buttonOK =  createButton("OK");
@@ -82,8 +77,6 @@ public class ForceLawWindow extends JFrame {
 	    add(end,BorderLayout.SOUTH);
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setVisible(true);
-		//pack();
 	}
 	private JButton createButton(String name) {
 		JButton button = new JButton(name);
@@ -109,18 +102,7 @@ public class ForceLawWindow extends JFrame {
 		}
 		return data;
 	}
-	private void setComboBox(String fLawsDesc) {
-		int i = 0;
-		System.out.println(fLawsDesc);
-		for(JSONObject x : options)  {
-			if( fLawsDesc.equals(x.getString("desc"))) list.setSelectedIndex(i);
-			else i++;
-		}
-		
-	}
 	private void setLaw(String info) {
-		
-		//JOptionPane.showMessageDialog(this,info,"Ley", JOptionPane.WARNING_MESSAGE);
 		
 		try {
 			_ctrl.setForceLaws(parseFLawsDesc(info));

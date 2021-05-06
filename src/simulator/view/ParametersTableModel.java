@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -79,10 +80,18 @@ public class ParametersTableModel extends AbstractTableModel {
 
 		JSONObject obj = new JSONObject();
 		for(int i = 0; i < keys.size();i++) {
-			if(keys.get(i) != null) obj.put(keys.get(i),values.get(i));
+			if(keys.get(i) != null) obj.put(keys.get(i),parseObject(keys.get(i),parseObject(keys.get(i),values.get(i))));
 		}
 		
 		return obj;
+	}
+	public Object parseObject(String key,Object value) {
+		if(key.equals("c")) {
+			
+			return null;
+		}
+		else return value;
+		
 	}
 	public void setValueAt(Object value, int row, int col) {
 		

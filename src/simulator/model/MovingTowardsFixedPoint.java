@@ -22,7 +22,7 @@ public class MovingTowardsFixedPoint implements ForceLaws {
 		return _c.minus(b.getPosition()).direction().scale(_g*b.getMass());// Fi = m/g * di
 	}
 	public String toString() {
-		return "Moving towards -"+ _c + " with constant acceleration -" + _g;
+		return "Moving towards "+ _c + " with constant acceleration " + _g;
 	}
 		
 }

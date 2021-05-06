@@ -1,13 +1,9 @@
 package simulator.view;
 
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.io.File;
 import java.io.FileInputStream;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -62,7 +58,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JPanel stepsPanel,deltaTimePanel;
 	private final int defaultSteps = 10000;
 	private final double defaultDeltaTime = 2500;
-	private String fLawsDesc;
+	private ForceLawWindow forceLawWindow ;
 
 	
 	ControlPanel(Controller ctrl) {
@@ -151,9 +147,10 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		//Boton de exit
 		exit = createControlButton("exit.png","Abort simulation","exit");
 		exit.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent arg0) { exitAction(); }});
-
 		toolBar.add(exit);
 	
+		
+		forceLawWindow = new ForceLawWindow(_ctrl);
 
 		setVisible(true);
 
@@ -197,13 +194,13 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	}
 		
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
-		this.fLawsDesc = fLawsDesc;
+	
 		
 	}
 
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String fLawsDesc) {
-		this.fLawsDesc = fLawsDesc;
+	
 		
 	}
 
@@ -227,7 +224,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 
 	@Override
 	public void onForceLawsChanged(String fLawsDesc) {
-		this.fLawsDesc = fLawsDesc;
+	
 		
 	}
 	private void selectFileAction() {
@@ -244,7 +241,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
          }
 	}
 	private void selectLawAction() {
-		new ForceLawWindow(_ctrl,fLawsDesc);
+		forceLawWindow.setVisible(true);
 	}
 	private void runAction() {
 		 _stopped = false;
