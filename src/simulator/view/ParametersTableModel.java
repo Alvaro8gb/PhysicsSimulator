@@ -72,8 +72,8 @@ public class ParametersTableModel extends AbstractTableModel {
 	public JSONObject createData() {
 
 		JSONObject obj = new JSONObject();
-		for(int i = 0; i < getRowCount();i++) {
-			if(getValueAt(i,1) != "") obj.put((String)getValueAt(i,0),getValueAt(i,1));
+		for(int i = 0; i < keys.size();i++) {
+			if(keys.get(i) != "") obj.put(keys.get(i),(Double)values.get(i));
 		}
 		
 		return obj;
