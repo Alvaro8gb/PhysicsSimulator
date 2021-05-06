@@ -147,12 +147,14 @@ public class Viewer extends JComponent implements SimulatorObserver {
 			gr.setColor(Color.BLACK);
 			gr.drawString(b.getId(),x,y - circleRadio );
 			if(_showVectors) {
+
 				int x1 = x + (int)(b.getVelocity().getX());
 				int y1 = y -(int)(b.getVelocity().getY());
-				drawLineWithArrow(gr,x,y,x1,y1,5,1,Color.GREEN,Color.GREEN);
+				drawLineWithArrow(gr,x,y,x1,y1,5,5,Color.GREEN,Color.GREEN);
 				int x2 = x + (int)(b.getForce().getX());
 				int y2 = y - (int)(b.getForce().getY());
-				drawLineWithArrow(gr,x,y,x2,y2,5,1,Color.RED,Color.RED);
+				drawLineWithArrow(gr,x,y,x2,y2,5,5,Color.RED,Color.RED);
+
 			}
 		}
 		// TODO draw help if _showHelp is true
