@@ -35,6 +35,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	private boolean _showVectors;
 	private String helpText;
 	private final static int circleRadio = 5;
+	private final static int factor = 12;
 	
 	Viewer(Controller ctrl) {
 		initGUI();
@@ -141,8 +142,8 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		// TODO draw bodies (with vectors if _showVectors is true)
 		for(Body b: _bodies) {
 			gr.setColor(Color.BLUE);
-			int x = _centerX +(int)(b.getPosition().getX()/_scale);
-			int y = _centerY -(int)(b.getPosition().getY()/_scale);
+			int x = _centerX + (int)(b.getPosition().getX() / _scale);
+			int y = _centerY -(int)(b.getPosition().getY() / _scale);
 			gr.fillOval(x, y ,circleRadio,circleRadio); 
 			gr.setColor(Color.BLACK);
 			gr.drawString(b.getId(),x,y - circleRadio );
@@ -150,10 +151,18 @@ public class Viewer extends JComponent implements SimulatorObserver {
 
 				int x1 = x + (int)(b.getVelocity().getX());
 				int y1 = y -(int)(b.getVelocity().getY());
-				//drawLineWithArrow(gr,x,y,x1,y1,5,5,Color.GREEN,Color.GREEN);
+				int module1 = (int) Math.sqrt(Math.pow((x1-x), 2) + Math.pow((y1-y), 2) ) / factor;
+			
+				drawLineWithArrow(gr,x,y,(x1-x)/module1 + x,(y1-y)/module1 + y,3,3,Color.GREEN,Color.GREEN);
 				int x2 = x + (int)(b.getForce().getX());
 				int y2 = y - (int)(b.getForce().getY());
-				drawLineWithArrow(gr,x,y,x2,y2,5,5,Color.RED,Color.RED);
+				
+				int module2 = (int) Math.sqrt(Math.pow((x2-x), 2) + Math.pow((y2-y), 2) ) / factor;
+				module2 = module2 == 0? 1: module2;
+				int a1 = (x2-x)/module2 ;
+				int b1 = (y2-y)/module2 ;
+				drawLineWithArrow(gr,x,y,a1 + x ,b1 + y ,3,3,Color.RED,Color.RED);
+				//drawLineWithArrow(gr,x,y,x2,y2,3,3,Color.RED,Color.RED);
 
 			}
 		}
@@ -162,7 +171,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 			helpText ="h: toggle help, v:toggle vectors, +:zoom in, -:zoom out, =:fit";
 			gr.setColor(Color.RED);
 			gr.drawString(helpText,6,30);
-			helpText ="Scale ratio:" + _scale;
+			helpText = "Scale ratio:" + _scale;
 			gr.setColor(Color.RED);
 			gr.drawString(helpText,6,45);
 		}
