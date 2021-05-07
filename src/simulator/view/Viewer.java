@@ -13,14 +13,11 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.border.TitledBorder;
 
 import simulator.control.Controller;
 import simulator.misc.Vector2D;
 import simulator.model.Body;
-import simulator.model.NoForce;
-import simulator.model.PhysicsSimulator;
 import simulator.model.SimulatorObserver;
 
 public class Viewer extends JComponent implements SimulatorObserver {
@@ -34,8 +31,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	private boolean _showHelp;
 	private boolean _showVectors;
 	private String helpText;
-	private final static int circleRadio = 5;
-	private final static int factor = 12;
+	private final static int circleRadio = 8;
 	
 	Viewer(Controller ctrl) {
 		initGUI();
@@ -141,30 +137,35 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		gr.drawLine(_centerX,_centerY,_centerX,_centerY - 10);
 		// TODO draw bodies (with vectors if _showVectors is true)
 		for(Body b: _bodies) {
-			gr.setColor(Color.BLUE);
+			
 			int x = _centerX + (int)(b.getPosition().getX() / _scale);
 			int y = _centerY -(int)(b.getPosition().getY() / _scale);
-			gr.fillOval(x, y ,circleRadio,circleRadio); 
+			
 			gr.setColor(Color.BLACK);
 			gr.drawString(b.getId(),x,y - circleRadio );
+			
 			if(_showVectors) {
 
-				int x1 = x + (int)(b.getVelocity().getX());
-				int y1 = y -(int)(b.getVelocity().getY());
-				int module1 = (int) Math.sqrt(Math.pow((x1-x), 2) + Math.pow((y1-y), 2) ) / factor;
+				int x1 = x + (int)(b.getVelocity().getX()) - circleRadio;
+				int y1 = y -(int)(b.getVelocity().getY()) - circleRadio;
+				int module1 = distanceBetween(x,y,x1,y1)  / 16;
 			
 				drawLineWithArrow(gr,x,y,(x1-x)/module1 + x,(y1-y)/module1 + y,3,3,Color.GREEN,Color.GREEN);
+				
 				int x2 = x + (int)(b.getForce().getX());
 				int y2 = y - (int)(b.getForce().getY());
 				
-				int module2 = (int) Math.sqrt(Math.pow((x2-x), 2) + Math.pow((y2-y), 2) ) / factor;
-				module2 = module2 == 0? 1: module2;
-				int a1 = (x2-x)/module2 ;
-				int b1 = (y2-y)/module2 ;
-				drawLineWithArrow(gr,x,y,a1 + x ,b1 + y ,3,3,Color.RED,Color.RED);
-				//drawLineWithArrow(gr,x,y,x2,y2,3,3,Color.RED,Color.RED);
+				int module2 = distanceBetween(x,y,x2,y2) / 12;
+				
+				int a1 =  module2 == 0 ? x :(x2-x)/module2 + x ;
+				int b1 =  module2 == 0  ? y : (y2-y)/module2 + y ;
+				
+				drawLineWithArrow(gr,x,y,a1 , b1,3,3,Color.RED,Color.RED);
 
 			}
+			
+			gr.setColor(Color.BLUE);
+			gr.fillOval(x-circleRadio/2, y-circleRadio/2 ,circleRadio,circleRadio); 
 		}
 		// TODO draw help if _showHelp is true
 		if(_showHelp) {
@@ -205,6 +206,9 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		g.setColor(arrowColor);
 		g.fillPolygon(xpoints, ypoints, 3);
 
+	}
+	private int distanceBetween(int x,int y,int x1,int y1) {
+		return (int) Math.sqrt(Math.pow((x1-x), 2) + Math.pow((y1-y), 2) );
 	}
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
