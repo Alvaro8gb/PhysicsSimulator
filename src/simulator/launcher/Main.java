@@ -348,7 +348,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		System.out.println("The simulation has finished");
+		//System.out.println("The simulation has finished");
 		//String end = _outFile != null  ? "Saved on : " + _outFile: "Standar view in console";
 		//System.out.println(end);
 		

@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 import simulator.control.Controller;
 import simulator.model.Body;
@@ -40,13 +41,28 @@ public class BodiesTable extends JPanel {
 
 		table = new JTable(btm);
 		
+		setColumnSize();
+		
+		table.setShowGrid(false); 
+		table.setShowVerticalLines(false); 
+		table.setShowHorizontalLines(false); 
+		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-
 		JTableHeader header = table.getTableHeader();
 		header.setDefaultRenderer(tcr);
 		
 		add( new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
 		
 		
+	}
+	private void setColumnSize() {
+		TableColumnModel columnModel = table.getColumnModel();
+
+	    columnModel.getColumn(0).setPreferredWidth(100);
+	    columnModel.getColumn(1).setPreferredWidth(250);
+	    columnModel.getColumn(2).setPreferredWidth(1000);
+	    columnModel.getColumn(3).setPreferredWidth(700);
+	    columnModel.getColumn(4).setPreferredWidth(700);
+
 	}
 }

@@ -22,7 +22,7 @@ public class ParametersTableModel extends AbstractTableModel {
 	private final int numberOfCols = 3;
 	private final String[] columnNames;
 	private List<Object> values;
-	private  List<String> keys;
+	private List<String> keys;
 	
 	ParametersTableModel(JSONObject lawInfo) {
 		_lawInfo = lawInfo;
@@ -72,9 +72,9 @@ public class ParametersTableModel extends AbstractTableModel {
 	}
 	private void setValuesList() {
 		
-		values.clear();
-		 for(int i = 0 ; i< keys.size(); i++) values.add(null);
-		 fireTableDataChanged();
+	  values.clear();
+	  for(int i = 0 ; i< keys.size(); i++) values.add(null);
+	  fireTableDataChanged();
 	}
 	public JSONObject createData() {
 
@@ -87,15 +87,40 @@ public class ParametersTableModel extends AbstractTableModel {
 	}
 	public Object parseObject(String key,Object value) {
 		if(key.equals("c")) {
+
+			String cad = values.toString();
+			JSONArray array = new JSONArray();
 			
-			return null;
+			String [] arrayCad = cad.split(",");
+	
+			System.out.println(arrayCad.length);
+			if(arrayCad.length > 3) throw new IllegalArgumentException("Error to recognise : " + value + "many commas");
+			try {
+				array.put( Double.parseDouble(eliminarCorchete(arrayCad[0])));
+				array.put( Double.parseDouble(eliminarCorchete(arrayCad[1])));
+				
+			}catch(Exception e ) {
+				 throw new IllegalArgumentException("Error to recognise : " + value + "\n"+ e.getMessage());
+			}
+			
+			
+			return array;
 		}
 		else return value;
 		
 	}
-	public void setValueAt(Object value, int row, int col) {
+	private String eliminarCorchete(String cad) {
 		
-		System.out.println(value);
+		String nuevaCad = "";
+		for(int i = 0; i< cad.length();i++) {
+			if(cad.charAt(i) != '[' && cad.charAt(i) != ']')  nuevaCad+= cad.charAt(i);
+			
+		}
+		
+		return nuevaCad;
+		
+	}
+	public void setValueAt(Object value, int row, int col) {
 		
 		values.set(row, value);
 		
