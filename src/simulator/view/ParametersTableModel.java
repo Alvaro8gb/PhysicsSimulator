@@ -93,7 +93,7 @@ public class ParametersTableModel extends AbstractTableModel {
 		return obj;
 	}
 	public Object parseObject(String key,Object value) {
-		if(key.equals("c")) {
+		if(key.equals("c") && value!= null) {
 
 			String cad = values.toString();
 			JSONArray array = new JSONArray();

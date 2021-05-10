@@ -51,7 +51,7 @@ public class BodiesTable extends JPanel {
 		JTableHeader header = table.getTableHeader();
 		header.setDefaultRenderer(tcr);
 		
-		add( new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
+		add( new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
 		
 		
 	}

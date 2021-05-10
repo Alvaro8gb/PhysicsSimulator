@@ -38,12 +38,11 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	}
 	private void initGUI() {
 		
-	setLayout( new FlowLayout( FlowLayout.CENTER ));
+	setLayout( new FlowLayout( FlowLayout.LEFT ));
 	setBorder( BorderFactory.createBevelBorder( 1 ));
 	setBackground(new Color(215, 216, 216));
 	
     
-	
 	JSeparator s = new JSeparator(SwingConstants.VERTICAL);
 	s.setBackground(Color.black);
 	
@@ -64,7 +63,6 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	_currLaws = new JLabel(_currLawsTex);
 	addLabel(_currLaws,toolBar);
 
-	
 	
 	add(toolBar);
 
