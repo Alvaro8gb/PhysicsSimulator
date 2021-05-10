@@ -12,8 +12,6 @@ import javax.swing.table.AbstractTableModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
-
 public class ParametersTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
@@ -53,9 +51,7 @@ public class ParametersTableModel extends AbstractTableModel {
 			value = s;
 			break;
 		case 1:
-			
 			value = values.get(rowIndex);
-			
 			break;
 		case 2:
 			value = _lawInfo.getJSONObject("data").getString(s);
@@ -63,6 +59,17 @@ public class ParametersTableModel extends AbstractTableModel {
 
 		}
 	return value;
+	}
+	@Override
+	public boolean isCellEditable(int rowIndex,int colIndex) {
+		return colIndex == 1;
+	}
+	@Override
+	public void setValueAt(Object value, int row, int col) {
+		
+		values.set(row, value);
+		
+		fireTableDataChanged();
 	}
 	public void setObj(JSONObject ob) {
 		_lawInfo = ob;
@@ -102,8 +109,7 @@ public class ParametersTableModel extends AbstractTableModel {
 			}catch(Exception e ) {
 				 throw new IllegalArgumentException("Error to recognise : " + value + "\n"+ e.getMessage());
 			}
-			
-			
+				
 			return array;
 		}
 		else return value;
@@ -120,19 +126,14 @@ public class ParametersTableModel extends AbstractTableModel {
 		return nuevaCad;
 		
 	}
-	public void setValueAt(Object value, int row, int col) {
-		
-		values.set(row, value);
-		
-		fireTableDataChanged();
-	}
 	private List<String> getKeys() {
 		List<String> x = new ArrayList<>();
 		Iterator<String> it = _lawInfo.getJSONObject("data").keySet().iterator();
 		while( it.hasNext()) { 
-		    String s = (String)it.next();
+		    String s = (String) it.next();
 		    x.add(s);
 		  }
+		
 		return x;
 	}
 
