@@ -12,35 +12,21 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JSpinner;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import org.json.JSONObject;
 
 import simulator.control.Controller;
-import simulator.factories.Builder;
-import simulator.factories.BuilderBasedFactory;
-import simulator.factories.CircularAleatoryForceBuilder;
-import simulator.factories.MovingTowardsFixedPointBuilder;
-import simulator.factories.NewtonUniversalGravitationBuilder;
-import simulator.factories.NoForceBuilder;
 import simulator.model.Body;
-import simulator.model.ForceLaws;
-import simulator.model.NoForce;
-import simulator.model.PhysicsSimulator;
 import simulator.model.SimulatorObserver;
 
 public class ControlPanel extends JPanel implements SimulatorObserver {
@@ -55,17 +41,16 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JFileChooser fileChososer;
 	private JTextField deltaTimeBox;
 	private JSpinner stepsSpinner;
-	private JPanel stepsPanel,deltaTimePanel;
-	private final int defaultSteps = 10000;
-	private final double defaultDeltaTime = 2500;
 	private ForceLawWindow forceLawWindow ;
+	private static final int _DEFAULT_STEPS = 10000;
+	private static final double _DEFAULT_DELTA_TIME = 2500;
 
 	
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
+		_ctrl.addObserver(this);
 		_stopped = true;
 		initGUI();
-		_ctrl.addObserver(this);
 	}
 	private void initGUI() {
 	
@@ -82,6 +67,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		fileSelect = createControlButton("open.png","Load a file","load");	
 		fileSelect.setActionCommand("Select your file"); 
 		fileChososer = new JFileChooser();
+		
 		
 		fileSelect.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent arg0) { selectFileAction(); }});
 
@@ -109,13 +95,12 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		toolBar.add(stop);
 
 		
-	
 		//Selector numero de pasos
-	    stepsPanel = new JPanel(); 
+		JPanel stepsPanel = new JPanel(); 
 	    stepsPanel.setAlignmentX(CENTER_ALIGNMENT);
 	    stepsPanel.setToolTipText("Change number of steps");
 		JLabel stepsLabel = new JLabel("Steps: ");
-		SpinnerNumberModel stepsModel = new SpinnerNumberModel(defaultSteps,100,1000000000,1);
+		SpinnerNumberModel stepsModel = new SpinnerNumberModel(_DEFAULT_STEPS,100,1000000000,1);
 		stepsSpinner = new JSpinner(stepsModel);
 		stepsSpinner.setPreferredSize(new Dimension(80,30));
 		stepsSpinner.setMaximumSize(new Dimension(80,30));
@@ -128,11 +113,11 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		toolBar.addSeparator();
 		 
 		//Selector del tiempo entre pasos
-		deltaTimePanel = new JPanel();
+		JPanel deltaTimePanel = new JPanel();
 		deltaTimePanel.setAlignmentX(CENTER_ALIGNMENT);
 		deltaTimePanel.setToolTipText("Change delta-time");
 		JLabel deltaTimeText = new JLabel("Delta-Time: ");
-		deltaTimeBox = new JTextField(Double.toString(defaultDeltaTime));
+		deltaTimeBox = new JTextField(Double.toString(_DEFAULT_DELTA_TIME));
 		deltaTimeBox.setAlignmentY(CENTER_ALIGNMENT);
 		deltaTimeBox.setPreferredSize(new Dimension(80,30));
 		deltaTimeBox.setMaximumSize(new Dimension(80,30));
@@ -150,9 +135,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		toolBar.add(exit);
 	
 		
-		forceLawWindow = new ForceLawWindow(_ctrl);
+		forceLawWindow = new ForceLawWindow(_ctrl.getForceLawsInfo());
 
-		setVisible(true);
 
 	}
 	private void run_sim(int n) {
@@ -169,6 +153,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			}
 		
 			SwingUtilities.invokeLater( new Runnable() { 
+				@Override
 				public void run() { 
 					run_sim(n-1); 
 				} 
@@ -193,6 +178,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		
 	}
 		
+	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
 	
 		
@@ -241,16 +227,30 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
          }
 	}
 	private void selectLawAction() {
+		
 		forceLawWindow.setVisible(true);
+	
+		try{	
+			JSONObject law = forceLawWindow.getSelectedLaw();
+			if( law != null) _ctrl.setForceLaws(law);
+		
+		}catch(Exception e ) {
+			JOptionPane.showMessageDialog(this.getParent(),e.getMessage(), "ERROR", JOptionPane.WARNING_MESSAGE);
+		}
+		
 	}
 	private void runAction() {
-		 _stopped = false;
-		 enableToolBar(false);
-		 stop.setEnabled(true); //Todos desactivados menos Stop
+		
+		 try{	
+			 _ctrl.setDeltaTime( Double.parseDouble(deltaTimeBox.getText()));
+			 _stopped = false;
+			 enableToolBar(false);
+			 stop.setEnabled(true);
+			 run_sim((int)stepsSpinner.getValue());
+		}catch(Exception e ) {
+				JOptionPane.showMessageDialog(this.getParent().getParent(),e.getMessage(), "ERROR", JOptionPane.WARNING_MESSAGE);
+		}
 		 
-		 _ctrl.setDeltaTime( Double.parseDouble(deltaTimeBox.getText()));
-		 
-		 run_sim((int)stepsSpinner.getValue());
 	}
 	private void exitAction() {
 		 int n = JOptionPane.showConfirmDialog(null, "You really want to exit PhysicsSimulator?", "Confirm exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -263,6 +263,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	        run.setEnabled(enable);
 	        exit.setEnabled(enable);
 	        stop.setEnabled(enable);
-	    }
+	 }
 	
 }

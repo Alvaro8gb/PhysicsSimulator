@@ -3,12 +3,9 @@ package simulator.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -16,8 +13,6 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import simulator.control.Controller;
 import simulator.model.Body;
-import simulator.model.NoForce;
-import simulator.model.PhysicsSimulator;
 import simulator.model.SimulatorObserver;
 
 public class StatusBar extends JPanel implements SimulatorObserver {

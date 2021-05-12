@@ -2,7 +2,6 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,39 +10,37 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.json.JSONObject;
 
-import simulator.control.Controller;
-import simulator.model.Body;
-import simulator.model.SimulatorObserver;
-
-public class ForceLawWindow extends JFrame {
+public class ForceLawWindow extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
-	private Controller _ctrl;
-	private List<JSONObject> options;
+	
+	private List<JSONObject> _options;
 	private JComboBox<String> list;
 	private ParametersTable table;
+	private JSONObject _law;
 	
-	public ForceLawWindow(Controller ctrl){
-		this._ctrl = ctrl;
+	public ForceLawWindow( List<JSONObject> options){
+		_options = options;
 		initGIU();
 	}
 	private void initGIU() {
 		setLayout(new BorderLayout());
 		setTitle("Force Laws Selection");
-		setBounds(630,0,650,350);
-		options = _ctrl.getForceLawsInfo();
+		setBounds(630,0,700,350);
+		setModal(true); //Hasta q no se cierre no se puede usar otras ventanas
+		
 
 		JLabel help = new JLabel("<html><p>Select a force law and provide values for the parametes in the <em>Value column</em> (default values are used for parametes with no value).</p></html>");
 		add(help,BorderLayout.NORTH);
 		 
-		table = new ParametersTable(options.get(0));
+		table = new ParametersTable(_options.get(0));
 		add(table,BorderLayout.CENTER);
 		
 		JPanel end = new JPanel();
@@ -55,7 +52,7 @@ public class ForceLawWindow extends JFrame {
 			optionsPanel.add(info);
 			
 			list = new JComboBox<String>();
-			for(JSONObject x : options)  list.addItem(x.getString("desc"));
+			for(JSONObject x : _options)  list.addItem(x.getString("desc"));
 
 			list.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent e) { modifyTable(); }});
 			optionsPanel.add(list);
@@ -78,6 +75,9 @@ public class ForceLawWindow extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
+	public JSONObject getSelectedLaw() {
+		return _law;
+	}
 	private JButton createButton(String name) {
 		JButton button = new JButton(name);
 		button.setBackground(Color.WHITE);
@@ -86,11 +86,11 @@ public class ForceLawWindow extends JFrame {
 	}
 	private void modifyTable() {
 		
-		 for(JSONObject x : options) if(list.getSelectedItem().equals(x.getString("desc"))) table.setObj(x);
+		 for(JSONObject x : _options) if(list.getSelectedItem().equals(x.getString("desc"))) table.setObj(x);
 	}
 	private JSONObject parseFLawsDesc(String info ) {
 		JSONObject data = new JSONObject();
-		for(JSONObject x : options) {
+		for(JSONObject x : _options) {
 					
 					if( info.equals(x.getString("desc"))) {
 						data.put("type", x.getString("type"));
@@ -103,13 +103,8 @@ public class ForceLawWindow extends JFrame {
 		return data;
 	}
 	private void setLaw(String info) {
-		
-		try {
-			_ctrl.setForceLaws(parseFLawsDesc(info));
+			_law = parseFLawsDesc(info);
 			dispose();
-		}catch(Exception e ) {
-			JOptionPane.showMessageDialog(this,e.getMessage(), "ERROR", JOptionPane.WARNING_MESSAGE);
-		}
 		
 	}
 	private JSONObject createData() {

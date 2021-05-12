@@ -2,7 +2,6 @@ package simulator.view;
 
 import java.util.List;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -33,11 +32,9 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	private boolean _showHelp;
 	private boolean _showVectors;
 	private final static String  helpText = "h: toggle help, v: toggle vectors, +: zoom-in, -: zoom-out, =: fit";
-	private static final int _WIDTH = 1000;
-	private static final int _HEIGHT = 1000;
-	private static final Color _BODY_COLOR = Color.blue;
-	private static final Color _ID_COLOR = Color.black;
-	private static final Color _HELP_COLOR = Color.red;
+	private static final Color _BODY_COLOR = Color.BLUE;
+	private static final Color _ID_COLOR = Color.BLACK;
+	private static final Color _HELP_COLOR = Color.RED;
 
 	
 	Viewer(Controller ctrl) {
@@ -46,15 +43,12 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	
 	}
 	private void initGUI() {
-		// TODO add border with title
-		setBorder(BorderFactory.createTitledBorder( BorderFactory.createLineBorder(Color.black, 2),"Viewer",TitledBorder.LEFT, TitledBorder.TOP));
+		
+		setBorder(BorderFactory.createTitledBorder( BorderFactory.createLineBorder(Color.GRAY, 2),"Viewer",TitledBorder.LEFT, TitledBorder.TOP));
 		_bodies = new ArrayList<>();
 		_scale = 1.0;
 		_showHelp = true;
 		_showVectors = true;
-		
-		//setMinimumSize(new Dimension(_WIDTH, _HEIGHT));
-		setPreferredSize(new Dimension(_WIDTH, _HEIGHT));
 
 		addKeyListener(new KeyListener(){
 			
