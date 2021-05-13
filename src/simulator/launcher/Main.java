@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.SwingUtilities;
 
@@ -37,6 +38,8 @@ public class Main {
 
 	private final static String _forceLawsDefaultValue = "nlug";
 	private final static String _stateComparatorDefaultValue = "epseq";
+	
+	private final static Mode _modeDefaultValue = Mode.BATCH;
 
 	// some attributes to stores values corresponding to command-line parameters
 	private static Double _dtime = null;
@@ -45,16 +48,38 @@ public class Main {
 	private static String _inFile = null;
 	private static String _outFile = null;
 	private static String _expOutFile = null;
-	
-	private static String _mode = null;
 
 	private static JSONObject _forceLawsInfo = null;
 	private static JSONObject _stateComparatorInfo = null;
+	
+	private static Mode _mode = null;
+	private static final String VALUES_FORMAT = "'%s' (%s)";
 
 	// factories
 	private static Factory<Body> _bodyFactory;
 	private static Factory<ForceLaws> _forceLawsFactory;
 	private static Factory<StateComparator> _stateComparatorFactory;
+	
+	private static enum Mode {
+		BATCH("batch","Batch Mode") , GUI("gui","Graphical User Interface mode");
+	
+		private String _modeTag;
+		private String _modeDesc;
+		
+		private Mode(String modeTag, String modeDesc) {
+			_modeTag = modeTag;
+			_modeDesc = modeDesc;
+		}
+	
+		public String get_modeTag() {
+			return _modeTag;
+		}
+	
+		public String toString() {
+			return String.format(VALUES_FORMAT, _modeTag,_modeDesc );
+		}
+	
+	}
 
 	private static void init() {
 		
@@ -92,6 +117,9 @@ public class Main {
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
 
+			
+			parseMode(line);
+			
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
 			parseOutputFileOption(line);
@@ -101,8 +129,6 @@ public class Main {
 			parseDeltaTimeOption(line);
 			parseForceLawsOption(line);
 			parseStateComparatorOption(line);
-			
-			parseMode(line);
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
@@ -119,6 +145,17 @@ public class Main {
 			System.exit(1);
 		}
 
+	}
+	private static String getModeValues() {
+		String values = "";
+		
+		Mode[] list = Mode.values();
+		
+		for(Mode m : list) values += ", " + m;
+		
+		values = values.replaceFirst(",", "") + ".";
+
+		return values;
 	}
 
 	private static Options buildOptions() {
@@ -163,9 +200,7 @@ public class Main {
 		
 		// mode 
 		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg()
-				.desc("Execution Mode. Possible values: ’batch’\n"
-						+ "(Batch mode), ’gui’ (Graphical User\n"
-						+ "Interface mode). Default value: ’batch’.").build());
+				.desc("Execution Mode. Possible values: " + getModeValues() +" Default value: " + "'" +_modeDefaultValue.get_modeTag() + "'"+ ".").build());
 		
 
 		return cmdLineOptions;
@@ -181,7 +216,7 @@ public class Main {
 			if (s.length() > 0) {
 				s = s + ", ";
 			}
-			s = s + "'" + fe.getString("type") + "' (" + fe.getString("desc") + ")";
+			s = s + String.format(VALUES_FORMAT, fe.getString("type"),fe.getString("desc"));
 		}
 
 		s = s + ". You can provide the 'data' json attaching :{...} to the tag, but without spaces.";
@@ -198,7 +233,7 @@ public class Main {
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
-		if (_inFile == null ) {
+		if (_inFile == null && _mode == Mode.BATCH) {
 			throw new ParseException("In batch mode an input file of bodies is required");
 		}
 	}
@@ -229,9 +264,14 @@ public class Main {
 			throw new ParseException("Invalid delta-time value: " + dt);
 		}
 	}
-	private static void parseMode(CommandLine line) {
-		 _mode = line.getOptionValue("m");
+	private static void parseMode(CommandLine line) throws ParseException {
+
+		String mode = line.getOptionValue("m",_modeDefaultValue.get_modeTag());
 		
+		if(mode.equals(Mode.BATCH.get_modeTag()))  _mode =  Mode.BATCH;
+		else if(mode.equals(Mode.GUI.get_modeTag()))  _mode =  Mode.GUI;
+		else throw new ParseException("Invalid mode");
+				
 	}
 
 	private static JSONObject parseWRTFactory(String v, Factory<?> factory) {
@@ -308,6 +348,10 @@ public class Main {
 		controller.loadBodies(in);
 		controller.run(_steps, out, expectedOut, cmp);
 		
+		System.out.println("The simulation has finished");
+		String end = _outFile != null  ? "Saved on : " + _outFile: "Standar view in console";
+		System.out.println(end);
+		
 	}
 	private static void startGUI() throws Exception {
 		
@@ -315,30 +359,28 @@ public class Main {
 		
 		Controller controller = new Controller(simulator,_bodyFactory,_forceLawsFactory);
 		
-		FileInputStream in = new FileInputStream(_inFile);
+		if( _inFile != null) {
+	
+			FileInputStream in = new FileInputStream(_inFile);
+			controller.loadBodies(in);
+		}
 		
-		controller.loadBodies(in);
-		SwingUtilities.invokeAndWait(new Runnable() {
-			@Override
-			public void run() {
-			new MainWindow(controller);
-			}
-			});
+		SwingUtilities.invokeAndWait(new Runnable() { @Override public void run() { new MainWindow(controller); } });
 	}
 
 	private static void start(String[] args) throws Exception {
 		parseArgs(args);
-		startGUI();
-		/*if(_mode == "gui") startGUI();
-		else if( _mode == "batch") startBatchMode();
-		*/
 		
-		
+		switch(_mode) {
+		case GUI : startGUI();
+			break;
+		case BATCH: startBatchMode();
+			break;
+		}
 	}
 
 	public static void main(String[] args) {
 
-		
 		try {
 			init();
 			start(args);
@@ -347,10 +389,6 @@ public class Main {
 			System.err.println();
 			e.printStackTrace();
 		}
-		
-		//System.out.println("The simulation has finished");
-		//String end = _outFile != null  ? "Saved on : " + _outFile: "Standar view in console";
-		//System.out.println(end);
 		
 	}
 }
