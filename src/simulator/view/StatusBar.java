@@ -22,9 +22,9 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	private JLabel _currTime; // for current time
 	private JLabel _currLaws; // for gravity laws
 	private JLabel _numOfBodies; // for number of bodies
-	private final  String _currTimeTex = "Time : ";
-	private final  String _currLawsTex = "Laws : " ;
-	private final  String _numOfBodiesTex = "Bodies : ";
+	private final static  String _currTimeTex = "Time : ";
+	private final static String _currLawsTex = "Laws : " ;
+	private final static String _numOfBodiesTex = "Bodies : ";
 
 	
 	StatusBar(Controller ctrl) {
@@ -81,6 +81,7 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	public void onReset(List<Body> bodies, double time, double dt, String fLawsDesc) {
 		_currLaws.setText(_currLawsTex + fLawsDesc);
 		_currTime.setText(_currTimeTex + Double.toString(time));
+		_numOfBodies.setText(_numOfBodiesTex + bodies.size());
 		
 	}
 	@Override
@@ -90,12 +91,10 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	}
 	@Override
 	public void onAdvance(List<Body> bodies, double time) {
-		// TODO Auto-generated method stub
 		_currTime.setText(_currTimeTex + Double.toString(time));
 	}
 	@Override
 	public void onDeltaTimeChanged(double dt) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override

@@ -48,9 +48,9 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
-		_ctrl.addObserver(this);
 		_stopped = true;
 		initGUI();
+		_ctrl.addObserver(this);
 	}
 	private void initGUI() {
 	
@@ -180,13 +180,12 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
-	
-		
+		deltaTimeBox.setText(Double.toString(dt));
 	}
 
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String fLawsDesc) {
-	
+		deltaTimeBox.setText(Double.toString(dt));
 		
 	}
 
@@ -204,7 +203,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 
 	@Override
 	public void onDeltaTimeChanged(double dt) {
-		// TODO Auto-generated method stub
+		deltaTimeBox.setText(Double.toString(dt));
 		
 	}
 
@@ -248,7 +247,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			 stop.setEnabled(true);
 			 run_sim((int)stepsSpinner.getValue());
 		}catch(Exception e ) {
-				JOptionPane.showMessageDialog(this.getParent().getParent(),e.getMessage(), "ERROR", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this.getParent(),e.getMessage(), "ERROR", JOptionPane.WARNING_MESSAGE);
 		}
 		 
 	}
@@ -261,6 +260,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		 	fileSelect.setEnabled(enable);
 		 	lawsSelect.setEnabled(enable);
 	        run.setEnabled(enable);
+	        stepsSpinner.setEnabled(enable);
+	        deltaTimeBox.setEnabled(enable);
 	        exit.setEnabled(enable);
 	        stop.setEnabled(enable);
 	 }
