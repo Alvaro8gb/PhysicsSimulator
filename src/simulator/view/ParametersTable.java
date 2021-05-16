@@ -20,11 +20,12 @@ public class ParametersTable extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private ParametersTableModel tableModel;
 	private JTable table;
+	private static final Color _BORDER_COLOR = new Color(129, 193, 247);
 
 	ParametersTable(JSONObject lawInfo) {
 		
 		setLayout(new BorderLayout());
-		setBorder(BorderFactory.createTitledBorder( BorderFactory.createLineBorder(Color.BLUE, 2)));
+		setBorder(BorderFactory.createTitledBorder( BorderFactory.createLineBorder(_BORDER_COLOR, 2)));
 		tableModel = new ParametersTableModel(lawInfo) ;
 		
 		init();

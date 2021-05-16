@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.util.List;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -32,7 +33,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	private boolean _showHelp;
 	private boolean _showVectors;
 	private final static String  helpText = "h: toggle help, v: toggle vectors, +: zoom-in, -: zoom-out, =: fit";
-	private static final Color _BODY_COLOR = Color.BLUE;
+	private static final Color _BODY_COLOR = new Color(45, 170, 233 );
 	private static final Color _ID_COLOR = Color.BLACK;
 	private static final Color _HELP_COLOR = Color.RED;
 
@@ -153,8 +154,9 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	
 	private void showHelp(Graphics2D g) {
 		g.setColor(_HELP_COLOR);
-		g.drawString(helpText, 10, 25);
-		g.drawString("Scaling ratio:  " + _scale, 10, 40);// TODO Auto-generated method stub
+		g.setFont( new Font("Arial", Font.PLAIN, 13));
+		g.drawString(helpText, 10, 26);
+		g.drawString("Scaling ratio:  " + _scale, 10, 42);// TODO Auto-generated method stub
 			
 	}
 

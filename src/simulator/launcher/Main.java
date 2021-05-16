@@ -146,18 +146,6 @@ public class Main {
 		}
 
 	}
-	private static String getModeValues() {
-		String values = "";
-		
-		Mode[] list = Mode.values();
-		
-		for(Mode m : list) values += ", " + m;
-		
-		values = values.replaceFirst(",", "") + ".";
-
-		return values;
-	}
-
 	private static Options buildOptions() {
 		Options cmdLineOptions = new Options();
 
@@ -221,6 +209,17 @@ public class Main {
 
 		s = s + ". You can provide the 'data' json attaching :{...} to the tag, but without spaces.";
 		return s;
+	}
+	private static String getModeValues() {
+		String values = "";
+		
+		Mode[] list = Mode.values();
+		
+		for(Mode m : list) values += ", " + m;
+		
+		values = values.replaceFirst(",", "") + ".";
+
+		return values;
 	}
 
 	private static void parseHelpOption(CommandLine line, Options cmdLineOptions) {

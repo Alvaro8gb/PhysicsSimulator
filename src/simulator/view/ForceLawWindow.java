@@ -33,8 +33,9 @@ public class ForceLawWindow extends JDialog {
 	private void initGIU() {
 		setLayout(new BorderLayout());
 		setTitle("Force Laws Selection");
-		setBounds(630,0,700,350);
-		setModal(true); //Hasta q no se cierre no se puede usar otras ventanas
+		setSize(700,350);
+		setModal(true); 
+		setLocationRelativeTo(this.getParent());
 		
 
 		JLabel help = new JLabel("<html><p>Select a force law and provide values for the parametes in the <em>Value column</em> (default values are used for parametes with no value).</p></html>");

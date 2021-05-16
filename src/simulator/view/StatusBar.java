@@ -25,7 +25,7 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	private final static  String _currTimeTex = "Time : ";
 	private final static String _currLawsTex = "Laws : " ;
 	private final static String _numOfBodiesTex = "Bodies : ";
-
+	private static final Color _BACK_COLOR = new Color(208, 213, 214);
 	
 	StatusBar(Controller ctrl) {
 		initGUI();
@@ -35,7 +35,7 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 		
 	setLayout( new FlowLayout( FlowLayout.LEFT ));
 	setBorder( BorderFactory.createBevelBorder( 1 ));
-	setBackground(new Color(215, 216, 216));
+	setBackground(_BACK_COLOR);
 	
     
 	JSeparator s = new JSeparator(SwingConstants.VERTICAL);
@@ -100,6 +100,7 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	@Override
 	public void onForceLawsChanged(String fLawsDesc) {
 		_currLaws.setText(_currLawsTex + fLawsDesc);
+		
 		
 	}
 

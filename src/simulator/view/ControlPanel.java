@@ -1,6 +1,7 @@
 package simulator.view;
 
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,6 +45,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private ForceLawWindow forceLawWindow ;
 	private static final int _DEFAULT_STEPS = 10000;
 	private static final double _DEFAULT_DELTA_TIME = 2500;
+	private static final Color _Button_Color = new Color(245, 255, 124);
 
 	
 	ControlPanel(Controller ctrl) {
@@ -56,6 +58,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	
 		setLayout(new BoxLayout(this,BoxLayout.LINE_AXIS));
 		setAlignmentY(TOP_ALIGNMENT);
+	
 
 		//Barra de botones
 		toolBar = new JToolBar();
@@ -94,6 +97,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		stop.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent arg0) { _stopped = true; }});
 		toolBar.add(stop);
 
+		toolBar.addSeparator();
 		
 		//Selector numero de pasos
 		JPanel stepsPanel = new JPanel(); 
@@ -173,6 +177,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		controlButton.setIcon(new ImageIcon("resources/icons/"+iconName)); 
 		controlButton.setToolTipText(toolTipMessage); 
 		controlButton.setActionCommand(actionCommand);
+		controlButton.setBackground(_Button_Color);
 		
 		return controlButton;
 		
