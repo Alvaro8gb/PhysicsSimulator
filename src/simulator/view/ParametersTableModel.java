@@ -77,7 +77,7 @@ public class ParametersTableModel extends AbstractTableModel {
 	private void setValuesList() {
 		
 	  values.clear();
-	  for(int i = 0 ; i< keys.size(); i++) values.add(null);
+	  for(int i = 0 ; i< keys.size(); i++) values.add("");
 	  fireTableDataChanged();
 	}
 	public JSONObject createData() {
@@ -95,42 +95,9 @@ public class ParametersTableModel extends AbstractTableModel {
 		
 		if(cad.equals("")) return null;
 		else {
-			if(key.equals("c") && value!= null ) return parseKeyC(cad);
+			if(key.equals("c")) return new JSONArray(cad);
 			else return value;
 		}
-		
-	}
-	private JSONArray parseKeyC(String cad) {
-		
-		
-		JSONArray array = new JSONArray();
-		
-		String [] arrayCad = cad.split(",");
-
-		if(arrayCad.length > 3) throw new IllegalArgumentException("Error to recognise : " + cad + "many commas");
-		
-		try {
-			array.put( Double.parseDouble(eliminarCorchete(arrayCad[0])));
-			array.put( Double.parseDouble(eliminarCorchete(arrayCad[1])));
-			
-		}catch(Exception e) {
-			 throw new IllegalArgumentException("Error to recognise : " + cad + "\n"+ e.getMessage());
-		}
-			
-		return array;
-			
-		
-	}
-	
-	private String eliminarCorchete(String cad) {
-		
-		String nuevaCad = "";
-		for(int i = 0; i< cad.length();i++) {
-			if(cad.charAt(i) != '[' && cad.charAt(i) != ']')  nuevaCad+= cad.charAt(i);
-			
-		}
-		
-		return nuevaCad;
 		
 	}
 	private List<String> getKeys() {

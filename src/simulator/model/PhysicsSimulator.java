@@ -17,7 +17,6 @@ public class PhysicsSimulator {
 	
 	public PhysicsSimulator(double dt,ForceLaws forceLaws) throws IllegalArgumentException {
 		
-	
 		listObservers = new ArrayList<SimulatorObserver>();
 		listBodies = new ArrayList<Body>();
 		

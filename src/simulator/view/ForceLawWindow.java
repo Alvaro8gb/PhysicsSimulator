@@ -13,8 +13,10 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ForceLawWindow extends JDialog {
@@ -96,7 +98,6 @@ public class ForceLawWindow extends JDialog {
 					if( info.equals(x.getString("desc"))) {
 						data.put("type", x.getString("type"));
 						data.put("data", createData());
-						data.put("desc", x.getString("desc"));
 						return data;
 						
 					}
@@ -104,12 +105,20 @@ public class ForceLawWindow extends JDialog {
 		return data;
 	}
 	private void setLaw(String info) {
+
+		try{
 			_law = parseFLawsDesc(info);
 			dispose();
+		}catch(JSONException  e ) {
 		
+			JOptionPane.showMessageDialog(this.getParent(),e.getMessage(), "ERROR", JOptionPane.WARNING_MESSAGE);
+		}
+			
 	}
 	private JSONObject createData() {
 		return table.createData();
+
+		
 	}
 
 }

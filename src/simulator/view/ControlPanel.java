@@ -179,7 +179,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		controlButton.setActionCommand(actionCommand);
 		controlButton.setBackground(_Button_Color);
 		
-		return controlButton;
+		return controlButton;	
 		
 	}
 		
@@ -232,9 +232,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	}
 	private void selectLawAction() {
 		
-		forceLawWindow.setVisible(true);
-	
 		try{	
+			forceLawWindow.setVisible(true);
 			JSONObject law = forceLawWindow.getSelectedLaw();
 			if( law != null) _ctrl.setForceLaws(law);
 		
