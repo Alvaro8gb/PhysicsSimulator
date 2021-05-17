@@ -87,7 +87,7 @@ public class ForceLawWindow extends JDialog {
 	}
 	private void modifyTable() {
 		
-		 for(JSONObject x : _options) if(list.getSelectedItem().equals(x.getString("desc"))) table.setObj(x);
+		 for(JSONObject x : _options) if(list.getSelectedItem().equals(x.getString("desc"))) table.setLawInfo(x);
 	}
 	private JSONObject parseFLawsDesc(String info ) {
 		JSONObject data = new JSONObject();

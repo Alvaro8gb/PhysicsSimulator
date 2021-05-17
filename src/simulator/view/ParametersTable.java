@@ -59,8 +59,8 @@ public class ParametersTable extends JPanel {
 	  
 
 	}
-	public void setObj(JSONObject ob) {
-		tableModel.setObj(ob);
+	public void setLawInfo(JSONObject ob) {
+		tableModel.setLawInfo(ob);
 	}
 	public JSONObject createData() {
 		return tableModel.createData();

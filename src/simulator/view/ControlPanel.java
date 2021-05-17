@@ -104,7 +104,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	    stepsPanel.setAlignmentX(CENTER_ALIGNMENT);
 	    stepsPanel.setToolTipText("Change number of steps");
 		JLabel stepsLabel = new JLabel("Steps: ");
-		SpinnerNumberModel stepsModel = new SpinnerNumberModel(_DEFAULT_STEPS,100,1000000000,1);
+		SpinnerNumberModel stepsModel = new SpinnerNumberModel(_DEFAULT_STEPS,100,1000000000,100);
 		stepsSpinner = new JSpinner(stepsModel);
 		stepsSpinner.setPreferredSize(new Dimension(80,30));
 		stepsSpinner.setMaximumSize(new Dimension(80,30));
@@ -238,7 +238,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			JSONObject law = forceLawWindow.getSelectedLaw();
 			if( law != null) _ctrl.setForceLaws(law);
 		
-		}catch(Exception e ) {
+		}catch(IllegalArgumentException e ) {
 			JOptionPane.showMessageDialog(this.getParent(),e.getMessage(), "ERROR", JOptionPane.WARNING_MESSAGE);
 		}
 		

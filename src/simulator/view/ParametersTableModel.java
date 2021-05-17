@@ -68,7 +68,7 @@ public class ParametersTableModel extends AbstractTableModel {
 		
 		fireTableDataChanged();
 	}
-	public void setObj(JSONObject ob) {
+	public void setLawInfo(JSONObject ob) {
 		_lawInfo = ob;
 		keys = getKeys();
 		
@@ -84,34 +84,44 @@ public class ParametersTableModel extends AbstractTableModel {
 
 		JSONObject obj = new JSONObject();
 		for(int i = 0; i < keys.size();i++) {
-			if(keys.get(i) != null) obj.put(keys.get(i),parseObject(keys.get(i),parseObject(keys.get(i),values.get(i))));
+			if(keys.get(i) != null) obj.put(keys.get(i), parseObject (keys.get(i), values.get(i)) );
 		}
 		
 		return obj;
 	}
-	public Object parseObject(String key,Object value) {
-		if(key.equals("c") && value!= null) {
-
-			String cad = values.toString();
-			JSONArray array = new JSONArray();
-			
-			String [] arrayCad = cad.split(",");
-	
-			System.out.println(arrayCad.length);
-			if(arrayCad.length > 3) throw new IllegalArgumentException("Error to recognise : " + value + "many commas");
-			try {
-				array.put( Double.parseDouble(eliminarCorchete(arrayCad[0])));
-				array.put( Double.parseDouble(eliminarCorchete(arrayCad[1])));
-				
-			}catch(Exception e ) {
-				 throw new IllegalArgumentException("Error to recognise : " + value + "\n"+ e.getMessage());
-			}
-				
-			return array;
+	private Object parseObject(String key,Object value) {
+		
+		String cad = value.toString();
+		
+		if(cad.equals("")) return null;
+		else {
+			if(key.equals("c") && value!= null ) return parseKeyC(cad);
+			else return value;
 		}
-		else return value;
 		
 	}
+	private JSONArray parseKeyC(String cad) {
+		
+		
+		JSONArray array = new JSONArray();
+		
+		String [] arrayCad = cad.split(",");
+
+		if(arrayCad.length > 3) throw new IllegalArgumentException("Error to recognise : " + cad + "many commas");
+		
+		try {
+			array.put( Double.parseDouble(eliminarCorchete(arrayCad[0])));
+			array.put( Double.parseDouble(eliminarCorchete(arrayCad[1])));
+			
+		}catch(Exception e) {
+			 throw new IllegalArgumentException("Error to recognise : " + cad + "\n"+ e.getMessage());
+		}
+			
+		return array;
+			
+		
+	}
+	
 	private String eliminarCorchete(String cad) {
 		
 		String nuevaCad = "";
