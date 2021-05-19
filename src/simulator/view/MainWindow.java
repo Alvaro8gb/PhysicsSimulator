@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -31,10 +30,11 @@ public class MainWindow extends JFrame {
 	        int altura = t.height;
 	        int anchura = t.width;
 	
-	        setBounds(Math.max(anchura/2 - _WIDTH/2 ,0), Math.max(altura/2 - _HEIGHT/2,0) , _WIDTH, altura/2 + altura/3);
-	        setPreferredSize(this,_WIDTH, altura/2 + altura/3);
 	
-	        
+	        setBounds(Math.max(anchura/2 - _WIDTH/2 ,0), Math.max(altura/2 - _HEIGHT/2,0) , Math.min(anchura-40,_WIDTH) ,  Math.min(altura-40,_HEIGHT));
+	        setPreferredSize(this,_WIDTH, _HEIGHT);
+	
+	   
 			JPanel mainPanel = new JPanel(new BorderLayout());
 			setContentPane(mainPanel);
 			

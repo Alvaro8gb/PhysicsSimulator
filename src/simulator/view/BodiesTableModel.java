@@ -10,9 +10,8 @@ import simulator.model.Body;
 import simulator.model.SimulatorObserver;
 
 public class BodiesTableModel extends AbstractTableModel implements SimulatorObserver {
-/**
-	 * 
-	 */
+
+	
 	private static final long serialVersionUID = 1L;
 	// ...
 	private List<Body> _bodies;
@@ -62,9 +61,6 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
 		return value;
 	}
 	
-	
-	// SimulatorObserver methods
-	// ...
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDesc) {
 		// TODO Auto-generated method stub

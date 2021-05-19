@@ -5,8 +5,12 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -40,6 +44,13 @@ public class ForceLawWindow extends JDialog {
 		setLocationRelativeTo(this.getParent());
 		
 
+	     try {
+            BufferedImage img = ImageIO.read(new File("resources/icons/physics.png"));
+            setIconImage(img);
+	      } catch (IOException e) {
+	           System.out.println("Error to put window icon image   " + e.getMessage());
+	      }
+	        
 		JLabel help = new JLabel("<html><p>Select a force law and provide values for the parametes in the <em>Value column</em> (default values are used for parametes with no value).</p></html>");
 		add(help,BorderLayout.NORTH);
 		 
@@ -116,9 +127,7 @@ public class ForceLawWindow extends JDialog {
 			
 	}
 	private JSONObject createData() {
-		return table.createData();
-
-		
+		return table.createData();	
 	}
 
 }
