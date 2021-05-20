@@ -22,7 +22,7 @@ public class ParametersTableModel extends AbstractTableModel {
 	ParametersTableModel(JSONObject lawInfo) {
 		_lawInfo = lawInfo;
 	   columnNames = new String[]{"Key","Value","Description"};
-	   keys = getKeys();
+	   keys = setKeys();
 	   values = new ArrayList<Object>();
 	   setValuesList();
 	  
@@ -70,37 +70,18 @@ public class ParametersTableModel extends AbstractTableModel {
 	}
 	public void setLawInfo(JSONObject ob) {
 		_lawInfo = ob;
-		keys = getKeys();
+		keys = setKeys();
 		
 		setValuesList();
 	}
 	private void setValuesList() {
-		
 	  values.clear();
 	  for(int i = 0 ; i< keys.size(); i++) values.add("");
 	  fireTableDataChanged();
 	}
-	public JSONObject createData() {
 
-		JSONObject obj = new JSONObject();
-		for(int i = 0; i < keys.size();i++) {
-			if(keys.get(i) != null) obj.put(keys.get(i), parseObject (keys.get(i), values.get(i)) );
-		}
+	private List<String> setKeys() {
 		
-		return obj;
-	}
-	private Object parseObject(String key,Object value) {
-		
-		String cad = value.toString();
-		
-		if(cad.equals("")) return null;
-		else {
-			if(key.equals("c")) return new JSONArray(cad);
-			else return value;
-		}
-		
-	}
-	private List<String> getKeys() {
 		List<String> x = new ArrayList<>();
 		Iterator<String> it = _lawInfo.getJSONObject("data").keySet().iterator();
 		while( it.hasNext()) { 

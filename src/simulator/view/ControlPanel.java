@@ -45,7 +45,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private ForceLawWindow forceLawWindow ;
 	private static final int _DEFAULT_STEPS = 10000;
 	private static final double _DEFAULT_DELTA_TIME = 2500;
-	private static final Color _Button_Color = new Color(245, 255, 124);
+	private static final Color _Button_Color = new Color(100, 198, 252);
 
 	
 	ControlPanel(Controller ctrl) {

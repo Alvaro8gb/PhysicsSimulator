@@ -62,7 +62,10 @@ public class ParametersTable extends JPanel {
 	public void setLawInfo(JSONObject ob) {
 		tableModel.setLawInfo(ob);
 	}
-	public JSONObject createData() {
-		return tableModel.createData();
+	public int getRowCount() {
+		return tableModel.getRowCount();
+	}
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		return tableModel.getValueAt(rowIndex,columnIndex);
 	}
 }

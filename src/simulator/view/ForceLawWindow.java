@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,8 +30,11 @@ public class ForceLawWindow extends JDialog {
 	
 	private List<JSONObject> _options;
 	private JComboBox<String> list;
+	private static final int _WIDTH = 650;
+	private static final int _HEIGHT = 350;
 	private ParametersTable table;
 	private JSONObject _law;
+
 	
 	public ForceLawWindow( List<JSONObject> options){
 		_options = options;
@@ -39,7 +43,7 @@ public class ForceLawWindow extends JDialog {
 	private void initGIU() {
 		setLayout(new BorderLayout());
 		setTitle("Force Laws Selection");
-		setSize(700,350);
+		setSize(_WIDTH,_HEIGHT);
 		setModal(true); 
 		setLocationRelativeTo(this.getParent());
 		
@@ -102,6 +106,16 @@ public class ForceLawWindow extends JDialog {
 		
 		 for(JSONObject x : _options) if(list.getSelectedItem().equals(x.getString("desc"))) table.setLawInfo(x);
 	}
+	private void setLaw(String info) {
+
+		try{
+			_law = parseFLawsDesc(info);
+			dispose();
+		}catch(JSONException  e ) {
+			JOptionPane.showMessageDialog(this.getParent(),e.getMessage(), "ERROR", JOptionPane.WARNING_MESSAGE);
+		}
+			
+	}
 	private JSONObject parseFLawsDesc(String info ) {
 		JSONObject data = new JSONObject();
 		for(JSONObject x : _options) {
@@ -109,25 +123,30 @@ public class ForceLawWindow extends JDialog {
 					if( info.equals(x.getString("desc"))) {
 						data.put("type", x.getString("type"));
 						data.put("data", createData());
-						return data;
-						
+						return data;			
 					}
 		}
 		return data;
 	}
-	private void setLaw(String info) {
-
-		try{
-			_law = parseFLawsDesc(info);
-			dispose();
-		}catch(JSONException  e ) {
-		
-			JOptionPane.showMessageDialog(this.getParent(),e.getMessage(), "ERROR", JOptionPane.WARNING_MESSAGE);
-		}
-			
-	}
 	private JSONObject createData() {
-		return table.createData();	
+
+		JSONObject obj = new JSONObject();
+		for(int i = 0; i < table.getRowCount();i++) {
+			if(table.getValueAt(i, 1) != null) obj.put( (String)table.getValueAt(i, 0) , parseObject( table.getValueAt(i, 1)) );
+		}
+		
+		return obj;
 	}
+	private Object parseObject(Object value) {
+		
+		String cad = value.toString();
+		
+		if(cad.equals("")) return null;
+		else {
+			if(cad.charAt(0) == '[') return new JSONArray(cad);
+			else return value;
+		}
+	}
+
 
 }
