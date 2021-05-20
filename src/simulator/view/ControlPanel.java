@@ -83,8 +83,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		lawsSelect.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent arg0) { selectLawAction(); }});
 		toolBar.add(lawsSelect);
 		
-		
-		
+	
 		toolBar.addSeparator();
 		
 		//Boton de run/play

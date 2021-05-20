@@ -49,8 +49,8 @@ public class ForceLawWindow extends JDialog {
 		
 
 	     try {
-            BufferedImage img = ImageIO.read(new File("resources/icons/physics.png"));
-            setIconImage(img);
+	        BufferedImage img = ImageIO.read(new File("resources/icons/physics.png"));
+	        setIconImage(img);
 	      } catch (IOException e) {
 	           System.out.println("Error to put window icon image   " + e.getMessage());
 	      }
