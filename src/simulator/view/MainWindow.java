@@ -60,6 +60,7 @@ public class MainWindow extends JFrame {
 			setPreferredSize(statusBar,_WIDTH,40);
 	
 			setVisible(true);
+			setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			
 		}
 		

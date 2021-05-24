@@ -143,8 +143,11 @@ public class ForceLawWindow extends JDialog {
 		
 		if(cad.equals("")) return null;
 		else {
+			/*
 			if(cad.charAt(0) == '[') return new JSONArray(cad);
 			else return value;
+			*/
+			return new JSONObject("{ data:"+cad+" }");
 		}
 	}
 
