@@ -129,27 +129,27 @@ public class ForceLawWindow extends JDialog {
 		return data;
 	}
 	private JSONObject createData() {
-
-		JSONObject obj = new JSONObject();
+		return new JSONObject(getData());
+	
+	}
+	private String getData() {
+		StringBuilder s = new StringBuilder();
+		s.append('{');
 		for(int i = 0; i < table.getRowCount();i++) {
-			if(table.getValueAt(i, 1) != null) obj.put( (String)table.getValueAt(i, 0) , parseObject( table.getValueAt(i, 1)) );
+			if (table.getValueAt(i, 1) != "") {
+				s.append('"');
+				s.append(table.getValueAt(i, 0));
+				s.append('"');
+				s.append(':');
+				s.append(table.getValueAt(i, 1));
+				s.append(',');
+			}
 		}
-		
-		return obj;
-	}
-	private Object parseObject(Object value) {
-		
-		String cad = value.toString();
-		
-		if(cad.equals("")) return null;
-		else {
-			/*
-			if(cad.charAt(0) == '[') return new JSONArray(cad);
-			else return value;
-			*/
-			return new JSONObject("{ data:"+cad+" }");
-		}
-	}
 
+		if (s.length() > 1)
+			s.deleteCharAt(s.length() - 1);
+		s.append('}');
 
+		return s.toString();
+	}
 }

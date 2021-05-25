@@ -39,7 +39,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private boolean _stopped;
 	private JToolBar toolBar;
 	private JButton fileSelect,lawsSelect,run,stop,exit;
-	private JFileChooser fileChososer;
+	private JFileChooser fileChooser;
 	private JTextField deltaTimeBox;
 	private JSpinner stepsSpinner;
 	private ForceLawWindow forceLawWindow ;
@@ -69,7 +69,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		//Boton de selector de archivos
 		fileSelect = createControlButton("open.png","Load a file","load");	
 		fileSelect.setActionCommand("Select your file"); 
-		fileChososer = new JFileChooser();
+		fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File("."));
 		
 		
 		fileSelect.addActionListener(new ActionListener(){  @Override public void actionPerformed(ActionEvent arg0) { selectFileAction(); }});
@@ -217,9 +218,9 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		
 	}
 	private void selectFileAction() {
-		 int returnVal = fileChososer.showOpenDialog(this);
+		 int returnVal = fileChooser.showOpenDialog(this);
          if (returnVal == JFileChooser.APPROVE_OPTION) {
-                 File file = fileChososer.getSelectedFile();
+                 File file = fileChooser.getSelectedFile();
                  _ctrl.reset();
              try {
             	 _ctrl.loadBodies(new FileInputStream(file));
