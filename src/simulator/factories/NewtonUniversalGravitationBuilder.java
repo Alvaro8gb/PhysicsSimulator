@@ -11,7 +11,7 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 	private static final double G = 6.67E-11;
 	
 	public NewtonUniversalGravitationBuilder() {
-		super("nlug","Newton’s law of universal gravitation");
+		super("nlug","Newton law of universal gravitation");
 	}
 
 	protected NewtonUniversalGravitation createTheInstance(JSONObject data) {	
